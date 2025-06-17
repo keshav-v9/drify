@@ -9,6 +9,69 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      budget_categories: {
+        Row: {
+          color: string | null
+          created_at: string
+          id: string
+          monthly_budget: number
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          monthly_budget?: number
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          monthly_budget?: number
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      care_levels: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          level_name: string
+          multiplier: number
+          services: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          level_name: string
+          multiplier: number
+          services?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          level_name?: string
+          multiplier?: number
+          services?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       care_recipients: {
         Row: {
           age: number | null
@@ -38,6 +101,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category_id: string | null
+          created_at: string
+          description: string
+          expense_date: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category_id?: string | null
+          created_at?: string
+          description: string
+          expense_date?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category_id?: string | null
+          created_at?: string
+          description?: string
+          expense_date?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "budget_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       financial_plans: {
         Row: {
@@ -80,6 +184,39 @@ export type Database = {
           },
         ]
       }
+      legal_documents: {
+        Row: {
+          created_at: string
+          document_type: string
+          id: string
+          last_updated: string | null
+          notes: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: string
+          id?: string
+          last_updated?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: string
+          id?: string
+          last_updated?: string | null
+          notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -99,6 +236,42 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      support_contacts: {
+        Row: {
+          contact_type: string
+          created_at: string
+          email: string | null
+          id: string
+          name: string | null
+          notes: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contact_type: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contact_type?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
           updated_at?: string
           user_id?: string
         }
