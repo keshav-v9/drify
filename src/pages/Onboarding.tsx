@@ -7,12 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
 
 const Onboarding = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [step, setStep] = useState(1);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     careRecipientName: "",
     careRecipientAge: "",
@@ -21,6 +25,7 @@ const Onboarding = () => {
     monthlyExpenseEstimate: ""
   });
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -61,9 +66,50 @@ const Onboarding = () => {
   };
 
   const handleComplete = async () => {
-    // Here you would save the data to Supabase
-    // For now, we'll just navigate to dashboard
-    navigate('/dashboard');
+    if (!user) return;
+    
+    setSaving(true);
+    setError(null);
+
+    try {
+      // First, create the care recipient
+      const { data: careRecipient, error: careRecipientError } = await supabase
+        .from('care_recipients')
+        .insert({
+          user_id: user.id,
+          name: formData.careRecipientName,
+          age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
+          relationship: formData.relationship
+        })
+        .select()
+        .single();
+
+      if (careRecipientError) throw careRecipientError;
+
+      // Then, create the financial plan
+      const { error: financialPlanError } = await supabase
+        .from('financial_plans')
+        .insert({
+          user_id: user.id,
+          care_recipient_id: careRecipient.id,
+          emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
+          monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
+        });
+
+      if (financialPlanError) throw financialPlanError;
+
+      toast({
+        title: "Setup Complete!",
+        description: "Your care recipient information and financial plan have been saved.",
+      });
+
+      navigate('/dashboard');
+    } catch (error: any) {
+      console.error('Error saving onboarding data:', error);
+      setError(error.message || 'An error occurred while saving your information.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -116,6 +162,7 @@ const Onboarding = () => {
                       value={formData.careRecipientName}
                       onChange={(e) => handleInputChange("careRecipientName", e.target.value)}
                       placeholder="Enter full name"
+                      required
                     />
                   </div>
                   <div className="space-y-2">
@@ -150,6 +197,7 @@ const Onboarding = () => {
                     <Input
                       id="emergencyFundTarget"
                       type="number"
+                      step="0.01"
                       value={formData.emergencyFundTarget}
                       onChange={(e) => handleInputChange("emergencyFundTarget", e.target.value)}
                       placeholder="e.g., 10000"
@@ -160,12 +208,19 @@ const Onboarding = () => {
                     <Input
                       id="monthlyExpenseEstimate"
                       type="number"
+                      step="0.01"
                       value={formData.monthlyExpenseEstimate}
                       onChange={(e) => handleInputChange("monthlyExpenseEstimate", e.target.value)}
                       placeholder="e.g., 3000"
                     />
                   </div>
                 </>
+              )}
+
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
               )}
 
               <div className="flex justify-between pt-4">
@@ -181,6 +236,7 @@ const Onboarding = () => {
                   <Button
                     onClick={handleNext}
                     className="bg-blue-600 hover:bg-blue-700"
+                    disabled={step === 1 && !formData.careRecipientName}
                   >
                     Next
                   </Button>
@@ -188,8 +244,9 @@ const Onboarding = () => {
                   <Button
                     onClick={handleComplete}
                     className="bg-green-600 hover:bg-green-700"
+                    disabled={saving}
                   >
-                    Complete Setup
+                    {saving ? "Saving..." : "Complete Setup"}
                   </Button>
                 )}
               </div>

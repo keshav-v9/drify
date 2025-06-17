@@ -9,7 +9,101 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      care_recipients: {
+        Row: {
+          age: number | null
+          created_at: string
+          id: string
+          name: string
+          relationship: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string
+          id?: string
+          name: string
+          relationship?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          created_at?: string
+          id?: string
+          name?: string
+          relationship?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      financial_plans: {
+        Row: {
+          care_recipient_id: string | null
+          created_at: string
+          current_emergency_fund: number | null
+          emergency_fund_target: number | null
+          id: string
+          monthly_expense_estimate: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          care_recipient_id?: string | null
+          created_at?: string
+          current_emergency_fund?: number | null
+          emergency_fund_target?: number | null
+          id?: string
+          monthly_expense_estimate?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          care_recipient_id?: string | null
+          created_at?: string
+          current_emergency_fund?: number | null
+          emergency_fund_target?: number | null
+          id?: string
+          monthly_expense_estimate?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_plans_care_recipient_id_fkey"
+            columns: ["care_recipient_id"]
+            isOneToOne: false
+            referencedRelation: "care_recipients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

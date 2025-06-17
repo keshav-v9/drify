@@ -6,14 +6,55 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, Session } from "@supabase/supabase-js";
 
+interface CareRecipient {
+  id: string;
+  name: string;
+  age: number | null;
+  relationship: string | null;
+}
+
+interface FinancialPlan {
+  id: string;
+  emergency_fund_target: number | null;
+  monthly_expense_estimate: number | null;
+  current_emergency_fund: number | null;
+}
+
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [careRecipients, setCareRecipients] = useState<CareRecipient[]>([]);
+  const [financialPlans, setFinancialPlans] = useState<FinancialPlan[]>([]);
   const navigate = useNavigate();
 
+  const fetchData = async (userId: string) => {
+    try {
+      // Fetch care recipients
+      const { data: recipients } = await supabase
+        .from('care_recipients')
+        .select('*')
+        .eq('user_id', userId);
+
+      if (recipients) {
+        setCareRecipients(recipients);
+      }
+
+      // Fetch financial plans
+      const { data: plans } = await supabase
+        .from('financial_plans')
+        .select('*')
+        .eq('user_id', userId);
+
+      if (plans) {
+        setFinancialPlans(plans);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
-    // Get current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -21,16 +62,19 @@ const Dashboard = () => {
       
       if (!session) {
         navigate('/sign-in');
+      } else {
+        fetchData(session.user.id);
       }
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (!session) {
           navigate('/sign-in');
+        } else {
+          fetchData(session.user.id);
         }
       }
     );
@@ -51,8 +95,22 @@ const Dashboard = () => {
   }
 
   if (!user) {
-    return null; // Will redirect to sign-in
+    return null;
   }
+
+  const totalEmergencyFundTarget = financialPlans.reduce((sum, plan) => 
+    sum + (plan.emergency_fund_target || 0), 0
+  );
+  
+  const totalCurrentEmergencyFund = financialPlans.reduce((sum, plan) => 
+    sum + (plan.current_emergency_fund || 0), 0
+  );
+  
+  const totalMonthlyExpenses = financialPlans.reduce((sum, plan) => 
+    sum + (plan.monthly_expense_estimate || 0), 0
+  );
+
+  const hasData = careRecipients.length > 0 || financialPlans.length > 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -86,8 +144,27 @@ const Dashboard = () => {
                 <CardDescription>Current emergency fund status</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600 mb-2">$0</div>
-                <p className="text-sm text-gray-500">Target: Not set</p>
+                <div className="text-2xl font-bold text-green-600 mb-2">
+                  ${totalCurrentEmergencyFund.toLocaleString()}
+                </div>
+                <p className="text-sm text-gray-500">
+                  Target: ${totalEmergencyFundTarget.toLocaleString()}
+                </p>
+                {totalEmergencyFundTarget > 0 && (
+                  <div className="mt-2">
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-green-600 h-2 rounded-full" 
+                        style={{ 
+                          width: `${Math.min((totalCurrentEmergencyFund / totalEmergencyFundTarget) * 100, 100)}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {Math.round((totalCurrentEmergencyFund / totalEmergencyFundTarget) * 100)}% of target
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -97,8 +174,12 @@ const Dashboard = () => {
                 <CardDescription>Estimated monthly costs</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-blue-600 mb-2">$0</div>
-                <p className="text-sm text-gray-500">Budget: Not set</p>
+                <div className="text-2xl font-bold text-blue-600 mb-2">
+                  ${totalMonthlyExpenses.toLocaleString()}
+                </div>
+                <p className="text-sm text-gray-500">
+                  {totalMonthlyExpenses > 0 ? "Monthly budget" : "Budget: Not set"}
+                </p>
               </CardContent>
             </Card>
 
@@ -108,31 +189,63 @@ const Dashboard = () => {
                 <CardDescription>People you're caring for</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-purple-600 mb-2">0</div>
-                <p className="text-sm text-gray-500">No recipients added</p>
+                <div className="text-2xl font-bold text-purple-600 mb-2">
+                  {careRecipients.length}
+                </div>
+                <p className="text-sm text-gray-500">
+                  {careRecipients.length === 0 ? "No recipients added" : 
+                   careRecipients.length === 1 ? "1 recipient" : 
+                   `${careRecipients.length} recipients`}
+                </p>
               </CardContent>
             </Card>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Getting Started</CardTitle>
-              <CardDescription>Complete your setup to start managing finances</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <Button 
-                  onClick={() => navigate('/onboarding')}
-                  className="w-full bg-blue-600 hover:bg-blue-700"
-                >
-                  Complete Onboarding
-                </Button>
-                <p className="text-sm text-gray-500 text-center">
-                  Set up your care recipient information and financial goals
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          {careRecipients.length > 0 && (
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>Your Care Recipients</CardTitle>
+                <CardDescription>People you're currently caring for</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {careRecipients.map((recipient) => (
+                    <div key={recipient.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{recipient.name}</h3>
+                        <p className="text-sm text-gray-600">
+                          {recipient.relationship && `${recipient.relationship} • `}
+                          {recipient.age && `Age ${recipient.age}`}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {!hasData && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Getting Started</CardTitle>
+                <CardDescription>Complete your setup to start managing finances</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Button 
+                    onClick={() => navigate('/onboarding')}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                  >
+                    Complete Onboarding
+                  </Button>
+                  <p className="text-sm text-gray-500 text-center">
+                    Set up your care recipient information and financial goals
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </main>
     </div>
