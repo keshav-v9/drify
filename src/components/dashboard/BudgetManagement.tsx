@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,8 +23,16 @@ interface BudgetCategory {
   updated_at: string;
 }
 
+interface Expense {
+  id: string;
+  category_id: string | null;
+  amount: number;
+  expense_date: string;
+}
+
 const BudgetManagement = ({ user }: BudgetManagementProps) => {
   const [categories, setCategories] = useState<BudgetCategory[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<BudgetCategory | null>(null);
@@ -42,28 +49,43 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
 
   useEffect(() => {
     if (user) {
-      fetchCategories();
+      fetchData();
     }
   }, [user]);
 
-  const fetchCategories = async () => {
+  const fetchData = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch categories
+      const { data: categoryData, error: categoryError } = await supabase
         .from('budget_categories')
         .select('*')
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (categoryError) throw categoryError;
+
+      // Fetch expenses for current month
+      const currentDate = new Date();
+      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+      const { data: expenseData, error: expenseError } = await supabase
+        .from('expenses')
+        .select('id, category_id, amount, expense_date')
+        .gte('expense_date', firstDayOfMonth.toISOString().split('T')[0])
+        .lte('expense_date', lastDayOfMonth.toISOString().split('T')[0]);
+
+      if (expenseError) throw expenseError;
 
       // If no categories exist, create default ones
-      if (!data || data.length === 0) {
+      if (!categoryData || categoryData.length === 0) {
         await createDefaultCategories();
       } else {
-        setCategories(data);
+        setCategories(categoryData);
+        setExpenses(expenseData || []);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
-      toast.error('Failed to load budget categories');
+      console.error('Error fetching data:', error);
+      toast.error('Failed to load budget data');
     } finally {
       setLoading(false);
     }
@@ -92,6 +114,18 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
       console.error('Error creating default categories:', error);
       toast.error('Failed to create default categories');
     }
+  };
+
+  const getCategorySpent = (categoryId: string): number => {
+    return expenses
+      .filter(expense => expense.category_id === categoryId)
+      .reduce((sum, expense) => sum + Math.abs(expense.amount), 0);
+  };
+
+  const getCategoryUtilization = (categoryId: string, monthlyBudget: number): number => {
+    if (monthlyBudget === 0) return 0;
+    const spent = getCategorySpent(categoryId);
+    return Math.min((spent / monthlyBudget) * 100, 100);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,7 +157,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
         toast.success('Budget category added');
       }
 
-      fetchCategories();
+      fetchData();
       resetForm();
     } catch (error) {
       console.error('Error saving category:', error);
@@ -140,7 +174,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
 
       if (error) throw error;
       toast.success('Budget category deleted');
-      fetchCategories();
+      fetchData();
     } catch (error) {
       console.error('Error deleting category:', error);
       toast.error('Failed to delete category');
@@ -259,49 +293,63 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
 
       {/* Budget Categories */}
       <div className="grid gap-4">
-        {categories.map((category) => (
-          <Card key={category.id}>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div
-                    className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: category.color }}
-                  />
-                  <div>
-                    <h3 className="font-semibold">{category.name}</h3>
-                    <p className="text-sm text-gray-600">
-                      Monthly Budget: ${category.monthly_budget.toLocaleString()}
-                    </p>
+        {categories.map((category) => {
+          const spent = getCategorySpent(category.id);
+          const utilization = getCategoryUtilization(category.id, category.monthly_budget);
+          
+          return (
+            <Card key={category.id}>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div
+                      className="w-4 h-4 rounded-full"
+                      style={{ backgroundColor: category.color }}
+                    />
+                    <div>
+                      <h3 className="font-semibold">{category.name}</h3>
+                      <p className="text-sm text-gray-600">
+                        Monthly Budget: ${category.monthly_budget.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => startEdit(category)}
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDelete(category.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => startEdit(category)}
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(category.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Budget Utilization</span>
+                    <span>
+                      ${spent.toLocaleString()} / ${category.monthly_budget.toLocaleString()} 
+                      ({utilization.toFixed(1)}%)
+                    </span>
+                  </div>
+                  <Progress 
+                    value={utilization} 
+                    className={`h-2 ${utilization > 100 ? 'text-red-500' : ''}`}
+                  />
+                  {utilization > 100 && (
+                    <p className="text-xs text-red-500">Over budget by ${(spent - category.monthly_budget).toLocaleString()}</p>
+                  )}
                 </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Budget Utilization</span>
-                  <span>0% (Coming soon)</span>
-                </div>
-                <Progress value={0} className="h-2" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {categories.length === 0 && (
