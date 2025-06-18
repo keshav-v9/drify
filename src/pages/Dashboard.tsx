@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +14,6 @@ import {
   Users, 
   FileText,
   Heart,
-  Phone,
   LogOut,
   Plus
 } from "lucide-react";
@@ -152,17 +150,6 @@ const Dashboard = () => {
           </div>
         </Tabs>
       </main>
-
-      {/* Emergency Support Button */}
-      <div className="fixed bottom-6 right-6">
-        <Button
-          size="lg"
-          className="bg-red-600 hover:bg-red-700 text-white shadow-lg rounded-full h-14 w-14 p-0"
-          onClick={() => toast.info("Emergency support feature coming soon")}
-        >
-          <Phone className="h-6 w-6" />
-        </Button>
-      </div>
     </div>
   );
 };
