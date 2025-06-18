@@ -89,21 +89,21 @@ const ChatBot = ({ user }: ChatBotProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 h-full flex flex-col">
       <div>
         <h2 className="text-2xl font-bold text-gray-900">AI Assistant</h2>
         <p className="text-gray-600">Get personalized financial advice and support for your care planning</p>
       </div>
 
-      <Card className="h-[600px] flex flex-col">
-        <CardHeader>
+      <Card className="flex-1 flex flex-col min-h-0">
+        <CardHeader className="flex-shrink-0">
           <CardTitle className="flex items-center space-x-2">
             <MessageCircle className="h-5 w-5 text-blue-600" />
             <span>FinSage Assistant</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex-1 flex flex-col p-0">
-          <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+        <CardContent className="flex-1 flex flex-col p-0 min-h-0">
+          <ScrollArea className="flex-1 p-4 min-h-[400px]" ref={scrollAreaRef}>
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
@@ -157,7 +157,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
               )}
             </div>
           </ScrollArea>
-          <div className="border-t p-4">
+          <div className="border-t p-4 flex-shrink-0">
             <div className="flex space-x-2">
               <Input
                 value={input}

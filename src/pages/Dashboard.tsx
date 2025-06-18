@@ -73,9 +73,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -104,9 +104,9 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-white shadow-sm">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <Tabs defaultValue="overview" className="space-y-6 h-full flex flex-col">
+          <TabsList className="grid w-full grid-cols-5 bg-white shadow-sm flex-shrink-0">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
               <DollarSign className="h-4 w-4" />
               <span>Overview</span>
@@ -129,25 +129,27 @@ const Dashboard = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview">
-            <DashboardOverview user={user} />
-          </TabsContent>
+          <div className="flex-1 min-h-0">
+            <TabsContent value="overview" className="h-full">
+              <DashboardOverview user={user} />
+            </TabsContent>
 
-          <TabsContent value="budget">
-            <BudgetManagement user={user} />
-          </TabsContent>
+            <TabsContent value="budget" className="h-full">
+              <BudgetManagement user={user} />
+            </TabsContent>
 
-          <TabsContent value="expenses">
-            <ExpenseTracking user={user} />
-          </TabsContent>
+            <TabsContent value="expenses" className="h-full">
+              <ExpenseTracking user={user} />
+            </TabsContent>
 
-          <TabsContent value="ai-assistant">
-            <ChatBot user={user} />
-          </TabsContent>
+            <TabsContent value="ai-assistant" className="h-full">
+              <ChatBot user={user} />
+            </TabsContent>
 
-          <TabsContent value="planning">
-            <PlanningTools user={user} />
-          </TabsContent>
+            <TabsContent value="planning" className="h-full">
+              <PlanningTools user={user} />
+            </TabsContent>
+          </div>
         </Tabs>
       </main>
 
