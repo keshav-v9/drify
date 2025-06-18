@@ -93,12 +93,21 @@ const Index = () => {
             </Card>
           </div>
           
-          <Button 
-            onClick={() => navigate('/sign-in')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
-          >
-            Get Started
-          </Button>
+          <div className="space-x-4">
+            <Button 
+              onClick={() => navigate('/about')}
+              variant="outline"
+              className="px-8 py-3 text-lg"
+            >
+              About the Creator
+            </Button>
+            <Button 
+              onClick={() => navigate('/sign-in')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+            >
+              Get Started
+            </Button>
+          </div>
         </div>
       </div>
     </div>

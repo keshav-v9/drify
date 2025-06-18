@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
-import { Google, Apple, Facebook } from "lucide-react";
+import { Mail, Github, Chrome } from "lucide-react";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -111,7 +111,7 @@ const SignIn = () => {
               onClick={() => handleSocialAuth('google')}
               disabled={socialLoading !== null || loading}
             >
-              <Google className="mr-2 h-4 w-4" />
+              <Chrome className="mr-2 h-4 w-4" />
               {socialLoading === 'google' ? "Signing in..." : "Continue with Google"}
             </Button>
             
@@ -121,7 +121,7 @@ const SignIn = () => {
               onClick={() => handleSocialAuth('apple')}
               disabled={socialLoading !== null || loading}
             >
-              <Apple className="mr-2 h-4 w-4" />
+              <Mail className="mr-2 h-4 w-4" />
               {socialLoading === 'apple' ? "Signing in..." : "Continue with Apple"}
             </Button>
             
@@ -131,7 +131,7 @@ const SignIn = () => {
               onClick={() => handleSocialAuth('facebook')}
               disabled={socialLoading !== null || loading}
             >
-              <Facebook className="mr-2 h-4 w-4" />
+              <Github className="mr-2 h-4 w-4" />
               {socialLoading === 'facebook' ? "Signing in..." : "Continue with Facebook"}
             </Button>
           </div>
