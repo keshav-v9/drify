@@ -11,7 +11,7 @@ import {
   DollarSign, 
   PiggyBank, 
   TrendingUp, 
-  Shield, 
+  MessageCircle, 
   Users, 
   FileText,
   Heart,
@@ -22,7 +22,7 @@ import {
 import DashboardOverview from "@/components/dashboard/DashboardOverview";
 import BudgetManagement from "@/components/dashboard/BudgetManagement";
 import ExpenseTracking from "@/components/dashboard/ExpenseTracking";
-import CareCostPlanning from "@/components/dashboard/CareCostPlanning";
+import ChatBot from "@/components/dashboard/ChatBot";
 import PlanningTools from "@/components/dashboard/PlanningTools";
 
 const Dashboard = () => {
@@ -119,9 +119,9 @@ const Dashboard = () => {
               <TrendingUp className="h-4 w-4" />
               <span>Expenses</span>
             </TabsTrigger>
-            <TabsTrigger value="care-costs" className="flex items-center space-x-2">
-              <Shield className="h-4 w-4" />
-              <span>Care Costs</span>
+            <TabsTrigger value="ai-assistant" className="flex items-center space-x-2">
+              <MessageCircle className="h-4 w-4" />
+              <span>AI Assistant</span>
             </TabsTrigger>
             <TabsTrigger value="planning" className="flex items-center space-x-2">
               <FileText className="h-4 w-4" />
@@ -141,8 +141,8 @@ const Dashboard = () => {
             <ExpenseTracking user={user} />
           </TabsContent>
 
-          <TabsContent value="care-costs">
-            <CareCostPlanning user={user} />
+          <TabsContent value="ai-assistant">
+            <ChatBot user={user} />
           </TabsContent>
 
           <TabsContent value="planning">
