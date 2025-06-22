@@ -29,6 +29,13 @@ const ChatBot = ({ user }: ChatBotProps) => {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  const welcomeMessage: Message = {
+    id: 'welcome',
+    role: 'assistant',
+    content: 'Hello! I\'m your FinSage assistant. I can help you with budgeting, expense tracking, and financial planning for care-related expenses. How can I assist you today?',
+    timestamp: new Date()
+  };
+
   useEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
@@ -40,12 +47,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
       loadMessages(activeSessionId);
     } else {
       // Show welcome message for new chat
-      setMessages([{
-        id: '1',
-        role: 'assistant',
-        content: 'Hello! I\'m your FinSage assistant. I can help you with budgeting, expense tracking, and financial planning for care-related expenses. How can I assist you today?',
-        timestamp: new Date()
-      }]);
+      setMessages([welcomeMessage]);
     }
   }, [activeSessionId]);
 
@@ -67,10 +69,11 @@ const ChatBot = ({ user }: ChatBotProps) => {
         session_id: msg.session_id
       }));
 
-      setMessages(loadedMessages);
+      setMessages(loadedMessages.length > 0 ? loadedMessages : [welcomeMessage]);
     } catch (error) {
       console.error('Error loading messages:', error);
       toast.error('Failed to load chat messages');
+      setMessages([welcomeMessage]);
     }
   };
 
@@ -203,12 +206,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
 
   const handleNewSession = () => {
     setActiveSessionId(null);
-    setMessages([{
-      id: '1',
-      role: 'assistant',
-      content: 'Hello! I\'m your FinSage assistant. I can help you with budgeting, expense tracking, and financial planning for care-related expenses. How can I assist you today?',
-      timestamp: new Date()
-    }]);
+    setMessages([welcomeMessage]);
   };
 
   return (
