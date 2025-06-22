@@ -1,9 +1,13 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { 
@@ -54,6 +58,31 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
   const [careRecipient, setCareRecipient] = useState<CareRecipient | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Dialog states
+  const [showExpenseDialog, setShowExpenseDialog] = useState(false);
+  const [showBudgetDialog, setShowBudgetDialog] = useState(false);
+  const [showEmergencyDialog, setShowEmergencyDialog] = useState(false);
+
+  // Form states
+  const [expenseForm, setExpenseForm] = useState({
+    description: '',
+    amount: '',
+    expense_date: new Date().toISOString().split('T')[0],
+    category_id: ''
+  });
+
+  const [budgetForm, setBudgetForm] = useState({
+    name: '',
+    monthly_budget: '',
+    color: '#3B82F6'
+  });
+
+  const [emergencyForm, setEmergencyForm] = useState({
+    current_emergency_fund: '',
+    emergency_fund_target: '',
+    monthly_expense_estimate: ''
+  });
+
   useEffect(() => {
     if (user) {
       fetchDashboardData();
@@ -95,6 +124,107 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
       console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddExpense = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('expenses')
+        .insert([{
+          description: expenseForm.description,
+          amount: parseFloat(expenseForm.amount),
+          expense_date: expenseForm.expense_date,
+          category_id: expenseForm.category_id || null,
+          user_id: user.id
+        }]);
+
+      if (error) throw error;
+
+      toast.success('Expense added successfully');
+      setShowExpenseDialog(false);
+      setExpenseForm({
+        description: '',
+        amount: '',
+        expense_date: new Date().toISOString().split('T')[0],
+        category_id: ''
+      });
+      fetchDashboardData();
+    } catch (error) {
+      console.error('Error adding expense:', error);
+      toast.error('Failed to add expense');
+    }
+  };
+
+  const handleAddBudget = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('budget_categories')
+        .insert([{
+          name: budgetForm.name,
+          monthly_budget: parseFloat(budgetForm.monthly_budget),
+          color: budgetForm.color,
+          user_id: user.id
+        }]);
+
+      if (error) throw error;
+
+      toast.success('Budget category added successfully');
+      setShowBudgetDialog(false);
+      setBudgetForm({
+        name: '',
+        monthly_budget: '',
+        color: '#3B82F6'
+      });
+      fetchDashboardData();
+    } catch (error) {
+      console.error('Error adding budget category:', error);
+      toast.error('Failed to add budget category');
+    }
+  };
+
+  const handleUpdateEmergencyFund = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    try {
+      const planData = {
+        current_emergency_fund: parseFloat(emergencyForm.current_emergency_fund),
+        emergency_fund_target: parseFloat(emergencyForm.emergency_fund_target),
+        monthly_expense_estimate: parseFloat(emergencyForm.monthly_expense_estimate),
+        user_id: user.id
+      };
+
+      if (financialPlan) {
+        const { error } = await supabase
+          .from('financial_plans')
+          .update(planData)
+          .eq('user_id', user.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from('financial_plans')
+          .insert([planData]);
+        if (error) throw error;
+      }
+
+      toast.success('Emergency fund updated successfully');
+      setShowEmergencyDialog(false);
+      setEmergencyForm({
+        current_emergency_fund: '',
+        emergency_fund_target: '',
+        monthly_expense_estimate: ''
+      });
+      fetchDashboardData();
+    } catch (error) {
+      console.error('Error updating emergency fund:', error);
+      toast.error('Failed to update emergency fund');
     }
   };
 
@@ -215,19 +345,42 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => setShowExpenseDialog(true)}
+            >
               <Plus className="h-5 w-5" />
               <span className="text-sm">Add Expense</span>
             </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => setShowBudgetDialog(true)}
+            >
               <DollarSign className="h-5 w-5" />
               <span className="text-sm">Update Budget</span>
             </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => {
+                setEmergencyForm({
+                  current_emergency_fund: financialPlan?.current_emergency_fund?.toString() || '',
+                  emergency_fund_target: financialPlan?.emergency_fund_target?.toString() || '',
+                  monthly_expense_estimate: financialPlan?.monthly_expense_estimate?.toString() || ''
+                });
+                setShowEmergencyDialog(true);
+              }}
+            >
               <PiggyBank className="h-5 w-5" />
               <span className="text-sm">Emergency Fund</span>
             </Button>
-            <Button variant="outline" className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => toast.info("Care planning tools coming soon")}
+            >
               <Shield className="h-5 w-5" />
               <span className="text-sm">Care Planning</span>
             </Button>
@@ -282,6 +435,181 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Add Expense Dialog */}
+      <Dialog open={showExpenseDialog} onOpenChange={setShowExpenseDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Expense</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddExpense} className="space-y-4">
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                value={expenseForm.description}
+                onChange={(e) => setExpenseForm(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="e.g., Monthly care facility payment"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="amount">Amount</Label>
+              <Input
+                id="amount"
+                type="number"
+                step="0.01"
+                value={expenseForm.amount}
+                onChange={(e) => setExpenseForm(prev => ({ ...prev, amount: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="date">Date</Label>
+              <Input
+                id="date"
+                type="date"
+                value={expenseForm.expense_date}
+                onChange={(e) => setExpenseForm(prev => ({ ...prev, expense_date: e.target.value }))}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <Select
+                value={expenseForm.category_id}
+                onValueChange={(value) => setExpenseForm(prev => ({ ...prev, category_id: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {budgetCategories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      <div className="flex items-center space-x-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: category.color }}
+                        />
+                        <span>{category.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setShowExpenseDialog(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Add Expense</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Budget Dialog */}
+      <Dialog open={showBudgetDialog} onOpenChange={setShowBudgetDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add Budget Category</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddBudget} className="space-y-4">
+            <div>
+              <Label htmlFor="name">Category Name</Label>
+              <Input
+                id="name"
+                value={budgetForm.name}
+                onChange={(e) => setBudgetForm(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="e.g., Medical Care"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="budget">Monthly Budget</Label>
+              <Input
+                id="budget"
+                type="number"
+                step="0.01"
+                value={budgetForm.monthly_budget}
+                onChange={(e) => setBudgetForm(prev => ({ ...prev, monthly_budget: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="color">Category Color</Label>
+              <Input
+                id="color"
+                type="color"
+                value={budgetForm.color}
+                onChange={(e) => setBudgetForm(prev => ({ ...prev, color: e.target.value }))}
+                className="h-10"
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setShowBudgetDialog(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Add Category</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Emergency Fund Dialog */}
+      <Dialog open={showEmergencyDialog} onOpenChange={setShowEmergencyDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Emergency Fund</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleUpdateEmergencyFund} className="space-y-4">
+            <div>
+              <Label htmlFor="current">Current Emergency Fund</Label>
+              <Input
+                id="current"
+                type="number"
+                step="0.01"
+                value={emergencyForm.current_emergency_fund}
+                onChange={(e) => setEmergencyForm(prev => ({ ...prev, current_emergency_fund: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="target">Target Emergency Fund</Label>
+              <Input
+                id="target"
+                type="number"
+                step="0.01"
+                value={emergencyForm.emergency_fund_target}
+                onChange={(e) => setEmergencyForm(prev => ({ ...prev, emergency_fund_target: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="monthly">Monthly Expense Estimate</Label>
+              <Input
+                id="monthly"
+                type="number"
+                step="0.01"
+                value={emergencyForm.monthly_expense_estimate}
+                onChange={(e) => setEmergencyForm(prev => ({ ...prev, monthly_expense_estimate: e.target.value }))}
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={() => setShowEmergencyDialog(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Update Fund</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
