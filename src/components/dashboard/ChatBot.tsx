@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -43,6 +42,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
   }, [messages]);
 
   useEffect(() => {
+    console.log('Active session changed to:', activeSessionId);
     if (activeSessionId) {
       loadMessages(activeSessionId);
     } else {
@@ -52,6 +52,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
   }, [activeSessionId]);
 
   const loadMessages = async (sessionId: string) => {
+    console.log('Loading messages for session:', sessionId);
     try {
       const { data, error } = await supabase
         .from('chat_messages')
@@ -69,6 +70,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
         session_id: msg.session_id
       }));
 
+      console.log('Loaded messages:', loadedMessages);
       setMessages(loadedMessages.length > 0 ? loadedMessages : [welcomeMessage]);
     } catch (error) {
       console.error('Error loading messages:', error);
@@ -201,10 +203,12 @@ const ChatBot = ({ user }: ChatBotProps) => {
   };
 
   const handleSessionSelect = (sessionId: string) => {
+    console.log('Selecting session:', sessionId);
     setActiveSessionId(sessionId);
   };
 
   const handleNewSession = () => {
+    console.log('Creating new session');
     setActiveSessionId(null);
     setMessages([welcomeMessage]);
   };

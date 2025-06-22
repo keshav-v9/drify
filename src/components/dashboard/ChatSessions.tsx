@@ -52,7 +52,9 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
     }
   };
 
-  const deleteSession = async (sessionId: string) => {
+  const deleteSession = async (sessionId: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent triggering session selection
+    
     try {
       const { error } = await supabase
         .from('chat_sessions')
@@ -72,6 +74,11 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
       console.error('Error deleting session:', error);
       toast.error('Failed to delete session');
     }
+  };
+
+  const handleSessionClick = (sessionId: string) => {
+    console.log('Session clicked:', sessionId);
+    onSessionSelect(sessionId);
   };
 
   if (loading) {
@@ -98,7 +105,7 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
               className={`cursor-pointer transition-colors hover:bg-blue-50 ${
                 activeSessionId === session.id ? 'bg-blue-100 border-blue-300' : ''
               }`}
-              onClick={() => onSessionSelect(session.id)}
+              onClick={() => handleSessionClick(session.id)}
             >
               <CardContent className="p-3">
                 <div className="flex items-start justify-between">
@@ -117,10 +124,7 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
                     variant="ghost"
                     size="icon"
                     className="h-6 w-6 text-gray-400 hover:text-red-600"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteSession(session.id);
-                    }}
+                    onClick={(e) => deleteSession(session.id, e)}
                   >
                     <Trash2 className="h-3 w-3" />
                   </Button>
