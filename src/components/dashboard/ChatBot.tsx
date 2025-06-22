@@ -26,6 +26,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [isNewSession, setIsNewSession] = useState(true);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const welcomeMessage: Message = {
@@ -45,9 +46,11 @@ const ChatBot = ({ user }: ChatBotProps) => {
     console.log('Active session changed to:', activeSessionId);
     if (activeSessionId) {
       loadMessages(activeSessionId);
+      setIsNewSession(false);
     } else {
       // Show welcome message for new chat
       setMessages([welcomeMessage]);
+      setIsNewSession(true);
     }
   }, [activeSessionId]);
 
@@ -140,11 +143,12 @@ const ChatBot = ({ user }: ChatBotProps) => {
 
     let sessionId = activeSessionId;
     
-    // Create new session if this is the first message
-    if (!sessionId) {
+    // Create new session if this is a new chat (no active session)
+    if (!sessionId || isNewSession) {
       sessionId = await createNewSession(input.trim());
       if (!sessionId) return;
       setActiveSessionId(sessionId);
+      setIsNewSession(false);
     }
 
     const userMessage: Message = {
@@ -211,6 +215,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
     console.log('Creating new session');
     setActiveSessionId(null);
     setMessages([welcomeMessage]);
+    setIsNewSession(true);
   };
 
   return (
