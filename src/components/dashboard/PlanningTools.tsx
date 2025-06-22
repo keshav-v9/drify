@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,8 @@ import {
   CheckCircle, 
   AlertTriangle, 
   Clock,
-  Plus
+  Plus,
+  Loader2
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -47,7 +47,9 @@ interface SupportContact {
 const PlanningTools = ({ user }: PlanningToolsProps) => {
   const [documents, setDocuments] = useState<LegalDocument[]>([]);
   const [contacts, setContacts] = useState<SupportContact[]>([]);
+  const [aiInsights, setAiInsights] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [insightsLoading, setInsightsLoading] = useState(false);
   const [editingDocument, setEditingDocument] = useState<LegalDocument | null>(null);
   const [editingContact, setEditingContact] = useState<SupportContact | null>(null);
   const [isDocumentDialogOpen, setIsDocumentDialogOpen] = useState(false);
@@ -70,6 +72,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   useEffect(() => {
     if (user) {
       fetchData();
+      generateAIInsights();
     }
   }, [user]);
 
@@ -147,6 +150,64 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
       setContacts(data || []);
     } catch (error) {
       console.error('Error creating default contacts:', error);
+    }
+  };
+
+  const generateAIInsights = async () => {
+    setInsightsLoading(true);
+    try {
+      // Create a context about the user's financial planning status
+      const context = `Generate 3-4 practical financial planning insights for someone managing care-related expenses. 
+      Focus on: legal document preparation, emergency fund planning, support network management, and care cost budgeting. 
+      Make each insight actionable and specific to care management financial planning.`;
+
+      const { data, error } = await supabase.functions.invoke('chat-gpt', {
+        body: {
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a financial planning expert specializing in care management. Provide practical, actionable insights as bullet points. Each insight should be 1-2 sentences maximum.'
+            },
+            {
+              role: 'user',
+              content: context
+            }
+          ]
+        }
+      });
+
+      if (error) {
+        console.error('Error generating AI insights:', error);
+        // Fallback to default insights
+        setAiInsights([
+          "Ensure your Power of Attorney includes specific financial powers for care decisions.",
+          "Review and update your Healthcare Directive to reflect current care preferences.",
+          "Maintain regular contact with your support network to ensure continuity of care."
+        ]);
+      } else {
+        // Parse the AI response into individual insights
+        const insightsText = data.reply;
+        const insights = insightsText
+          .split('\n')
+          .filter((line: string) => line.trim() && (line.includes('•') || line.includes('-') || line.includes('*')))
+          .map((line: string) => line.replace(/^[•\-*]\s*/, '').trim())
+          .filter((insight: string) => insight.length > 10);
+        
+        setAiInsights(insights.length > 0 ? insights : [
+          "Ensure your Power of Attorney includes specific financial powers for care decisions.",
+          "Review and update your Healthcare Directive to reflect current care preferences.",
+          "Maintain regular contact with your support network to ensure continuity of care."
+        ]);
+      }
+    } catch (error) {
+      console.error('Error generating insights:', error);
+      setAiInsights([
+        "Ensure your Power of Attorney includes specific financial powers for care decisions.",
+        "Review and update your Healthcare Directive to reflect current care preferences.",
+        "Maintain regular contact with your support network to ensure continuity of care."
+      ]);
+    } finally {
+      setInsightsLoading(false);
     }
   };
 
@@ -512,30 +573,41 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
 
       {/* Financial Planning Insights */}
       <Card className="border-2 border-blue-200 bg-blue-50">
-        <CardHeader>
-          <CardTitle>Financial Planning Insights</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>AI-Powered Financial Planning Insights</CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={generateAIInsights}
+            disabled={insightsLoading}
+            className="bg-white"
+          >
+            {insightsLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              'Refresh Insights'
+            )}
+          </Button>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-              <p className="text-gray-700">
-                Ensure your Power of Attorney includes specific financial powers for care decisions.
-              </p>
+          {insightsLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin mr-2" />
+              <span className="text-gray-600">Generating personalized insights...</span>
             </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-              <p className="text-gray-700">
-                Review and update your Healthcare Directive to reflect current care preferences.
-              </p>
+          ) : (
+            <div className="space-y-3">
+              {aiInsights.map((insight, index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-gray-700">{insight}</p>
+                </div>
+              ))}
             </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-              <p className="text-gray-700">
-                Maintain regular contact with your support network to ensure continuity of care.
-              </p>
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
     </div>
