@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -101,39 +100,48 @@ const Profile = () => {
     setError(null);
 
     try {
-      console.log('Updating profile for user:', user.id);
+      console.log('Saving profile for user:', user.id);
 
-      // Update care recipient
-      const { error: updateRecipientError } = await supabase
+      // Upsert care recipient (insert or update)
+      const { data: careRecipient, error: upsertRecipientError } = await supabase
         .from('care_recipients')
-        .update({
+        .upsert({
+          user_id: user.id,
           name: formData.careRecipientName,
           age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
           relationship: formData.relationship
+        }, {
+          onConflict: 'user_id'
         })
-        .eq('user_id', user.id);
+        .select('id')
+        .single();
 
-      if (updateRecipientError) throw updateRecipientError;
+      if (upsertRecipientError) throw upsertRecipientError;
+      console.log('Upserted care recipient:', careRecipient);
 
-      // Update financial plan
-      const { error: updatePlanError } = await supabase
+      // Upsert financial plan (insert or update)
+      const { error: upsertPlanError } = await supabase
         .from('financial_plans')
-        .update({
-          monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
+        .upsert({
+          user_id: user.id,
+          care_recipient_id: careRecipient.id,
+          monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : 0,
           emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
           monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
-        })
-        .eq('user_id', user.id);
+        }, {
+          onConflict: 'user_id'
+        });
 
-      if (updatePlanError) throw updatePlanError;
+      if (upsertPlanError) throw upsertPlanError;
+      console.log('Upserted financial plan');
 
       toast({
         title: "Profile Updated!",
-        description: "Your information has been successfully updated.",
+        description: "Your information has been successfully saved.",
       });
     } catch (error: any) {
-      console.error('Error updating profile:', error);
-      setError(error.message || 'An error occurred while updating your information.');
+      console.error('Error saving profile:', error);
+      setError(error.message || 'An error occurred while saving your information.');
     } finally {
       setSaving(false);
     }
