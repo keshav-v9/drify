@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -92,30 +93,54 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
 
   const fetchDashboardData = async () => {
     try {
+      console.log('Fetching dashboard data for user:', user?.id);
+      
       // Fetch budget categories
-      const { data: categories } = await supabase
+      const { data: categories, error: categoriesError } = await supabase
         .from('budget_categories')
         .select('*')
+        .eq('user_id', user?.id)
         .order('created_at', { ascending: true });
 
+      if (categoriesError) {
+        console.error('Error fetching categories:', categoriesError);
+      }
+
       // Fetch recent expenses
-      const { data: expenseData } = await supabase
+      const { data: expenseData, error: expenseError } = await supabase
         .from('expenses')
         .select('*')
+        .eq('user_id', user?.id)
         .order('expense_date', { ascending: false })
         .limit(5);
 
-      // Fetch financial plan with monthly_income
-      const { data: planData } = await supabase
+      if (expenseError) {
+        console.error('Error fetching expenses:', expenseError);
+      }
+
+      // Fetch financial plan
+      const { data: planData, error: planError } = await supabase
         .from('financial_plans')
         .select('monthly_income, emergency_fund_target, current_emergency_fund, monthly_expense_estimate')
-        .single();
+        .eq('user_id', user?.id)
+        .maybeSingle();
+
+      if (planError) {
+        console.error('Error fetching financial plan:', planError);
+      }
 
       // Fetch care recipient
-      const { data: recipientData } = await supabase
+      const { data: recipientData, error: recipientError } = await supabase
         .from('care_recipients')
         .select('name')
-        .single();
+        .eq('user_id', user?.id)
+        .maybeSingle();
+
+      if (recipientError) {
+        console.error('Error fetching care recipient:', recipientError);
+      }
+
+      console.log('Care recipient data:', recipientData);
 
       setBudgetCategories(categories || []);
       setExpenses(expenseData || []);
