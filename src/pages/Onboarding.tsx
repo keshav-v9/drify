@@ -21,6 +21,7 @@ const Onboarding = () => {
     careRecipientName: "",
     careRecipientAge: "",
     relationship: "",
+    monthlyIncome: "",
     emergencyFundTarget: "",
     monthlyExpenseEstimate: ""
   });
@@ -86,12 +87,13 @@ const Onboarding = () => {
 
       if (careRecipientError) throw careRecipientError;
 
-      // Then, create the financial plan
+      // Then, create the financial plan with monthly income as total budget
       const { error: financialPlanError } = await supabase
         .from('financial_plans')
         .insert({
           user_id: user.id,
           care_recipient_id: careRecipient.id,
+          monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
           emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
           monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
         });
@@ -149,7 +151,7 @@ const Onboarding = () => {
               <CardDescription>
                 {step === 1 && "Tell us about the person you're caring for"}
                 {step === 2 && "How are you related to your care recipient?"}
-                {step === 3 && "Set up your financial goals and estimates"}
+                {step === 3 && "Set up your monthly budget and financial goals"}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -193,6 +195,19 @@ const Onboarding = () => {
               {step === 3 && (
                 <>
                   <div className="space-y-2">
+                    <Label htmlFor="monthlyIncome">Monthly Income ($)</Label>
+                    <Input
+                      id="monthlyIncome"
+                      type="number"
+                      step="0.01"
+                      value={formData.monthlyIncome}
+                      onChange={(e) => handleInputChange("monthlyIncome", e.target.value)}
+                      placeholder="e.g., 5000"
+                      required
+                    />
+                    <p className="text-sm text-gray-500">This will be used as your total monthly budget</p>
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
                     <Input
                       id="emergencyFundTarget"
@@ -204,7 +219,7 @@ const Onboarding = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="monthlyExpenseEstimate">Monthly Expense Estimate ($)</Label>
+                    <Label htmlFor="monthlyExpenseEstimate">Monthly Care Expense Estimate ($)</Label>
                     <Input
                       id="monthlyExpenseEstimate"
                       type="number"
@@ -244,7 +259,7 @@ const Onboarding = () => {
                   <Button
                     onClick={handleComplete}
                     className="bg-green-600 hover:bg-green-700"
-                    disabled={saving}
+                    disabled={saving || !formData.monthlyIncome}
                   >
                     {saving ? "Saving..." : "Complete Setup"}
                   </Button>

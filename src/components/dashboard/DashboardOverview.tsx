@@ -42,6 +42,7 @@ interface Expense {
 }
 
 interface FinancialPlan {
+  monthly_income: number;
   emergency_fund_target: number;
   current_emergency_fund: number;
   monthly_expense_estimate: number;
@@ -61,7 +62,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
   // Dialog states
   const [showExpenseDialog, setShowExpenseDialog] = useState(false);
   const [showBudgetDialog, setShowBudgetDialog] = useState(false);
-  const [showEmergencyDialog, setShowEmergencyDialog] = useState(false);
+  const [showIncomeDialog, setShowIncomeDialog] = useState(false);
 
   // Form states
   const [expenseForm, setExpenseForm] = useState({
@@ -77,8 +78,8 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
     color: '#3B82F6'
   });
 
-  const [emergencyForm, setEmergencyForm] = useState({
-    current_emergency_fund: '',
+  const [incomeForm, setIncomeForm] = useState({
+    monthly_income: '',
     emergency_fund_target: '',
     monthly_expense_estimate: ''
   });
@@ -189,15 +190,15 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
     }
   };
 
-  const handleUpdateEmergencyFund = async (e: React.FormEvent) => {
+  const handleUpdateIncome = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
 
     try {
       const planData = {
-        current_emergency_fund: parseFloat(emergencyForm.current_emergency_fund),
-        emergency_fund_target: parseFloat(emergencyForm.emergency_fund_target),
-        monthly_expense_estimate: parseFloat(emergencyForm.monthly_expense_estimate),
+        monthly_income: parseFloat(incomeForm.monthly_income),
+        emergency_fund_target: parseFloat(incomeForm.emergency_fund_target),
+        monthly_expense_estimate: parseFloat(incomeForm.monthly_expense_estimate),
         user_id: user.id
       };
 
@@ -214,21 +215,21 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
         if (error) throw error;
       }
 
-      toast.success('Emergency fund updated successfully');
-      setShowEmergencyDialog(false);
-      setEmergencyForm({
-        current_emergency_fund: '',
+      toast.success('Monthly income updated successfully');
+      setShowIncomeDialog(false);
+      setIncomeForm({
+        monthly_income: '',
         emergency_fund_target: '',
         monthly_expense_estimate: ''
       });
       fetchDashboardData();
     } catch (error) {
-      console.error('Error updating emergency fund:', error);
-      toast.error('Failed to update emergency fund');
+      console.error('Error updating monthly income:', error);
+      toast.error('Failed to update monthly income');
     }
   };
 
-  const totalMonthlyBudget = budgetCategories.reduce((sum, cat) => sum + cat.monthly_budget, 0);
+  const totalMonthlyBudget = financialPlan?.monthly_income || 0;
   const currentMonthExpenses = expenses
     .filter(exp => new Date(exp.expense_date).getMonth() === new Date().getMonth())
     .reduce((sum, exp) => sum + Math.abs(exp.amount), 0);
@@ -267,7 +268,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Monthly Budget</CardTitle>
+            <CardTitle className="text-sm font-medium">Monthly Income Budget</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -276,7 +277,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               ${(totalMonthlyBudget - currentMonthExpenses).toLocaleString()} remaining this month
             </div>
             <Progress 
-              value={(currentMonthExpenses / totalMonthlyBudget) * 100} 
+              value={totalMonthlyBudget > 0 ? (currentMonthExpenses / totalMonthlyBudget) * 100 : 0} 
               className="mt-3"
             />
           </CardContent>
@@ -290,7 +291,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           <CardContent>
             <div className="text-2xl font-bold">${currentMonthExpenses.toLocaleString()}</div>
             <div className="text-xs text-muted-foreground mt-1">
-              {((currentMonthExpenses / totalMonthlyBudget) * 100).toFixed(1)}% of budget used
+              {totalMonthlyBudget > 0 ? ((currentMonthExpenses / totalMonthlyBudget) * 100).toFixed(1) : 0}% of budget used
             </div>
           </CardContent>
         </Card>
@@ -365,16 +366,16 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               variant="outline" 
               className="h-auto p-4 flex flex-col items-center space-y-2"
               onClick={() => {
-                setEmergencyForm({
-                  current_emergency_fund: financialPlan?.current_emergency_fund?.toString() || '',
+                setIncomeForm({
+                  monthly_income: financialPlan?.monthly_income?.toString() || '',
                   emergency_fund_target: financialPlan?.emergency_fund_target?.toString() || '',
                   monthly_expense_estimate: financialPlan?.monthly_expense_estimate?.toString() || ''
                 });
-                setShowEmergencyDialog(true);
+                setShowIncomeDialog(true);
               }}
             >
               <PiggyBank className="h-5 w-5" />
-              <span className="text-sm">Emergency Fund</span>
+              <span className="text-sm">Update Income</span>
             </Button>
             <Button 
               variant="outline" 
@@ -558,24 +559,25 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
         </DialogContent>
       </Dialog>
 
-      {/* Emergency Fund Dialog */}
-      <Dialog open={showEmergencyDialog} onOpenChange={setShowEmergencyDialog}>
+      {/* Update Income Dialog */}
+      <Dialog open={showIncomeDialog} onOpenChange={setShowIncomeDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Update Emergency Fund</DialogTitle>
+            <DialogTitle>Update Monthly Income & Budget</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleUpdateEmergencyFund} className="space-y-4">
+          <form onSubmit={handleUpdateIncome} className="space-y-4">
             <div>
-              <Label htmlFor="current">Current Emergency Fund</Label>
+              <Label htmlFor="monthly_income">Monthly Income</Label>
               <Input
-                id="current"
+                id="monthly_income"
                 type="number"
                 step="0.01"
-                value={emergencyForm.current_emergency_fund}
-                onChange={(e) => setEmergencyForm(prev => ({ ...prev, current_emergency_fund: e.target.value }))}
+                value={incomeForm.monthly_income}
+                onChange={(e) => setIncomeForm(prev => ({ ...prev, monthly_income: e.target.value }))}
                 placeholder="0.00"
                 required
               />
+              <p className="text-sm text-gray-500 mt-1">This will be your total monthly budget</p>
             </div>
             <div>
               <Label htmlFor="target">Target Emergency Fund</Label>
@@ -583,29 +585,29 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
                 id="target"
                 type="number"
                 step="0.01"
-                value={emergencyForm.emergency_fund_target}
-                onChange={(e) => setEmergencyForm(prev => ({ ...prev, emergency_fund_target: e.target.value }))}
+                value={incomeForm.emergency_fund_target}
+                onChange={(e) => setIncomeForm(prev => ({ ...prev, emergency_fund_target: e.target.value }))}
                 placeholder="0.00"
                 required
               />
             </div>
             <div>
-              <Label htmlFor="monthly">Monthly Expense Estimate</Label>
+              <Label htmlFor="monthly">Monthly Care Expense Estimate</Label>
               <Input
                 id="monthly"
                 type="number"
                 step="0.01"
-                value={emergencyForm.monthly_expense_estimate}
-                onChange={(e) => setEmergencyForm(prev => ({ ...prev, monthly_expense_estimate: e.target.value }))}
+                value={incomeForm.monthly_expense_estimate}
+                onChange={(e) => setIncomeForm(prev => ({ ...prev, monthly_expense_estimate: e.target.value }))}
                 placeholder="0.00"
                 required
               />
             </div>
             <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={() => setShowEmergencyDialog(false)}>
+              <Button type="button" variant="outline" onClick={() => setShowIncomeDialog(false)}>
                 Cancel
               </Button>
-              <Button type="submit">Update Fund</Button>
+              <Button type="submit">Update Income</Button>
             </div>
           </form>
         </DialogContent>
