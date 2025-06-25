@@ -26,8 +26,11 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  [Your personal story about why you created FinSage - e.g., your experience with caregiving, 
-                  financial planning challenges you faced, what motivated you to build this solution]
+                  When my grandpa was diagnosed with Alzheimer's, it turned our whole world upside down. Watching someone you love start to forget the people and moments that shaped their life is heartbreaking. But beyond the emotional toll, something we did not expect was how hard it would be to manage his finances.
+                  <br /><br />
+                  From medical bills to everyday expenses, everything became more complicated. My family was already doing everything we could to take care of him physically and emotionally, but keeping track of money, paying bills on time, and making sure nothing slipped through the cracks was overwhelming.
+                  <br /><br />
+                  That is when I started thinking. What if there was a way to make this part easier? Not just for us, but for other families going through the same thing.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -38,8 +41,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  [Your professional background - e.g., experience in finance, technology, healthcare, 
-                  or other relevant fields that inform your approach to this problem]
+                  As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for. My experience taught me that practical tools can make a real difference in reducing stress during already difficult times.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -50,8 +52,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  [Your mission statement - what you hope to achieve with FinSage, 
-                  how you want to help caregivers and families]
+                  That is how FinSage started. I wanted to build a simple tool to help caretakers stay on top of finances, track spending, get suggestions, and avoid the stress of doing it all alone. It is meant to be something practical and helpful, especially for those who are already carrying a heavy load.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -62,8 +63,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  [Your vision for the future - where you see FinSage going, 
-                  how you envision improving financial management for caregivers]
+                  FinSage came from a very personal place, and my hope is that it can help others feel a little more supported during tough times. I envision a future where financial management doesn't add to the burden of caregiving, but instead provides clarity and peace of mind when families need it most.
                 </CardDescription>
               </CardContent>
             </Card>
