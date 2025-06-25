@@ -105,10 +105,10 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
         .order('expense_date', { ascending: false })
         .limit(5);
 
-      // Fetch financial plan
+      // Fetch financial plan with monthly_income
       const { data: planData } = await supabase
         .from('financial_plans')
-        .select('*')
+        .select('monthly_income, emergency_fund_target, current_emergency_fund, monthly_expense_estimate')
         .single();
 
       // Fetch care recipient

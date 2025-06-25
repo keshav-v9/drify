@@ -210,6 +210,7 @@ export type Database = {
           emergency_fund_target: number | null
           id: string
           monthly_expense_estimate: number | null
+          monthly_income: number
           updated_at: string
           user_id: string
         }
@@ -220,6 +221,7 @@ export type Database = {
           emergency_fund_target?: number | null
           id?: string
           monthly_expense_estimate?: number | null
+          monthly_income?: number
           updated_at?: string
           user_id: string
         }
@@ -230,6 +232,7 @@ export type Database = {
           emergency_fund_target?: number | null
           id?: string
           monthly_expense_estimate?: number | null
+          monthly_income?: number
           updated_at?: string
           user_id?: string
         }
