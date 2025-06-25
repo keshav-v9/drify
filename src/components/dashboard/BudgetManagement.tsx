@@ -63,11 +63,12 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
 
       if (categoryError) throw categoryError;
 
-      // Fetch expenses for current month
+      // Get current month date range
       const currentDate = new Date();
       const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
       const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
+      // Fetch expenses for current month only
       const { data: expenseData, error: expenseError } = await supabase
         .from('expenses')
         .select('id, category_id, amount, expense_date')
@@ -117,6 +118,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
   };
 
   const getCategorySpent = (categoryId: string): number => {
+    // Only calculate spending from current month expenses (already filtered in fetchData)
     return expenses
       .filter(expense => expense.category_id === categoryId)
       .reduce((sum, expense) => sum + Math.abs(expense.amount), 0);
@@ -332,7 +334,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Budget Utilization</span>
+                    <span>This Month's Spending</span>
                     <span>
                       ${spent.toLocaleString()} / ${category.monthly_budget.toLocaleString()} 
                       ({utilization.toFixed(1)}%)
