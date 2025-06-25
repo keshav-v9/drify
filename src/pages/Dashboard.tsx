@@ -83,10 +83,10 @@ const Dashboard = () => {
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
-                onClick={() => navigate('/onboarding')}
+                onClick={() => navigate('/profile')}
                 className="text-gray-600 hover:text-blue-600"
               >
-                Setup
+                Profile
               </Button>
               <Button
                 variant="outline"

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,18 +29,36 @@ const Onboarding = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+    const checkUserAndRedirect = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
         navigate('/sign-in');
+        return;
       }
-    });
+
+      setUser(session.user);
+
+      // Check if user already has a care recipient (existing user)
+      const { data: existingRecipient } = await supabase
+        .from('care_recipients')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+      if (existingRecipient) {
+        // User already has data, redirect to dashboard
+        navigate('/dashboard');
+        return;
+      }
+
+      setLoading(false);
+    };
+
+    checkUserAndRedirect();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setUser(session?.user ?? null);
         if (!session) {
           navigate('/sign-in');
         }
@@ -74,85 +93,34 @@ const Onboarding = () => {
     try {
       console.log('Starting onboarding completion for user:', user.id);
 
-      // Check if care recipient already exists
-      const { data: existingRecipient } = await supabase
+      // Create new care recipient (since we know they don't have one)
+      const { data: newRecipient, error: createError } = await supabase
         .from('care_recipients')
+        .insert({
+          user_id: user.id,
+          name: formData.careRecipientName,
+          age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
+          relationship: formData.relationship
+        })
         .select('id')
-        .eq('user_id', user.id)
-        .maybeSingle();
+        .single();
 
-      let careRecipientId;
+      if (createError) throw createError;
+      console.log('Created new care recipient:', newRecipient.id);
 
-      if (existingRecipient) {
-        // Update existing care recipient
-        const { data: updatedRecipient, error: updateError } = await supabase
-          .from('care_recipients')
-          .update({
-            name: formData.careRecipientName,
-            age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
-            relationship: formData.relationship
-          })
-          .eq('user_id', user.id)
-          .select('id')
-          .single();
-
-        if (updateError) throw updateError;
-        careRecipientId = updatedRecipient.id;
-        console.log('Updated existing care recipient:', careRecipientId);
-      } else {
-        // Create new care recipient
-        const { data: newRecipient, error: createError } = await supabase
-          .from('care_recipients')
-          .insert({
-            user_id: user.id,
-            name: formData.careRecipientName,
-            age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
-            relationship: formData.relationship
-          })
-          .select('id')
-          .single();
-
-        if (createError) throw createError;
-        careRecipientId = newRecipient.id;
-        console.log('Created new care recipient:', careRecipientId);
-      }
-
-      // Check if financial plan already exists
-      const { data: existingPlan } = await supabase
+      // Create new financial plan
+      const { error: createPlanError } = await supabase
         .from('financial_plans')
-        .select('id')
-        .eq('user_id', user.id)
-        .maybeSingle();
+        .insert({
+          user_id: user.id,
+          care_recipient_id: newRecipient.id,
+          monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
+          emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
+          monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
+        });
 
-      if (existingPlan) {
-        // Update existing financial plan
-        const { error: updatePlanError } = await supabase
-          .from('financial_plans')
-          .update({
-            care_recipient_id: careRecipientId,
-            monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
-            emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
-            monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
-          })
-          .eq('user_id', user.id);
-
-        if (updatePlanError) throw updatePlanError;
-        console.log('Updated existing financial plan');
-      } else {
-        // Create new financial plan
-        const { error: createPlanError } = await supabase
-          .from('financial_plans')
-          .insert({
-            user_id: user.id,
-            care_recipient_id: careRecipientId,
-            monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
-            emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
-            monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
-          });
-
-        if (createPlanError) throw createPlanError;
-        console.log('Created new financial plan');
-      }
+      if (createPlanError) throw createPlanError;
+      console.log('Created new financial plan');
 
       toast({
         title: "Setup Complete!",
