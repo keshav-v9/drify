@@ -14,8 +14,14 @@ const About = () => {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               About the <span className="text-blue-600">Creator</span>
             </h1>
-            <p className="text-xl text-gray-600">
-              Meet Keshav Varma from Aurora, IL - the person behind FinSage
+            <div className="mb-6">
+              <h2 className="text-3xl font-bold text-blue-700 mb-2">Keshav Varma</h2>
+              <p className="text-xl text-gray-600 font-medium">
+                From Aurora, Illinois
+              </p>
+            </div>
+            <p className="text-lg text-gray-600">
+              The person behind FinSage
             </p>
           </div>
           
@@ -41,7 +47,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  I'm Keshav Varma, based in Aurora, Illinois. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for. My experience taught me that practical tools can make a real difference in reducing stress during already difficult times.
+                  I'm <span className="font-bold text-blue-700 text-lg">Keshav Varma</span>, based in <span className="font-semibold text-blue-600">Aurora, Illinois</span>. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for. My experience taught me that practical tools can make a real difference in reducing stress during already difficult times.
                 </CardDescription>
               </CardContent>
             </Card>
