@@ -11,15 +11,24 @@ const About = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">
               About the <span className="text-blue-600">Creator</span>
             </h1>
-            <div className="mb-6">
+            
+            <div className="flex flex-col items-center mb-6">
+              <div className="mb-6">
+                <img 
+                  src="/lovable-uploads/36ec9c01-d135-4aad-8dbc-6b53d55ada17.png" 
+                  alt="Keshav Varma" 
+                  className="w-48 h-48 rounded-full object-cover border-4 border-blue-200 shadow-lg mx-auto"
+                />
+              </div>
               <h2 className="text-3xl font-bold text-blue-700 mb-2">Keshav Varma</h2>
               <p className="text-xl text-gray-600 font-medium">
                 From Aurora, Illinois
               </p>
             </div>
+            
             <p className="text-lg text-gray-600">
               The person behind FinSage
             </p>
