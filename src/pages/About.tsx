@@ -15,7 +15,7 @@ const About = () => {
               About the <span className="text-blue-600">Creator</span>
             </h1>
             <p className="text-xl text-gray-600">
-              Meet the person behind FinSage
+              Meet Keshav Varma from Aurora, IL - the person behind FinSage
             </p>
           </div>
           
@@ -41,7 +41,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for. My experience taught me that practical tools can make a real difference in reducing stress during already difficult times.
+                  I'm Keshav Varma, based in Aurora, Illinois. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for. My experience taught me that practical tools can make a real difference in reducing stress during already difficult times.
                 </CardDescription>
               </CardContent>
             </Card>
