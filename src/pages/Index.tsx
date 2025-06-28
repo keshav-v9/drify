@@ -48,64 +48,90 @@ const Index = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Welcome to <span className="text-blue-600">FinSage</span>
+            The Best <span className="text-blue-600">AI-Assisted Tool</span> for Caregivers
           </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            A modern financial management and planning tool designed specifically for caregivers 
-            managing finances for their care recipients.
+          <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
+            <span className="font-semibold text-blue-700">FinSage</span> is specifically designed for caregivers managing finances 
+            and care for their loved ones, especially those with Alzheimer's disease.
+          </p>
+          <p className="text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
+            Get intelligent financial planning, personalized care guidance, and emotional support 
+            powered by advanced AI technology.
           </p>
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <Card className="text-left">
+            <Card className="text-left border-blue-200 hover:border-blue-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-blue-600">Financial Planning</CardTitle>
+                <CardTitle className="text-blue-600">AI-Powered Financial Planning</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Track emergency funds, monitor monthly expenses, and plan for the future
-                  with tools designed for caregiving scenarios.
+                  Smart budgeting and expense tracking with AI insights tailored for caregiving scenarios. 
+                  Get personalized recommendations for managing care-related costs.
                 </CardDescription>
               </CardContent>
             </Card>
             
-            <Card className="text-left">
+            <Card className="text-left border-purple-200 hover:border-purple-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-blue-600">Care Management</CardTitle>
+                <CardTitle className="text-purple-600">Alzheimer's Care Assistant</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Organize and manage financial information for your care recipients
-                  with a user-friendly interface.
+                  Specialized AI chatbot providing guidance on symptom management, product recommendations, 
+                  daily care routines, and emotional support for Alzheimer's caregivers.
                 </CardDescription>
               </CardContent>
             </Card>
             
-            <Card className="text-left">
+            <Card className="text-left border-green-200 hover:border-green-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-blue-600">Secure & Reliable</CardTitle>
+                <CardTitle className="text-green-600">Intelligent Care Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Your sensitive financial data is protected with enterprise-grade
-                  security and authentication.
+                  AI-driven tools to organize financial information, track care expenses, and plan for 
+                  the future with insights designed specifically for caregiver needs.
                 </CardDescription>
               </CardContent>
             </Card>
+          </div>
+
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 mb-12 border border-blue-100">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Caregivers Choose FinSage</h3>
+            <div className="grid md:grid-cols-2 gap-6 text-left">
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">🧠 Alzheimer's Expertise</h4>
+                <p className="text-gray-600 text-sm">AI trained specifically on Alzheimer's care challenges, providing relevant and compassionate guidance.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">💡 Smart Recommendations</h4>
+                <p className="text-gray-600 text-sm">Get personalized product suggestions and care strategies based on your specific situation.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">💰 Financial Intelligence</h4>
+                <p className="text-gray-600 text-sm">AI-powered budgeting that understands the unique financial challenges of caregiving.</p>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">🔒 Secure & Private</h4>
+                <p className="text-gray-600 text-sm">Enterprise-grade security protecting your sensitive financial and care information.</p>
+              </div>
+            </div>
           </div>
           
           <div className="space-x-4">
             <Button 
               onClick={() => navigate('/about')}
               variant="outline"
-              className="px-8 py-3 text-lg"
+              className="px-8 py-3 text-lg border-blue-300 text-blue-700 hover:bg-blue-50"
             >
               About the Creator
             </Button>
             <Button 
               onClick={() => navigate('/sign-in')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-shadow"
             >
-              Get Started
+              Start Your AI-Assisted Care Journey
             </Button>
           </div>
         </div>
