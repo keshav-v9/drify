@@ -54,10 +54,29 @@ const Index = () => {
             <span className="font-semibold text-blue-700">FinSage</span> is specifically designed for caregivers managing finances 
             and care for their loved ones, especially those with Alzheimer's disease.
           </p>
-          <p className="text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
             Get intelligent financial planning, personalized care guidance, and emotional support 
             powered by advanced AI technology.
           </p>
+          
+          {/* Move CTA buttons here for better visibility */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Button 
+              onClick={() => navigate('/sign-in')}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              size="lg"
+            >
+              Start Your AI-Assisted Care Journey
+            </Button>
+            <Button 
+              onClick={() => navigate('/about')}
+              variant="outline"
+              className="px-10 py-4 text-xl border-2 border-blue-300 text-blue-700 hover:bg-blue-50 transition-all duration-300"
+              size="lg"
+            >
+              About the Creator
+            </Button>
+          </div>
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card className="text-left border-blue-200 hover:border-blue-300 transition-colors">
@@ -97,7 +116,7 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 mb-12 border border-blue-100">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 border border-blue-100">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Caregivers Choose FinSage</h3>
             <div className="grid md:grid-cols-2 gap-6 text-left">
               <div>
@@ -117,22 +136,6 @@ const Index = () => {
                 <p className="text-gray-600 text-sm">Enterprise-grade security protecting your sensitive financial and care information.</p>
               </div>
             </div>
-          </div>
-          
-          <div className="space-x-4">
-            <Button 
-              onClick={() => navigate('/about')}
-              variant="outline"
-              className="px-8 py-3 text-lg border-blue-300 text-blue-700 hover:bg-blue-50"
-            >
-              About the Creator
-            </Button>
-            <Button 
-              onClick={() => navigate('/sign-in')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-shadow"
-            >
-              Start Your AI-Assisted Care Journey
-            </Button>
           </div>
         </div>
       </div>
