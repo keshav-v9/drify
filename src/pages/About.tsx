@@ -15,18 +15,20 @@ const About = () => {
               About the <span className="text-blue-600">Creator</span>
             </h1>
             
-            <div className="flex flex-col items-center mb-6">
-              <div className="mb-6">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6">
+              <div className="text-center md:text-left">
+                <h2 className="text-3xl font-bold text-blue-700 mb-2">Keshav Varma</h2>
+                <p className="text-xl text-gray-600 font-medium">
+                  From Aurora, Illinois
+                </p>
+              </div>
+              <div>
                 <img 
                   src="/lovable-uploads/36ec9c01-d135-4aad-8dbc-6b53d55ada17.png" 
                   alt="Keshav Varma" 
-                  className="w-48 h-48 rounded-full object-cover border-4 border-blue-200 shadow-lg mx-auto"
+                  className="w-48 h-48 rounded-full object-cover border-4 border-blue-200 shadow-lg"
                 />
               </div>
-              <h2 className="text-3xl font-bold text-blue-700 mb-2">Keshav Varma</h2>
-              <p className="text-xl text-gray-600 font-medium">
-                From Aurora, Illinois
-              </p>
             </div>
             
             <p className="text-lg text-gray-600">
