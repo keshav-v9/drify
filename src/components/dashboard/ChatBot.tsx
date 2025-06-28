@@ -172,7 +172,8 @@ const ChatBot = ({ user }: ChatBotProps) => {
           messages: [...messages, userMessage].map(msg => ({
             role: msg.role,
             content: msg.content
-          }))
+          })),
+          type: 'financial' // Specify this is for financial assistance
         }
       });
 

@@ -16,11 +16,28 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, type = 'financial' } = await req.json();
 
     if (!openAIApiKey) {
       throw new Error('OpenAI API key not configured');
     }
+
+    // Different system prompts based on the type of assistance needed
+    const systemPrompts = {
+      financial: 'You are a helpful financial assistant for a care management app called FinSage. Help users with budgeting, expense tracking, and financial planning for care-related expenses. Be supportive and provide practical advice.',
+      alzheimer: `You are a compassionate and knowledgeable Alzheimer's care assistant. You specialize in:
+      
+      1. Symptom Management: Provide guidance on managing behavioral changes, memory loss, and daily challenges
+      2. Product Recommendations: Suggest helpful products like memory aids, safety devices, communication tools, and adaptive equipment
+      3. Daily Care Routines: Offer structured approaches to daily activities, medication management, and creating supportive environments
+      4. Emotional Support: Provide comfort and understanding for both patients and caregivers
+      5. Safety Measures: Recommend home modifications and safety protocols
+      6. Communication Strategies: Help with effective ways to communicate with someone who has Alzheimer's
+      
+      Always be empathetic, practical, and focus on dignity and quality of life. When suggesting products, be specific about their benefits and how they can help with particular challenges.`
+    };
+
+    const systemPrompt = systemPrompts[type as keyof typeof systemPrompts] || systemPrompts.financial;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -33,7 +50,7 @@ serve(async (req) => {
         messages: [
           { 
             role: 'system', 
-            content: 'You are a helpful financial assistant for a care management app called FinSage. Help users with budgeting, expense tracking, and financial planning for care-related expenses. Be supportive and provide practical advice.' 
+            content: systemPrompt
           },
           ...messages
         ],
