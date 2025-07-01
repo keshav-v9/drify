@@ -10,13 +10,15 @@ import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
+import { careRecipientSchema, financialPlanSchema } from "@/lib/validation";
+import { sanitizeText, sanitizeAmount, getSafeErrorMessage } from "@/lib/security";
 
 const Onboarding = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [step, setStep] = useState(1);
-  const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     careRecipientName: "",
     careRecipientAge: "",
@@ -69,55 +71,127 @@ const Onboarding = () => {
   }, [navigate]);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    let sanitizedValue = value;
+    
+    // Sanitize based on field type
+    if (field === 'careRecipientName' || field === 'relationship') {
+      sanitizedValue = sanitizeText(value);
+    } else if (field.includes('Age') && value) {
+      const num = parseInt(value);
+      sanitizedValue = isNaN(num) ? '' : Math.max(0, Math.min(150, num)).toString();
+    } else if (field.includes('Income') || field.includes('Fund') || field.includes('Expense')) {
+      if (value) {
+        const num = parseFloat(value);
+        sanitizedValue = isNaN(num) ? '' : sanitizeAmount(num).toString();
+      }
+    }
+    
+    setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
+    
+    // Clear validation errors when user starts typing
+    if (validationErrors.length > 0) {
+      setValidationErrors([]);
+    }
+  };
+
+  const validateCurrentStep = (): boolean => {
+    const errors: string[] = [];
+    
+    if (step === 1) {
+      if (!formData.careRecipientName.trim()) {
+        errors.push("Care recipient's name is required");
+      } else {
+        const careRecipientData = {
+          name: formData.careRecipientName,
+          age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : undefined,
+          relationship: formData.relationship
+        };
+        
+        const validation = careRecipientSchema.safeParse(careRecipientData);
+        if (!validation.success) {
+          errors.push(...validation.error.errors.map(err => err.message));
+        }
+      }
+    } else if (step === 3) {
+      if (!formData.monthlyIncome) {
+        errors.push("Monthly income is required");
+      } else {
+        const financialData = {
+          monthlyIncome: parseFloat(formData.monthlyIncome),
+          emergencyFundTarget: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : undefined,
+          monthlyExpenseEstimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : undefined
+        };
+        
+        const validation = financialPlanSchema.safeParse(financialData);
+        if (!validation.success) {
+          errors.push(...validation.error.errors.map(err => err.message));
+        }
+      }
+    }
+    
+    setValidationErrors(errors);
+    return errors.length === 0;
   };
 
   const handleNext = () => {
+    if (!validateCurrentStep()) {
+      return;
+    }
+    
     if (step < 3) {
       setStep(step + 1);
+      setValidationErrors([]);
     }
   };
 
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
+      setValidationErrors([]);
     }
   };
 
   const handleComplete = async () => {
     if (!user) return;
     
+    if (!validateCurrentStep()) {
+      return;
+    }
+    
     setSaving(true);
-    setError(null);
+    setValidationErrors([]);
 
     try {
       console.log('Starting onboarding completion for user:', user.id);
 
-      // Create new care recipient (since we know they don't have one)
+      // Sanitize all inputs before saving
+      const sanitizedCareRecipient = {
+        user_id: user.id,
+        name: sanitizeText(formData.careRecipientName),
+        age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
+        relationship: sanitizeText(formData.relationship)
+      };
+
       const { data: newRecipient, error: createError } = await supabase
         .from('care_recipients')
-        .insert({
-          user_id: user.id,
-          name: formData.careRecipientName,
-          age: formData.careRecipientAge ? parseInt(formData.careRecipientAge) : null,
-          relationship: formData.relationship
-        })
+        .insert(sanitizedCareRecipient)
         .select('id')
         .single();
 
       if (createError) throw createError;
       console.log('Created new care recipient:', newRecipient.id);
 
-      // Create new financial plan
+      const sanitizedFinancialPlan = {
+        user_id: user.id,
+        care_recipient_id: newRecipient.id,
+        monthly_income: sanitizeAmount(parseFloat(formData.monthlyIncome)),
+        emergency_fund_target: formData.emergencyFundTarget ? sanitizeAmount(parseFloat(formData.emergencyFundTarget)) : null,
+        monthly_expense_estimate: formData.monthlyExpenseEstimate ? sanitizeAmount(parseFloat(formData.monthlyExpenseEstimate)) : null
+      };
+
       const { error: createPlanError } = await supabase
         .from('financial_plans')
-        .insert({
-          user_id: user.id,
-          care_recipient_id: newRecipient.id,
-          monthly_income: formData.monthlyIncome ? parseFloat(formData.monthlyIncome) : null,
-          emergency_fund_target: formData.emergencyFundTarget ? parseFloat(formData.emergencyFundTarget) : null,
-          monthly_expense_estimate: formData.monthlyExpenseEstimate ? parseFloat(formData.monthlyExpenseEstimate) : null
-        });
+        .insert(sanitizedFinancialPlan);
 
       if (createPlanError) throw createPlanError;
       console.log('Created new financial plan');
@@ -130,7 +204,8 @@ const Onboarding = () => {
       navigate('/dashboard');
     } catch (error: any) {
       console.error('Error saving onboarding data:', error);
-      setError(error.message || 'An error occurred while saving your information.');
+      const safeError = getSafeErrorMessage(error);
+      setValidationErrors([safeError]);
     } finally {
       setSaving(false);
     }
@@ -180,13 +255,14 @@ const Onboarding = () => {
               {step === 1 && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="careRecipientName">Care Recipient's Name</Label>
+                    <Label htmlFor="careRecipientName">Care Recipient's Name *</Label>
                     <Input
                       id="careRecipientName"
                       value={formData.careRecipientName}
                       onChange={(e) => handleInputChange("careRecipientName", e.target.value)}
                       placeholder="Enter full name"
                       required
+                      maxLength={100}
                     />
                   </div>
                   <div className="space-y-2">
@@ -197,6 +273,8 @@ const Onboarding = () => {
                       value={formData.careRecipientAge}
                       onChange={(e) => handleInputChange("careRecipientAge", e.target.value)}
                       placeholder="Enter age"
+                      min="0"
+                      max="150"
                     />
                   </div>
                 </>
@@ -210,6 +288,7 @@ const Onboarding = () => {
                     value={formData.relationship}
                     onChange={(e) => handleInputChange("relationship", e.target.value)}
                     placeholder="e.g., Son, Daughter, Spouse, etc."
+                    maxLength={50}
                   />
                 </div>
               )}
@@ -217,7 +296,7 @@ const Onboarding = () => {
               {step === 3 && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="monthlyIncome">Monthly Income ($)</Label>
+                    <Label htmlFor="monthlyIncome">Monthly Income ($) *</Label>
                     <Input
                       id="monthlyIncome"
                       type="number"
@@ -226,6 +305,8 @@ const Onboarding = () => {
                       onChange={(e) => handleInputChange("monthlyIncome", e.target.value)}
                       placeholder="e.g., 5000"
                       required
+                      min="0"
+                      max="1000000"
                     />
                     <p className="text-sm text-gray-500">This will be used as your total monthly budget</p>
                   </div>
@@ -238,6 +319,8 @@ const Onboarding = () => {
                       value={formData.emergencyFundTarget}
                       onChange={(e) => handleInputChange("emergencyFundTarget", e.target.value)}
                       placeholder="e.g., 10000"
+                      min="0"
+                      max="10000000"
                     />
                   </div>
                   <div className="space-y-2">
@@ -249,14 +332,22 @@ const Onboarding = () => {
                       value={formData.monthlyExpenseEstimate}
                       onChange={(e) => handleInputChange("monthlyExpenseEstimate", e.target.value)}
                       placeholder="e.g., 3000"
+                      min="0"
+                      max="1000000"
                     />
                   </div>
                 </>
               )}
 
-              {error && (
+              {validationErrors.length > 0 && (
                 <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertDescription>
+                    <ul className="list-disc list-inside space-y-1">
+                      {validationErrors.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  </AlertDescription>
                 </Alert>
               )}
 
@@ -273,7 +364,6 @@ const Onboarding = () => {
                   <Button
                     onClick={handleNext}
                     className="bg-blue-600 hover:bg-blue-700"
-                    disabled={step === 1 && !formData.careRecipientName}
                   >
                     Next
                   </Button>
@@ -281,7 +371,7 @@ const Onboarding = () => {
                   <Button
                     onClick={handleComplete}
                     className="bg-green-600 hover:bg-green-700"
-                    disabled={saving || !formData.monthlyIncome}
+                    disabled={saving}
                   >
                     {saving ? "Saving..." : "Complete Setup"}
                   </Button>

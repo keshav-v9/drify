@@ -8,6 +8,8 @@ import { User } from "@supabase/supabase-js";
 import { MessageCircle, Send, Bot, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import ChatSessions from "./ChatSessions";
+import { chatMessageSchema } from "@/lib/validation";
+import { sanitizeText, getSafeErrorMessage, checkRateLimit } from "@/lib/security";
 
 interface ChatBotProps {
   user: User | null;
@@ -68,7 +70,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
       const loadedMessages = data.map(msg => ({
         id: msg.id,
         role: msg.role as 'user' | 'assistant',
-        content: msg.content,
+        content: sanitizeText(msg.content), // Sanitize loaded messages
         timestamp: new Date(msg.created_at),
         session_id: msg.session_id
       }));
@@ -77,7 +79,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
       setMessages(loadedMessages.length > 0 ? loadedMessages : [welcomeMessage]);
     } catch (error) {
       console.error('Error loading messages:', error);
-      toast.error('Failed to load chat messages');
+      toast.error(getSafeErrorMessage(error));
       setMessages([welcomeMessage]);
     }
   };
@@ -89,13 +91,14 @@ const ChatBot = ({ user }: ChatBotProps) => {
         .insert({
           session_id: sessionId,
           role: message.role,
-          content: message.content,
+          content: sanitizeText(message.content), // Sanitize before saving
           user_id: user?.id
         });
 
       if (error) throw error;
     } catch (error) {
       console.error('Error saving message:', error);
+      toast.error(getSafeErrorMessage(error));
     }
   };
 
@@ -103,9 +106,10 @@ const ChatBot = ({ user }: ChatBotProps) => {
     if (!user) return null;
 
     try {
-      const title = firstMessage.length > 50 
-        ? firstMessage.substring(0, 50) + '...' 
-        : firstMessage;
+      const sanitizedTitle = sanitizeText(firstMessage);
+      const title = sanitizedTitle.length > 50 
+        ? sanitizedTitle.substring(0, 50) + '...' 
+        : sanitizedTitle;
 
       const { data, error } = await supabase
         .from('chat_sessions')
@@ -120,7 +124,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
       return data.id;
     } catch (error) {
       console.error('Error creating session:', error);
-      toast.error('Failed to create chat session');
+      toast.error(getSafeErrorMessage(error));
       return null;
     }
   };
@@ -141,6 +145,19 @@ const ChatBot = ({ user }: ChatBotProps) => {
   const handleSend = async () => {
     if (!input.trim() || isLoading || !user) return;
 
+    // Validate input
+    const validation = chatMessageSchema.safeParse({ content: input.trim() });
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    // Rate limiting check
+    if (!checkRateLimit(user.id, 30, 60000)) {
+      toast.error('Too many messages. Please wait a moment before sending another message.');
+      return;
+    }
+
     let sessionId = activeSessionId;
     
     // Create new session if this is a new chat (no active session)
@@ -151,10 +168,11 @@ const ChatBot = ({ user }: ChatBotProps) => {
       setIsNewSession(false);
     }
 
+    const sanitizedContent = sanitizeText(input.trim());
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input.trim(),
+      content: sanitizedContent,
       timestamp: new Date(),
       session_id: sessionId
     };
@@ -173,16 +191,20 @@ const ChatBot = ({ user }: ChatBotProps) => {
             role: msg.role,
             content: msg.content
           })),
-          type: 'financial' // Specify this is for financial assistance
+          type: 'financial'
         }
       });
 
       if (error) throw error;
 
+      if (!data?.reply) {
+        throw new Error('Invalid response from chat service');
+      }
+
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.reply,
+        content: sanitizeText(data.reply),
         timestamp: new Date(),
         session_id: sessionId
       };
@@ -194,7 +216,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
       await updateSessionTimestamp(sessionId);
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Failed to send message. Please try again.');
+      toast.error(getSafeErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -205,6 +227,11 @@ const ChatBot = ({ user }: ChatBotProps) => {
       e.preventDefault();
       handleSend();
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitizedValue = sanitizeText(e.target.value);
+    setInput(sanitizedValue);
   };
 
   const handleSessionSelect = (sessionId: string) => {
@@ -300,11 +327,12 @@ const ChatBot = ({ user }: ChatBotProps) => {
               <div className="flex space-x-2">
                 <Input
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about budgeting and care planning..."
                   disabled={isLoading}
                   className="flex-1"
+                  maxLength={2000}
                 />
                 <Button 
                   onClick={handleSend}
