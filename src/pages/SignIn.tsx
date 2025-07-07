@@ -54,6 +54,11 @@ const SignIn = () => {
           }
         });
         if (error) throw error;
+        
+        // After successful sign up, switch back to sign in mode
+        setIsSignUp(false);
+        setEmail("");
+        setPassword("");
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
