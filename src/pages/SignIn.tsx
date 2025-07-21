@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ const SignIn = () => {
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     // Check if user is already logged in
@@ -55,10 +57,24 @@ const SignIn = () => {
         });
         if (error) throw error;
         
-        // After successful sign up, switch back to sign in mode
-        setIsSignUp(false);
-        setEmail("");
-        setPassword("");
+        // Show verification email toast with button to go to login
+        toast({
+          title: "Check your email!",
+          description: "We've sent you a verification link. Please check your email to activate your account.",
+          action: (
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                setIsSignUp(false);
+                setEmail("");
+                setPassword("");
+              }}
+            >
+              Go to Login
+            </Button>
+          ),
+        });
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
