@@ -98,8 +98,8 @@ const SignIn = () => {
           </CardTitle>
           <CardDescription>
             {isSignUp 
-              ? "Sign up for FinSage to start managing your care recipient's finances"
-              : "Sign in to your FinSage account"
+              ? "Sign up for Drify to start managing your care recipient's finances"
+              : "Sign in to your Drify account"
             }
           </CardDescription>
         </CardHeader>

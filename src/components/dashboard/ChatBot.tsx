@@ -34,7 +34,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
   const welcomeMessage: Message = {
     id: 'welcome',
     role: 'assistant',
-    content: 'Hello! I\'m your FinSage assistant. I can help you with budgeting, expense tracking, and financial planning for care-related expenses. How can I assist you today?',
+    content: 'Hello! I\'m your Drify assistant. I can help you with budgeting, expense tracking, and financial planning for care-related expenses. How can I assist you today?',
     timestamp: new Date()
   };
 
@@ -265,7 +265,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
           <CardHeader className="flex-shrink-0">
             <CardTitle className="flex items-center space-x-2">
               <MessageCircle className="h-5 w-5 text-blue-600" />
-              <span>FinSage Assistant</span>
+              <span>Drify Assistant</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-0 min-h-0">

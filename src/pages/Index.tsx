@@ -51,7 +51,7 @@ const Index = () => {
             The Best <span className="text-blue-600">AI-Assisted Tool</span> for Caregivers
           </h1>
           <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
-            <span className="font-semibold text-blue-700">FinSage</span> is specifically designed for caregivers managing finances 
+            <span className="font-semibold text-blue-700">Drify</span> is specifically designed for caregivers managing finances 
             and care for their loved ones, especially those with Alzheimer's disease.
           </p>
           <p className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
@@ -117,7 +117,7 @@ const Index = () => {
           </div>
 
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 border border-blue-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Caregivers Choose FinSage</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Caregivers Choose Drify</h3>
             <div className="grid md:grid-cols-2 gap-6 text-left">
               <div>
                 <h4 className="font-semibold text-blue-700 mb-2">🧠 Alzheimer's Expertise</h4>

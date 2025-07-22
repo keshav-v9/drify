@@ -32,7 +32,7 @@ const About = () => {
             </div>
             
             <p className="text-lg text-gray-600">
-              The person behind FinSage
+              The person behind Drify
             </p>
           </div>
           
@@ -73,7 +73,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  That is how FinSage started. I wanted to build a simple tool to help caretakers stay on top of finances, track spending, get suggestions, and avoid the stress of doing it all alone. It is meant to be something practical and helpful, especially for those who are already carrying a heavy load.
+                  That is how Drify started. I wanted to build a simple tool to help caretakers stay on top of finances, track spending, get suggestions, and avoid the stress of doing it all alone. It is meant to be something practical and helpful, especially for those who are already carrying a heavy load.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -84,7 +84,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  FinSage came from a very personal place, and my hope is that it can help others feel a little more supported during tough times. I envision a future where financial management doesn't add to the burden of caregiving, but instead provides clarity and peace of mind when families need it most.
+                  Drify came from a very personal place, and my hope is that it can help others feel a little more supported during tough times. I envision a future where financial management doesn't add to the burden of caregiving, but instead provides clarity and peace of mind when families need it most.
                 </CardDescription>
               </CardContent>
             </Card>

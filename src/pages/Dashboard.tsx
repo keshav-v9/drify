@@ -79,7 +79,7 @@ const Dashboard = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <Heart className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-blue-600">FinSage</h1>
+              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Button
