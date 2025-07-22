@@ -244,7 +244,7 @@ const Profile = () => {
               </Button>
             </div>
             <div className="flex items-center space-x-3">
-              <Heart className="h-8 w-8 text-blue-600" />
+              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
               <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
             </div>
           </div>
