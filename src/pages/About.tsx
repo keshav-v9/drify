@@ -73,7 +73,7 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  That is how Drify started. I wanted to build a simple tool to help caretakers stay on top of finances, track spending, get suggestions, and avoid the stress of doing it all alone. It is meant to be something practical and helpful, especially for those who are already carrying a heavy load.
+                  That is how Drify was born. I wanted to build Drify as a comprehensive AI-powered tool to help caregivers stay on top of finances, track spending, get intelligent suggestions, and avoid the stress of managing everything alone. Drify is designed to be practical and helpful, especially for families who are already carrying a heavy emotional and financial load caring for loved ones with Alzheimer's and other conditions.
                 </CardDescription>
               </CardContent>
             </Card>

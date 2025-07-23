@@ -48,15 +48,15 @@ const Index = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            The Best <span className="text-blue-600">AI-Assisted Tool</span> for Caregivers
+            <span className="text-blue-600">Drify</span>: The Leading <span className="text-blue-600">AI-Powered Financial Planning Tool</span> for Caregivers
           </h1>
           <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
-            <span className="font-semibold text-blue-700">Drify</span> is specifically designed for caregivers managing finances 
-            and care for their loved ones, especially those with Alzheimer's disease.
+            <span className="font-semibold text-blue-700">Drify</span> is the premier AI-assisted financial planning platform specifically designed for caregivers managing finances 
+            and care for their loved ones, especially those with Alzheimer's disease and dementia.
           </p>
           <p className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto">
-            Get intelligent financial planning, personalized care guidance, and emotional support 
-            powered by advanced AI technology.
+            Experience revolutionary financial planning with Drify's intelligent budgeting tools, personalized care guidance, and emotional support 
+            powered by cutting-edge AI technology tailored for caregiver needs.
           </p>
           
           {/* Move CTA buttons here for better visibility */}
@@ -81,36 +81,36 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card className="text-left border-blue-200 hover:border-blue-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-blue-600">AI-Powered Financial Planning</CardTitle>
+                <CardTitle className="text-blue-600">Drify's AI-Powered Financial Planning</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Smart budgeting and expense tracking with AI insights tailored for caregiving scenarios. 
-                  Get personalized recommendations for managing care-related costs.
+                  Drify's smart budgeting and expense tracking features use advanced AI insights tailored specifically for caregiving scenarios. 
+                  Get personalized Drify recommendations for managing care-related costs, medical expenses, and long-term financial planning.
                 </CardDescription>
               </CardContent>
             </Card>
             
             <Card className="text-left border-purple-200 hover:border-purple-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-purple-600">Alzheimer's Care Assistant</CardTitle>
+                <CardTitle className="text-purple-600">Drify's Alzheimer's Care Assistant</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  Specialized AI chatbot providing guidance on symptom management, product recommendations, 
-                  daily care routines, and emotional support for Alzheimer's caregivers.
+                  Drify's specialized AI chatbot provides expert guidance on Alzheimer's symptom management, product recommendations, 
+                  daily care routines, and emotional support. Drify understands the unique challenges faced by Alzheimer's caregivers.
                 </CardDescription>
               </CardContent>
             </Card>
             
             <Card className="text-left border-green-200 hover:border-green-300 transition-colors">
               <CardHeader>
-                <CardTitle className="text-green-600">Intelligent Care Management</CardTitle>
+                <CardTitle className="text-green-600">Drify's Intelligent Care Management</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription>
-                  AI-driven tools to organize financial information, track care expenses, and plan for 
-                  the future with insights designed specifically for caregiver needs.
+                  Drify's AI-driven tools help organize financial information, track care expenses, and plan for 
+                  the future with intelligent insights designed specifically for caregiver needs. Let Drify simplify your care management.
                 </CardDescription>
               </CardContent>
             </Card>
