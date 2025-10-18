@@ -58,9 +58,11 @@ const About = () => {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  I'm <span className="font-bold text-blue-700 text-lg">Keshav Varma</span>, based in <span className="font-semibold text-blue-600">Aurora, Illinois</span>. When my family was caring for my grandfather with Alzheimer's, I saw firsthand how overwhelming it was to manage finances on top of everything else. 
+                  I'm <span className="font-bold text-blue-700 text-lg">Keshav Varma</span>, based in <span className="font-semibold text-blue-600">Aurora, Illinois</span>. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face.
                   <br /><br />
-                  That experience inspired me to create Drify - a tool that could help my family and others like us. I wanted to use technology to solve a real problem we were facing, making financial management simpler so caregivers could focus on what matters most: caring for their loved ones.
+                  I'm fascinated by how technology can solve complex economic problems in healthcare - from optimizing care costs to improving financial accessibility for families dealing with chronic conditions.
+                  <br /><br />
+                  This academic interest became deeply personal when my family faced the economic realities of Alzheimer's care. I realized that the theoretical models I studied could be applied to create practical solutions that make a real difference in people's lives. The intersection of emotional stress and financial complexity creates a burden that many aren't prepared for, and I saw an opportunity to use my technical skills to address this gap.
                 </CardDescription>
               </CardContent>
             </Card>
