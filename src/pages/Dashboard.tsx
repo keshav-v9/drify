@@ -23,6 +23,7 @@ import BudgetManagement from "@/components/dashboard/BudgetManagement";
 import ExpenseTracking from "@/components/dashboard/ExpenseTracking";
 import ChatBot from "@/components/dashboard/ChatBot";
 import PlanningTools from "@/components/dashboard/PlanningTools";
+import FamilyCollaboration from "@/components/dashboard/FamilyCollaboration";
 
 const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -125,26 +126,30 @@ const Dashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6 h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-5 bg-white shadow-sm flex-shrink-0">
+          <TabsList className="grid w-full grid-cols-6 bg-white shadow-sm flex-shrink-0">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
               <DollarSign className="h-4 w-4" />
-              <span>Overview</span>
+              <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
             <TabsTrigger value="budget" className="flex items-center space-x-2">
               <PiggyBank className="h-4 w-4" />
-              <span>Budget</span>
+              <span className="hidden sm:inline">Budget</span>
             </TabsTrigger>
             <TabsTrigger value="expenses" className="flex items-center space-x-2">
               <TrendingUp className="h-4 w-4" />
-              <span>Expenses</span>
+              <span className="hidden sm:inline">Expenses</span>
+            </TabsTrigger>
+            <TabsTrigger value="family" className="flex items-center space-x-2">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Family</span>
             </TabsTrigger>
             <TabsTrigger value="ai-assistant" className="flex items-center space-x-2">
               <MessageCircle className="h-4 w-4" />
-              <span>AI Assistant</span>
+              <span className="hidden sm:inline">AI</span>
             </TabsTrigger>
             <TabsTrigger value="planning" className="flex items-center space-x-2">
               <FileText className="h-4 w-4" />
-              <span>Planning</span>
+              <span className="hidden sm:inline">Planning</span>
             </TabsTrigger>
           </TabsList>
 
@@ -159,6 +164,10 @@ const Dashboard = () => {
 
             <TabsContent value="expenses" className="h-full">
               <ExpenseTracking user={user} />
+            </TabsContent>
+
+            <TabsContent value="family" className="h-full">
+              <FamilyCollaboration user={user} />
             </TabsContent>
 
             <TabsContent value="ai-assistant" className="h-full">
