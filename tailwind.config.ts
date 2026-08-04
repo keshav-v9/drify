@@ -18,12 +18,19 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['"IBM Plex Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace']
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				surface: 'hsl(var(--surface))',
+				success: 'hsl(var(--success))',
+				warning: 'hsl(var(--warning))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
