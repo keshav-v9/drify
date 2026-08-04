@@ -2,22 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import { 
-  DollarSign, 
-  PiggyBank, 
-  TrendingUp, 
-  MessageCircle, 
-  Users, 
-  FileText,
-  Heart,
-  LogOut,
-  Plus,
-  Brain
-} from "lucide-react";
 import DashboardOverview from "@/components/dashboard/DashboardOverview";
 import BudgetManagement from "@/components/dashboard/BudgetManagement";
 import ExpenseTracking from "@/components/dashboard/ExpenseTracking";
@@ -66,115 +53,77 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-blue-600">Loading...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-sm text-muted-foreground">Loading…</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/profile')}
-                className="text-gray-600 hover:text-blue-600"
-              >
-                Profile
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleSignOut}
-                className="flex items-center space-x-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
-            </div>
+      <header className="border-b border-border bg-surface flex-shrink-0">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/alzheimer-help')}>
+              Care questions
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>
+              Profile
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleSignOut}>
+              Sign out
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div className="mb-6">
-          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Need Alzheimer's Care Support?</h3>
-                  <p className="text-gray-600 mb-4">Get personalized guidance, product recommendations, and emotional support for Alzheimer's care.</p>
-                  <Button 
-                    onClick={() => navigate('/alzheimer-help')}
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    <Brain className="h-4 w-4 mr-2" />
-                    Alzheimer Help
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      <main className="mx-auto w-full max-w-[1400px] flex-1 px-6 py-8">
+        <Tabs defaultValue="overview" className="flex h-full flex-col">
+          <div className="mb-8 flex flex-col gap-4 border-b border-border pb-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="text-[22px] font-semibold leading-tight">This month</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Budget, expenses and care planning for the person you look after.
+              </p>
+            </div>
+            <TabsList className="h-9 w-full justify-start gap-1 overflow-x-auto bg-secondary sm:w-auto">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="budget">Budget</TabsTrigger>
+              <TabsTrigger value="expenses">Expenses</TabsTrigger>
+              <TabsTrigger value="family">Family</TabsTrigger>
+              <TabsTrigger value="ai-assistant">Assistant</TabsTrigger>
+              <TabsTrigger value="planning">Planning</TabsTrigger>
+            </TabsList>
+          </div>
 
-        <Tabs defaultValue="overview" className="space-y-6 h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-6 bg-white shadow-sm flex-shrink-0">
-            <TabsTrigger value="overview" className="flex items-center space-x-2">
-              <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Overview</span>
-            </TabsTrigger>
-            <TabsTrigger value="budget" className="flex items-center space-x-2">
-              <PiggyBank className="h-4 w-4" />
-              <span className="hidden sm:inline">Budget</span>
-            </TabsTrigger>
-            <TabsTrigger value="expenses" className="flex items-center space-x-2">
-              <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">Expenses</span>
-            </TabsTrigger>
-            <TabsTrigger value="family" className="flex items-center space-x-2">
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Family</span>
-            </TabsTrigger>
-            <TabsTrigger value="ai-assistant" className="flex items-center space-x-2">
-              <MessageCircle className="h-4 w-4" />
-              <span className="hidden sm:inline">AI</span>
-            </TabsTrigger>
-            <TabsTrigger value="planning" className="flex items-center space-x-2">
-              <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Planning</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <div className="flex-1 min-h-0">
-            <TabsContent value="overview" className="h-full">
+          <div className="min-h-0 flex-1">
+            <TabsContent value="overview" className="mt-0 h-full">
               <DashboardOverview user={user} />
             </TabsContent>
 
-            <TabsContent value="budget" className="h-full">
+            <TabsContent value="budget" className="mt-0 h-full">
               <BudgetManagement user={user} />
             </TabsContent>
 
-            <TabsContent value="expenses" className="h-full">
+            <TabsContent value="expenses" className="mt-0 h-full">
               <ExpenseTracking user={user} />
             </TabsContent>
 
-            <TabsContent value="family" className="h-full">
+            <TabsContent value="family" className="mt-0 h-full">
               <FamilyCollaboration user={user} />
             </TabsContent>
 
-            <TabsContent value="ai-assistant" className="h-full">
+            <TabsContent value="ai-assistant" className="mt-0 h-full">
               <ChatBot user={user} />
             </TabsContent>
 
-            <TabsContent value="planning" className="h-full">
+            <TabsContent value="planning" className="mt-0 h-full">
               <PlanningTools user={user} />
             </TabsContent>
           </div>

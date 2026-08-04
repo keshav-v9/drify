@@ -90,21 +90,24 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-blue-600">
-            {isSignUp ? "Create Account" : "Welcome Back"}
-          </CardTitle>
-          <CardDescription>
-            {isSignUp 
-              ? "Sign up for Drify to start managing your care recipient's finances"
-              : "Sign in to your Drify account"
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleAuth} className="space-y-4">
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border">
+        <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-6">
+          <span className="h-3 w-3 rounded-[2px] bg-primary" />
+          <button onClick={() => navigate('/')} className="text-[15px] font-semibold tracking-[-0.02em]">Drify</button>
+        </div>
+      </header>
+      <main className="mx-auto flex max-w-6xl px-6 py-16 md:py-24">
+        <div className="w-full max-w-sm">
+          <h1 className="text-2xl font-semibold">
+            {isSignUp ? "Create your account" : "Sign in"}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {isSignUp
+              ? "Set up a space to track care costs and share them with family."
+              : "Pick up where you left off."}
+          </p>
+          <form onSubmit={handleAuth} className="mt-8 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -137,30 +140,24 @@ const SignIn = () => {
               </Alert>
             )}
             
-            <Button 
-              type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700"
-              disabled={loading}
-            >
-              {loading ? "Please wait..." : (isSignUp ? "Sign Up" : "Sign In")}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Please wait…" : (isSignUp ? "Create account" : "Sign in")}
             </Button>
           </form>
-          
-          <div className="mt-4 text-center">
-            <Button
-              variant="link"
+
+          <div className="mt-6 border-t border-border pt-4 text-sm text-muted-foreground">
+            {isSignUp ? "Already have an account?" : "New to Drify?"}{" "}
+            <button
+              type="button"
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-blue-600"
               disabled={loading}
+              className="font-medium text-primary underline underline-offset-4"
             >
-              {isSignUp 
-                ? "Already have an account? Sign in" 
-                : "Don't have an account? Sign up"
-              }
-            </Button>
+              {isSignUp ? "Sign in" : "Create one"}
+            </button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </main>
     </div>
   );
 };

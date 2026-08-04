@@ -319,34 +319,34 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-success" />;
       case 'in_progress':
-        return <Clock className="h-5 w-5 text-yellow-500" />;
+        return <Clock className="h-5 w-5 text-warning" />;
       default:
-        return <AlertTriangle className="h-5 w-5 text-red-500" />;
+        return <AlertTriangle className="h-5 w-5 text-destructive" />;
     }
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'completed':
-        return <Badge className="bg-green-100 text-green-800">Completed</Badge>;
+        return <Badge className="bg-success/10 text-success">Completed</Badge>;
       case 'in_progress':
-        return <Badge className="bg-yellow-100 text-yellow-800">In Progress</Badge>;
+        return <Badge className="bg-warning/10 text-warning">In progress</Badge>;
       default:
         return <Badge variant="destructive">Pending</Badge>;
     }
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading planning tools...</div>;
+    return <div className="py-8 text-sm text-muted-foreground">Loading…</div>;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Financial Planning Tools</h2>
-        <p className="text-gray-600">Manage legal documents and support network contacts</p>
+        <h2 className="text-lg font-semibold">Planning</h2>
+        <p className="text-muted-foreground">Manage legal documents and support network contacts</p>
       </div>
 
       {/* Legal Documents */}
@@ -354,7 +354,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center space-x-2">
             <FileText className="h-5 w-5" />
-            <span>Legal Document Tracking</span>
+            <span>Legal document tracking</span>
           </CardTitle>
           <Dialog open={isDocumentDialogOpen} onOpenChange={setIsDocumentDialogOpen}>
             <DialogTrigger asChild>
@@ -371,7 +371,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </DialogHeader>
               <form onSubmit={handleDocumentSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="doc-type">Document Type</Label>
+                  <Label htmlFor="doc-type">Document type</Label>
                   <Input
                     id="doc-type"
                     value={documentForm.document_type}
@@ -391,7 +391,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="in_progress">In Progress</SelectItem>
+                      <SelectItem value="in_progress">In progress</SelectItem>
                       <SelectItem value="completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
@@ -420,18 +420,18 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardContent>
           <div className="space-y-4">
             {documents.map((doc) => (
-              <div key={doc.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div key={doc.id} className="flex items-center justify-between p-4 bg-secondary rounded-lg">
                 <div className="flex items-center space-x-4">
                   {getStatusIcon(doc.status)}
                   <div>
                     <h4 className="font-medium">{doc.document_type}</h4>
                     {doc.last_updated && (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-muted-foreground">
                         Last updated: {new Date(doc.last_updated).toLocaleDateString()}
                       </p>
                     )}
                     {doc.notes && (
-                      <p className="text-sm text-gray-600 mt-1">{doc.notes}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{doc.notes}</p>
                     )}
                   </div>
                 </div>
@@ -456,7 +456,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center space-x-2">
             <Users className="h-5 w-5" />
-            <span>Support Network</span>
+            <span>Support network</span>
           </CardTitle>
           <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
             <DialogTrigger asChild>
@@ -473,7 +473,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </DialogHeader>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="contact-type">Contact Type</Label>
+                  <Label htmlFor="contact-type">Contact type</Label>
                   <Input
                     id="contact-type"
                     value={contactForm.contact_type}
@@ -534,7 +534,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardContent>
           <div className="grid gap-4">
             {contacts.map((contact) => (
-              <div key={contact.id} className="p-4 bg-gray-50 rounded-lg">
+              <div key={contact.id} className="p-4 bg-secondary rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium">{contact.contact_type}</h4>
                   <Button
@@ -546,9 +546,9 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
                   </Button>
                 </div>
                 {contact.name && (
-                  <p className="text-gray-600 mb-1">{contact.name}</p>
+                  <p className="text-muted-foreground mb-1">{contact.name}</p>
                 )}
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                   {contact.phone && (
                     <div className="flex items-center space-x-1">
                       <Phone className="h-4 w-4" />
@@ -563,7 +563,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
                   )}
                 </div>
                 {contact.notes && (
-                  <p className="text-sm text-gray-600 mt-2">{contact.notes}</p>
+                  <p className="text-sm text-muted-foreground mt-2">{contact.notes}</p>
                 )}
               </div>
             ))}
@@ -572,7 +572,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
       </Card>
 
       {/* Financial Planning Insights */}
-      <Card className="border-2 border-blue-200 bg-blue-50">
+      <Card className="border-2 border-border bg-secondary">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>AI-Powered Financial Planning Insights</CardTitle>
           <Button
@@ -580,7 +580,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
             size="sm"
             onClick={generateAIInsights}
             disabled={insightsLoading}
-            className="bg-white"
+            className="bg-card"
           >
             {insightsLoading ? (
               <>
@@ -596,14 +596,14 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
           {insightsLoading ? (
             <div className="flex items-center justify-center py-8">
               <Loader2 className="h-6 w-6 animate-spin mr-2" />
-              <span className="text-gray-600">Generating personalized insights...</span>
+              <span className="text-muted-foreground">Generating personalized insights...</span>
             </div>
           ) : (
             <div className="space-y-3">
               {aiInsights.map((insight, index) => (
                 <div key={index} className="flex items-start space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-700">{insight}</p>
+                  <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
+                  <p className="text-muted-foreground">{insight}</p>
                 </div>
               ))}
             </div>

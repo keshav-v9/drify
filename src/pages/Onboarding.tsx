@@ -213,8 +213,8 @@ const Onboarding = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
       </div>
     );
   }
@@ -226,24 +226,28 @@ const Onboarding = () => {
   const progress = (step / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-      <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Drify</h1>
-            <p className="text-gray-600">Let's set up your account to get started</p>
-            <div className="mt-4">
-              <Progress value={progress} className="w-full" />
-              <p className="text-sm text-gray-500 mt-2">Step {step} of 3</p>
-            </div>
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-surface">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-2 px-6">
+          <span className="h-3 w-3 rounded-[2px] bg-primary" />
+          <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
+        </div>
+      </header>
+      <div className="mx-auto max-w-[1400px] px-6 py-10">
+        <div className="max-w-2xl">
+          <div className="mb-8">
+            <p className="field-label">Step {step} of 3</p>
+            <h1 className="mt-2 text-[22px] font-semibold leading-tight">Set up your account</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Three short steps. You can change any of it later.</p>
+            <Progress value={progress} className="mt-4 h-1" />
           </div>
 
           <Card>
             <CardHeader>
               <CardTitle>
-                {step === 1 && "Care Recipient Information"}
-                {step === 2 && "Relationship Details"}
-                {step === 3 && "Financial Planning"}
+                {step === 1 && "Care recipient"}
+                {step === 2 && "Relationship"}
+                {step === 3 && "Budget basics"}
               </CardTitle>
               <CardDescription>
                 {step === 1 && "Tell us about the person you're caring for"}
@@ -255,7 +259,7 @@ const Onboarding = () => {
               {step === 1 && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="careRecipientName">Care Recipient's Name *</Label>
+                    <Label htmlFor="careRecipientName">Care recipient's name *</Label>
                     <Input
                       id="careRecipientName"
                       value={formData.careRecipientName}
@@ -282,7 +286,7 @@ const Onboarding = () => {
 
               {step === 2 && (
                 <div className="space-y-2">
-                  <Label htmlFor="relationship">Your Relationship</Label>
+                  <Label htmlFor="relationship">Your relationship</Label>
                   <Input
                     id="relationship"
                     value={formData.relationship}
@@ -296,7 +300,7 @@ const Onboarding = () => {
               {step === 3 && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="monthlyIncome">Monthly Income ($) *</Label>
+                    <Label htmlFor="monthlyIncome">Monthly income ($) *</Label>
                     <Input
                       id="monthlyIncome"
                       type="number"
@@ -308,10 +312,10 @@ const Onboarding = () => {
                       min="0"
                       max="1000000"
                     />
-                    <p className="text-sm text-gray-500">This will be used as your total monthly budget</p>
+                    <p className="text-sm text-muted-foreground">This will be used as your total monthly budget</p>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
+                    <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
                     <Input
                       id="emergencyFundTarget"
                       type="number"
@@ -324,7 +328,7 @@ const Onboarding = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="monthlyExpenseEstimate">Monthly Care Expense Estimate ($)</Label>
+                    <Label htmlFor="monthlyExpenseEstimate">Monthly care expense estimate ($)</Label>
                     <Input
                       id="monthlyExpenseEstimate"
                       type="number"
@@ -363,14 +367,14 @@ const Onboarding = () => {
                 {step < 3 ? (
                   <Button
                     onClick={handleNext}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-primary hover:bg-primary"
                   >
                     Next
                   </Button>
                 ) : (
                   <Button
                     onClick={handleComplete}
-                    className="bg-green-600 hover:bg-green-700"
+                    className="bg-primary hover:bg-primary"
                     disabled={saving}
                   >
                     {saving ? "Saving..." : "Complete Setup"}

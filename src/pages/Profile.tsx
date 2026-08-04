@@ -217,8 +217,8 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
       </div>
     );
   }
@@ -228,47 +228,39 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center space-x-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Dashboard</span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-3">
-              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
-            </div>
+      <header className="border-b border-border bg-surface">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
           </div>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+            <ArrowLeft className="h-4 w-4" />
+            Dashboard
+          </Button>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
-            <p className="text-gray-600">Update your care recipient information and financial details</p>
+      <div className="mx-auto max-w-[1400px] px-6 py-8">
+        <div className="max-w-2xl">
+          <div className="mb-8 border-b border-border pb-4">
+            <h1 className="text-[22px] font-semibold leading-tight">Profile</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Details about the person you care for and the numbers behind their budget.</p>
           </div>
 
           <div className="space-y-6">
             {/* Care Recipient Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Care Recipient Information</CardTitle>
+                <CardTitle>Care recipient information</CardTitle>
                 <CardDescription>Update details about the person you're caring for</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="careRecipientName">Care Recipient's Name *</Label>
+                  <Label htmlFor="careRecipientName">Care recipient's name *</Label>
                   <Input
                     id="careRecipientName"
                     value={formData.careRecipientName}
@@ -290,7 +282,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="relationship">Your Relationship</Label>
+                  <Label htmlFor="relationship">Your relationship</Label>
                   <Input
                     id="relationship"
                     value={formData.relationship}
@@ -305,12 +297,12 @@ const Profile = () => {
             {/* Financial Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Financial Information</CardTitle>
+                <CardTitle>Financial information</CardTitle>
                 <CardDescription>Update your budget and financial planning details</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="monthlyIncome">Monthly Income ($) *</Label>
+                  <Label htmlFor="monthlyIncome">Monthly income ($) *</Label>
                   <Input
                     id="monthlyIncome"
                     type="number"
@@ -321,10 +313,10 @@ const Profile = () => {
                     min="0"
                     max="1000000"
                   />
-                  <p className="text-sm text-gray-500">This is used as your total monthly budget</p>
+                  <p className="text-sm text-muted-foreground">This is used as your total monthly budget</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
+                  <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
                   <Input
                     id="emergencyFundTarget"
                     type="number"
@@ -337,7 +329,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="monthlyExpenseEstimate">Monthly Care Expense Estimate ($)</Label>
+                  <Label htmlFor="monthlyExpenseEstimate">Monthly care expense estimate ($)</Label>
                   <Input
                     id="monthlyExpenseEstimate"
                     type="number"
@@ -367,7 +359,7 @@ const Profile = () => {
             <div className="flex justify-end">
               <Button
                 onClick={handleSave}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-primary hover:bg-primary"
                 disabled={saving}
               >
                 {saving ? "Saving..." : "Save Changes"}

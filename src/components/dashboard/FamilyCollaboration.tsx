@@ -66,18 +66,18 @@ interface FamilyUpdate {
 }
 
 const updateTypeConfig = {
-  general: { icon: MessageSquare, color: "bg-gray-100 text-gray-700", label: "General" },
-  expense: { icon: DollarSign, color: "bg-green-100 text-green-700", label: "Expense" },
-  care: { icon: Heart, color: "bg-pink-100 text-pink-700", label: "Care" },
-  medical: { icon: Stethoscope, color: "bg-blue-100 text-blue-700", label: "Medical" },
-  urgent: { icon: AlertTriangle, color: "bg-red-100 text-red-700", label: "Urgent" },
+  general: { icon: MessageSquare, color: "bg-secondary text-muted-foreground", label: "General" },
+  expense: { icon: DollarSign, color: "bg-success/10 text-success", label: "Expense" },
+  care: { icon: Heart, color: "bg-secondary text-foreground", label: "Care" },
+  medical: { icon: Stethoscope, color: "bg-secondary text-primary", label: "Medical" },
+  urgent: { icon: AlertTriangle, color: "bg-destructive/10 text-destructive", label: "Urgent" },
 };
 
 const roleConfig = {
-  owner: { icon: Crown, color: "bg-yellow-100 text-yellow-700", label: "Owner" },
-  admin: { icon: Shield, color: "bg-purple-100 text-purple-700", label: "Admin" },
-  member: { icon: UserIcon, color: "bg-blue-100 text-blue-700", label: "Member" },
-  viewer: { icon: Eye, color: "bg-gray-100 text-gray-700", label: "Viewer" },
+  owner: { icon: Crown, color: "bg-warning/10 text-warning", label: "Owner" },
+  admin: { icon: Shield, color: "bg-secondary text-primary", label: "Admin" },
+  member: { icon: UserIcon, color: "bg-secondary text-primary", label: "Member" },
+  viewer: { icon: Eye, color: "bg-secondary text-muted-foreground", label: "Viewer" },
 };
 
 const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
@@ -378,7 +378,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-blue-600">Loading...</div>
+        <div className="text-sm text-muted-foreground">Loading…</div>
       </div>
     );
   }
@@ -386,31 +386,31 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
   // No groups state
   if (familyGroups.length === 0) {
     return (
-      <Card className="border-2 border-dashed border-gray-300">
+      <Card className="border-2 border-dashed border-border">
         <CardContent className="p-12 text-center">
-          <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">No Family Groups Yet</h3>
-          <p className="text-gray-600 mb-6 max-w-md mx-auto">
+          <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-base font-semibold mb-1">No family groups yet</h3>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             Create a family group to collaborate with your loved ones on caregiving and finances.
           </p>
           <div className="flex gap-4 justify-center">
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
               <DialogTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-primary hover:bg-primary">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Group
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Create Family Group</DialogTitle>
+                  <DialogTitle>Create family group</DialogTitle>
                   <DialogDescription>
                     Create a new group to collaborate with family members.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div>
-                    <Label htmlFor="groupName">Group Name</Label>
+                    <Label htmlFor="groupName">Group name</Label>
                     <Input
                       id="groupName"
                       placeholder="e.g., Smith Family Care Team"
@@ -434,14 +434,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Join Family Group</DialogTitle>
+                  <DialogTitle>Join family group</DialogTitle>
                   <DialogDescription>
                     Enter the invite code shared by a family member.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div>
-                    <Label htmlFor="inviteCode">Invite Code</Label>
+                    <Label htmlFor="inviteCode">Invite code</Label>
                     <Input
                       id="inviteCode"
                       placeholder="Enter 8-character code"
@@ -495,14 +495,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create Family Group</DialogTitle>
+                <DialogTitle>Create family group</DialogTitle>
                 <DialogDescription>
                   Create a new group to collaborate with family members.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <div>
-                  <Label htmlFor="groupName2">Group Name</Label>
+                  <Label htmlFor="groupName2">Group name</Label>
                   <Input
                     id="groupName2"
                     placeholder="e.g., Smith Family Care Team"
@@ -525,14 +525,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Join Family Group</DialogTitle>
+                <DialogTitle>Join family group</DialogTitle>
                 <DialogDescription>
                   Enter the invite code shared by a family member.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <div>
-                  <Label htmlFor="inviteCode2">Invite Code</Label>
+                  <Label htmlFor="inviteCode2">Invite code</Label>
                   <Input
                     id="inviteCode2"
                     placeholder="Enter 8-character code"
@@ -567,7 +567,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
 
           <TabsContent value="updates" className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Family Updates</h3>
+              <h3 className="text-lg font-semibold">Family updates</h3>
               <Dialog open={showUpdateDialog} onOpenChange={setShowUpdateDialog}>
                 <DialogTrigger asChild>
                   <Button size="sm">
@@ -577,7 +577,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Post Update</DialogTitle>
+                    <DialogTitle>Post update</DialogTitle>
                     <DialogDescription>
                       Share an update with your family group.
                     </DialogDescription>
@@ -634,8 +634,8 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             {updates.length === 0 ? (
               <Card className="border-dashed">
                 <CardContent className="p-8 text-center">
-                  <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                  <p className="text-gray-600">No updates yet. Be the first to post!</p>
+                  <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-muted-foreground">No updates yet. Be the first to post!</p>
                 </CardContent>
               </Card>
             ) : (
@@ -661,7 +661,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                               variant="ghost"
                               size="icon"
                               onClick={() => deleteUpdate(update.id)}
-                              className="text-gray-400 hover:text-red-600"
+                              className="text-muted-foreground hover:text-destructive"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -672,7 +672,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-gray-700 whitespace-pre-wrap">{update.content}</p>
+                        <p className="text-muted-foreground whitespace-pre-wrap">{update.content}</p>
                       </CardContent>
                     </Card>
                   );
@@ -684,7 +684,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
           <TabsContent value="members" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Family Members</CardTitle>
+                <CardTitle>Family members</CardTitle>
                 <CardDescription>People who have access to this group</CardDescription>
               </CardHeader>
               <CardContent>
@@ -694,14 +694,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                     const RoleIcon = role.icon;
 
                     return (
-                      <div key={member.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={member.id} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                            <UserIcon className="h-5 w-5 text-blue-600" />
+                          <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center">
+                            <UserIcon className="h-5 w-5 text-primary" />
                           </div>
                           <div>
                             <p className="font-medium">{member.profiles?.email || 'Unknown'}</p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-muted-foreground">
                               Joined {format(new Date(member.joined_at), 'MMM d, yyyy')}
                             </p>
                           </div>
@@ -721,12 +721,12 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
           <TabsContent value="settings" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Invite Members</CardTitle>
+                <CardTitle>Invite members</CardTitle>
                 <CardDescription>Share this code with family members to invite them</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className="flex-1 p-4 bg-gray-100 rounded-lg font-mono text-2xl text-center tracking-wider">
+                  <div className="flex-1 p-4 bg-secondary rounded-lg font-mono text-2xl text-center tracking-wider">
                     {selectedGroup.invite_code.toUpperCase()}
                   </div>
                   <Button onClick={copyInviteCode} variant="outline">
@@ -737,9 +737,9 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
               </CardContent>
             </Card>
 
-            <Card className="border-red-200">
+            <Card className="border-destructive/30">
               <CardHeader>
-                <CardTitle className="text-red-600">Danger Zone</CardTitle>
+                <CardTitle className="text-destructive">Danger zone</CardTitle>
               </CardHeader>
               <CardContent>
                 <Button variant="destructive" onClick={leaveGroup}>

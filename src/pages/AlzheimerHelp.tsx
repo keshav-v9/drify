@@ -3,19 +3,15 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { 
-  Heart, 
-  LogOut, 
-  MessageCircle, 
   Send, 
   Bot, 
   User as UserIcon,
-  Brain,
   ArrowLeft
 } from "lucide-react";
 
@@ -135,73 +131,44 @@ const AlzheimerHelp = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-blue-600">Loading...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-primary">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center space-x-2 text-gray-600 hover:text-blue-600"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Dashboard</span>
-              </Button>
-              <div className="h-6 w-px bg-gray-300 mx-2" />
-              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/profile')}
-                className="text-gray-600 hover:text-blue-600"
-              >
-                Profile
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleSignOut}
-                className="flex items-center space-x-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
-            </div>
+      <header className="border-b border-border bg-surface flex-shrink-0">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft className="h-4 w-4" />
+              Dashboard
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>Profile</Button>
+            <Button variant="ghost" size="sm" onClick={handleSignOut}>Sign out</Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div className="space-y-6 h-full flex flex-col">
-          <div className="text-center">
-            <div className="flex justify-center items-center space-x-3 mb-4">
-              <Brain className="h-12 w-12 text-purple-600" />
-              <h2 className="text-3xl font-bold text-gray-900">Alzheimer Help</h2>
-            </div>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Get personalized guidance for Alzheimer's care, including symptom management, 
-              product recommendations, daily routines, and emotional support.
+      <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-6 py-8">
+        <div className="flex h-full flex-col">
+          <div className="mb-6 border-b border-border pb-4">
+            <h1 className="text-[22px] font-semibold leading-tight">Care questions</h1>
+            <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+              Ask about symptom changes, daily routines, useful products, or how to handle a
+              difficult day.
             </p>
           </div>
 
-          <Card className="flex-1 flex flex-col min-h-0">
-            <CardHeader className="flex-shrink-0">
-              <CardTitle className="flex items-center space-x-2">
-                <MessageCircle className="h-5 w-5 text-purple-600" />
-                <span>Alzheimer Care Assistant</span>
-              </CardTitle>
-            </CardHeader>
+          <Card className="flex min-h-0 flex-1 flex-col">
             <CardContent className="flex-1 flex flex-col p-0 min-h-0">
               <ScrollArea className="flex-1 p-4 min-h-[500px]" ref={scrollAreaRef}>
                 <div className="space-y-4">
@@ -214,8 +181,8 @@ const AlzheimerHelp = () => {
                     >
                       <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                         message.role === 'user' 
-                          ? 'bg-purple-600 text-white' 
-                          : 'bg-gray-200 text-gray-600'
+                          ? 'bg-primary text-primary-foreground' 
+                          : 'bg-muted-foreground/30 text-muted-foreground'
                       }`}>
                         {message.role === 'user' ? (
                           <UserIcon className="h-4 w-4" />
@@ -228,12 +195,12 @@ const AlzheimerHelp = () => {
                       }`}>
                         <div className={`inline-block p-3 rounded-lg ${
                           message.role === 'user'
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-gray-100 text-gray-900'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-secondary text-foreground'
                         }`}>
                           <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           {message.timestamp.toLocaleTimeString()}
                         </p>
                       </div>
@@ -241,15 +208,15 @@ const AlzheimerHelp = () => {
                   ))}
                   {isLoading && (
                     <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted-foreground/30 text-muted-foreground flex items-center justify-center">
                         <Bot className="h-4 w-4" />
                       </div>
                       <div className="flex-1">
-                        <div className="inline-block p-3 rounded-lg bg-gray-100">
+                        <div className="inline-block p-3 rounded-lg bg-secondary">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
@@ -263,16 +230,11 @@ const AlzheimerHelp = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask about Alzheimer's care, symptoms, products, or daily routines..."
+                    placeholder="Ask about symptoms, products, or daily routines…"
                     disabled={isLoading}
                     className="flex-1"
                   />
-                  <Button 
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    size="icon"
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
+                  <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon">
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
