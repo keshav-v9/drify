@@ -270,7 +270,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <TrendingUp className="h-5 w-5" />
-              <span>Total Expenses</span>
+              <span>Total expenses</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -283,7 +283,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Calendar className="h-5 w-5" />
-              <span>This Month</span>
+              <span>This month</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -294,7 +294,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Total Entries</CardTitle>
+            <CardTitle>Total entries</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="stat-number">{expenses.length}</div>

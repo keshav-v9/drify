@@ -93,7 +93,7 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
           className="w-full flex items-center space-x-2"
         >
           <Plus className="h-4 w-4" />
-          <span>New Chat</span>
+          <span>New chat</span>
         </Button>
       </div>
       

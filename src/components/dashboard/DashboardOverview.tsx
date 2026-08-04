@@ -461,7 +461,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </DialogHeader>
           <form onSubmit={handleAddBudget} className="space-y-4">
             <div>
-              <Label htmlFor="name">Category Name</Label>
+              <Label htmlFor="name">Category name</Label>
               <Input
                 id="name"
                 value={budgetForm.name}
@@ -471,7 +471,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               />
             </div>
             <div>
-              <Label htmlFor="budget">Monthly Budget</Label>
+              <Label htmlFor="budget">Monthly budget</Label>
               <Input
                 id="budget"
                 type="number"
@@ -483,7 +483,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               />
             </div>
             <div>
-              <Label htmlFor="color">Category Color</Label>
+              <Label htmlFor="color">Category color</Label>
               <Input
                 id="color"
                 type="color"
@@ -510,7 +510,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </DialogHeader>
           <form onSubmit={handleUpdateIncome} className="space-y-4">
             <div>
-              <Label htmlFor="monthly_income">Monthly Income</Label>
+              <Label htmlFor="monthly_income">Monthly income</Label>
               <Input
                 id="monthly_income"
                 type="number"
@@ -523,7 +523,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               <p className="text-sm text-muted-foreground mt-1">This will be your total monthly budget</p>
             </div>
             <div>
-              <Label htmlFor="target">Target Emergency Fund</Label>
+              <Label htmlFor="target">Target emergency fund</Label>
               <Input
                 id="target"
                 type="number"
@@ -535,7 +535,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               />
             </div>
             <div>
-              <Label htmlFor="monthly">Monthly Care Expense Estimate</Label>
+              <Label htmlFor="monthly">Monthly care expense estimate</Label>
               <Input
                 id="monthly"
                 type="number"

@@ -282,7 +282,7 @@ const Onboarding = () => {
 
               {step === 2 && (
                 <div className="space-y-2">
-                  <Label htmlFor="relationship">Your Relationship</Label>
+                  <Label htmlFor="relationship">Your relationship</Label>
                   <Input
                     id="relationship"
                     value={formData.relationship}

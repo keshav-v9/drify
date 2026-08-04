@@ -403,14 +403,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Create Family Group</DialogTitle>
+                  <DialogTitle>Create family group</DialogTitle>
                   <DialogDescription>
                     Create a new group to collaborate with family members.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div>
-                    <Label htmlFor="groupName">Group Name</Label>
+                    <Label htmlFor="groupName">Group name</Label>
                     <Input
                       id="groupName"
                       placeholder="e.g., Smith Family Care Team"
@@ -434,14 +434,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Join Family Group</DialogTitle>
+                  <DialogTitle>Join family group</DialogTitle>
                   <DialogDescription>
                     Enter the invite code shared by a family member.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 pt-4">
                   <div>
-                    <Label htmlFor="inviteCode">Invite Code</Label>
+                    <Label htmlFor="inviteCode">Invite code</Label>
                     <Input
                       id="inviteCode"
                       placeholder="Enter 8-character code"
@@ -495,14 +495,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create Family Group</DialogTitle>
+                <DialogTitle>Create family group</DialogTitle>
                 <DialogDescription>
                   Create a new group to collaborate with family members.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <div>
-                  <Label htmlFor="groupName2">Group Name</Label>
+                  <Label htmlFor="groupName2">Group name</Label>
                   <Input
                     id="groupName2"
                     placeholder="e.g., Smith Family Care Team"
@@ -525,14 +525,14 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Join Family Group</DialogTitle>
+                <DialogTitle>Join family group</DialogTitle>
                 <DialogDescription>
                   Enter the invite code shared by a family member.
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-4">
                 <div>
-                  <Label htmlFor="inviteCode2">Invite Code</Label>
+                  <Label htmlFor="inviteCode2">Invite code</Label>
                   <Input
                     id="inviteCode2"
                     placeholder="Enter 8-character code"
@@ -577,7 +577,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Post Update</DialogTitle>
+                    <DialogTitle>Post update</DialogTitle>
                     <DialogDescription>
                       Share an update with your family group.
                     </DialogDescription>
@@ -684,7 +684,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
           <TabsContent value="members" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Family Members</CardTitle>
+                <CardTitle>Family members</CardTitle>
                 <CardDescription>People who have access to this group</CardDescription>
               </CardHeader>
               <CardContent>
@@ -721,7 +721,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
           <TabsContent value="settings" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Invite Members</CardTitle>
+                <CardTitle>Invite members</CardTitle>
                 <CardDescription>Share this code with family members to invite them</CardDescription>
               </CardHeader>
               <CardContent>
@@ -739,7 +739,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
 
             <Card className="border-destructive/30">
               <CardHeader>
-                <CardTitle className="text-destructive">Danger Zone</CardTitle>
+                <CardTitle className="text-destructive">Danger zone</CardTitle>
               </CardHeader>
               <CardContent>
                 <Button variant="destructive" onClick={leaveGroup}>

@@ -139,25 +139,25 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Shield className="h-6 w-6" />
-            <span>Emergency Fund Status</span>
+            <span>Emergency fund status</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className="text-primary-foreground/80">Current Fund</p>
+              <p className="text-primary-foreground/80">Current fund</p>
               <p className="stat-number">
                 ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
-              <p className="text-primary-foreground/80">Target Fund</p>
+              <p className="text-primary-foreground/80">Target fund</p>
               <p className="stat-number">
                 ${financialPlan?.emergency_fund_target?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
-              <p className="text-primary-foreground/80">Monthly Estimate</p>
+              <p className="text-primary-foreground/80">Monthly estimate</p>
               <p className="stat-number">
                 ${financialPlan?.monthly_expense_estimate?.toLocaleString() || '0'}
               </p>
@@ -202,7 +202,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                     <div className="flex items-center space-x-3">
                       <StatusIcon className="h-5 w-5 text-muted-foreground" />
                       <div>
-                        <p className="font-medium">Financial Readiness</p>
+                        <p className="font-medium">Financial readiness</p>
                         <p className="text-sm text-muted-foreground">
                           {coverageMonths.toFixed(1)} months of coverage
                         </p>
@@ -219,7 +219,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                   {/* Coverage Progress */}
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Emergency Fund Coverage</span>
+                      <span>Emergency fund coverage</span>
                       <span>{Math.min((coverageMonths / 6) * 100, 100).toFixed(0)}%</span>
                     </div>
                     <Progress 

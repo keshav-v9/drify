@@ -227,7 +227,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="name">Category Name</Label>
+                <Label htmlFor="name">Category name</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -237,7 +237,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                 />
               </div>
               <div>
-                <Label htmlFor="budget">Monthly Budget</Label>
+                <Label htmlFor="budget">Monthly budget</Label>
                 <Input
                   id="budget"
                   type="number"
@@ -282,7 +282,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <DollarSign className="h-5 w-5" />
-            <span>Total Monthly Budget</span>
+            <span>Total monthly budget</span>
           </CardTitle>
         </CardHeader>
         <CardContent>

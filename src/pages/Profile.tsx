@@ -263,7 +263,7 @@ const Profile = () => {
             {/* Care Recipient Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Care Recipient Information</CardTitle>
+                <CardTitle>Care recipient information</CardTitle>
                 <CardDescription>Update details about the person you're caring for</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -290,7 +290,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="relationship">Your Relationship</Label>
+                  <Label htmlFor="relationship">Your relationship</Label>
                   <Input
                     id="relationship"
                     value={formData.relationship}
@@ -305,7 +305,7 @@ const Profile = () => {
             {/* Financial Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Financial Information</CardTitle>
+                <CardTitle>Financial information</CardTitle>
                 <CardDescription>Update your budget and financial planning details</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">

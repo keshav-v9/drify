@@ -332,7 +332,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
       case 'completed':
         return <Badge className="bg-success/10 text-success">Completed</Badge>;
       case 'in_progress':
-        return <Badge className="bg-warning/10 text-warning">In Progress</Badge>;
+        return <Badge className="bg-warning/10 text-warning">In progress</Badge>;
       default:
         return <Badge variant="destructive">Pending</Badge>;
     }
@@ -354,7 +354,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center space-x-2">
             <FileText className="h-5 w-5" />
-            <span>Legal Document Tracking</span>
+            <span>Legal document tracking</span>
           </CardTitle>
           <Dialog open={isDocumentDialogOpen} onOpenChange={setIsDocumentDialogOpen}>
             <DialogTrigger asChild>
@@ -371,7 +371,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </DialogHeader>
               <form onSubmit={handleDocumentSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="doc-type">Document Type</Label>
+                  <Label htmlFor="doc-type">Document type</Label>
                   <Input
                     id="doc-type"
                     value={documentForm.document_type}
@@ -391,7 +391,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="in_progress">In Progress</SelectItem>
+                      <SelectItem value="in_progress">In progress</SelectItem>
                       <SelectItem value="completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
@@ -456,7 +456,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="flex items-center space-x-2">
             <Users className="h-5 w-5" />
-            <span>Support Network</span>
+            <span>Support network</span>
           </CardTitle>
           <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
             <DialogTrigger asChild>
@@ -473,7 +473,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </DialogHeader>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="contact-type">Contact Type</Label>
+                  <Label htmlFor="contact-type">Contact type</Label>
                   <Input
                     id="contact-type"
                     value={contactForm.contact_type}
