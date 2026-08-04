@@ -231,32 +231,24 @@ const Profile = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-surface">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center space-x-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Dashboard</span>
-              </Button>
-            </div>
-            <div className="flex items-center space-x-3">
-              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-[15px] font-semibold tracking-[-0.02em]">Drify</h1>
-            </div>
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
           </div>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+            <ArrowLeft className="h-4 w-4" />
+            Dashboard
+          </Button>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="mb-8">
-            <h1 className="text-[22px] font-semibold mb-2">Profile</h1>
-            <p className="text-muted-foreground">Update your care recipient information and financial details</p>
+      <div className="mx-auto max-w-[1400px] px-6 py-8">
+        <div className="max-w-2xl">
+          <div className="mb-8 border-b border-border pb-4">
+            <h1 className="text-[22px] font-semibold leading-tight">Profile</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Details about the person you care for and the numbers behind their budget.</p>
           </div>
 
           <div className="space-y-6">
