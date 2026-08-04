@@ -124,13 +124,13 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading care cost projections...</div>;
+    return <div className="py-8 text-sm text-muted-foreground">Loading…</div>;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Care Cost Planning</h2>
+        <h2 className="text-lg font-semibold">Care cost planning</h2>
         <p className="text-muted-foreground">Plan for different levels of care and assess financial readiness</p>
       </div>
 

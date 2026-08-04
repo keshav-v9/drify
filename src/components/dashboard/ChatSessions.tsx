@@ -82,7 +82,7 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
   };
 
   if (loading) {
-    return <div className="p-4 text-center text-muted-foreground">Loading sessions...</div>;
+    return <div className="p-4 text-center text-muted-foreground">Loading…</div>;
   }
 
   return (

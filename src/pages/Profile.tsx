@@ -255,7 +255,7 @@ const Profile = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-[22px] font-semibold mb-2">Profile Settings</h1>
+            <h1 className="text-[22px] font-semibold mb-2">Profile</h1>
             <p className="text-muted-foreground">Update your care recipient information and financial details</p>
           </div>
 

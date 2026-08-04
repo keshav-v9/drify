@@ -339,13 +339,13 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading planning tools...</div>;
+    return <div className="py-8 text-sm text-muted-foreground">Loading…</div>;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Financial Planning Tools</h2>
+        <h2 className="text-lg font-semibold">Planning</h2>
         <p className="text-muted-foreground">Manage legal documents and support network contacts</p>
       </div>
 

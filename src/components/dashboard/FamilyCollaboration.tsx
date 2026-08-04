@@ -378,7 +378,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-primary">Loading...</div>
+        <div className="text-sm text-muted-foreground">Loading…</div>
       </div>
     );
   }
@@ -389,7 +389,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
       <Card className="border-2 border-dashed border-border">
         <CardContent className="p-12 text-center">
           <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-foreground mb-2">No Family Groups Yet</h3>
+          <h3 className="text-base font-semibold mb-1">No family groups yet</h3>
           <p className="text-muted-foreground mb-6 max-w-md mx-auto">
             Create a family group to collaborate with your loved ones on caregiving and finances.
           </p>
@@ -567,7 +567,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
 
           <TabsContent value="updates" className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Family Updates</h3>
+              <h3 className="text-lg font-semibold">Family updates</h3>
               <Dialog open={showUpdateDialog} onOpenChange={setShowUpdateDialog}>
                 <DialogTrigger asChild>
                   <Button size="sm">

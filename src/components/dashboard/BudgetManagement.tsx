@@ -202,14 +202,14 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
   const totalBudget = categories.reduce((sum, cat) => sum + cat.monthly_budget, 0);
 
   if (loading) {
-    return <div className="text-center py-8">Loading budget categories...</div>;
+    return <div className="py-8 text-sm text-muted-foreground">Loading…</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold">Budget Management</h2>
+          <h2 className="text-lg font-semibold">Budget</h2>
           <p className="text-muted-foreground">Plan and track your monthly care budget</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -359,7 +359,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
           <CardContent className="pt-6">
             <div className="text-center py-8">
               <DollarSign className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">No Budget Categories</h3>
+              <h3 className="text-base font-semibold mb-1">No budget categories yet</h3>
               <p className="text-muted-foreground mb-4">
                 Create your first budget category to start planning your care expenses.
               </p>

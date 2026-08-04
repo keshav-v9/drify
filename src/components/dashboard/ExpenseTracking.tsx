@@ -171,14 +171,14 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
     .reduce((sum, exp) => sum + Math.abs(exp.amount), 0);
 
   if (loading) {
-    return <div className="text-center py-8">Loading expenses...</div>;
+    return <div className="py-8 text-sm text-muted-foreground">Loading…</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-lg font-semibold">Expense Tracking</h2>
+          <h2 className="text-lg font-semibold">Expenses</h2>
           <p className="text-muted-foreground">Record and monitor your care-related expenses</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -306,7 +306,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
       {/* Expenses List */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Expenses</CardTitle>
+          <CardTitle>Recent expenses</CardTitle>
         </CardHeader>
         <CardContent>
           {expenses.length > 0 ? (
@@ -352,7 +352,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           ) : (
             <div className="text-center py-8">
               <TrendingUp className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">No Expenses Recorded</h3>
+              <h3 className="text-base font-semibold mb-1">No expenses yet</h3>
               <p className="text-muted-foreground mb-4">
                 Start tracking your care expenses to better manage your budget.
               </p>
