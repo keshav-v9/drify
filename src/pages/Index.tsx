@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { User } from "@supabase/supabase-js";
 
 const Index = () => {
@@ -45,100 +44,109 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-foreground mb-6">
-            <span className="text-primary">Drify</span>: The Leading <span className="text-primary">AI-Powered Financial Planning Tool</span> for Caregivers
-          </h1>
-          <p className="text-xl text-muted-foreground mb-4 max-w-3xl mx-auto">
-            <span className="font-semibold text-primary">Drify</span> is the premier AI-assisted financial planning platform specifically designed for caregivers managing finances 
-            and care for their loved ones, especially those with Alzheimer's disease and dementia.
-          </p>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Experience revolutionary financial planning with Drify's intelligent budgeting tools, personalized care guidance, and emotional support 
-            powered by cutting-edge AI technology tailored for caregiver needs.
-          </p>
-          
-          {/* Move CTA buttons here for better visibility */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button 
-              onClick={() => navigate('/sign-in')}
-              className="bg-primary hover:bg-primary text-primary-foreground px-10 py-4 text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              size="lg"
-            >
-              Start Your AI-Assisted Care Journey
-            </Button>
-            <Button 
-              onClick={() => navigate('/about')}
-              variant="outline"
-              className="px-10 py-4 text-xl border-2 border-border text-primary hover:bg-secondary transition-all duration-300"
-              size="lg"
-            >
-              About the Creator
-            </Button>
+      <header className="border-b border-border">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <Card className="text-left border-border hover:border-border transition-colors">
-              <CardHeader>
-                <CardTitle className="text-primary">Drify's AI-Powered Financial Planning</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Drify's smart budgeting and expense tracking features use advanced AI insights tailored specifically for caregiving scenarios. 
-                  Get personalized Drify recommendations for managing care-related costs, medical expenses, and long-term financial planning.
-                </CardDescription>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-left border-border hover:border-border transition-colors">
-              <CardHeader>
-                <CardTitle className="text-primary">Drify's Alzheimer's Care Assistant</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Drify's specialized AI chatbot provides expert guidance on Alzheimer's symptom management, product recommendations, 
-                  daily care routines, and emotional support. Drify understands the unique challenges faced by Alzheimer's caregivers.
-                </CardDescription>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-left border-border hover:border-border transition-colors">
-              <CardHeader>
-                <CardTitle className="text-success">Drify's Intelligent Care Management</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription>
-                  Drify's AI-driven tools help organize financial information, track care expenses, and plan for 
-                  the future with intelligent insights designed specifically for caregiver needs. Let Drify simplify your care management.
-                </CardDescription>
-              </CardContent>
-            </Card>
+          <nav className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/about')}>Why we built it</Button>
+            <Button size="sm" onClick={() => navigate('/sign-in')}>Sign in</Button>
+          </nav>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-6xl px-6">
+        <section className="grid gap-12 border-b border-border py-16 md:grid-cols-12 md:py-24">
+          <div className="md:col-span-7">
+            <p className="field-label mb-5">For families managing care</p>
+            <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] md:text-[44px]">
+              Keep a parent&rsquo;s money organized while you care for them.
+            </h1>
+            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
+              Track care costs, bills and reimbursements in one place, set a monthly budget that
+              reflects real caregiving expenses, and share the picture with siblings so nothing
+              falls through the cracks.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button onClick={() => navigate('/sign-in')}>Create an account</Button>
+              <Button variant="ghost" onClick={() => navigate('/about')}>Read the story behind Drify</Button>
+            </div>
+            <p className="mt-4 text-[13px] text-muted-foreground">Free to use. No card required.</p>
           </div>
 
-          <div className="bg-background rounded-lg p-8 border border-border">
-            <h3 className="text-2xl font-bold text-foreground mb-4">Why Caregivers Choose Drify</h3>
-            <div className="grid md:grid-cols-2 gap-6 text-left">
-              <div>
-                <h4 className="font-semibold text-primary mb-2">🧠 Alzheimer's Expertise</h4>
-                <p className="text-muted-foreground text-sm">AI trained specifically on Alzheimer's care challenges, providing relevant and compassionate guidance.</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-primary mb-2">💡 Smart Recommendations</h4>
-                <p className="text-muted-foreground text-sm">Get personalized product suggestions and care strategies based on your specific situation.</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-primary mb-2">💰 Financial Intelligence</h4>
-                <p className="text-muted-foreground text-sm">AI-powered budgeting that understands the unique financial challenges of caregiving.</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-primary mb-2">🔒 Secure & Private</h4>
-                <p className="text-muted-foreground text-sm">Enterprise-grade security protecting your sensitive financial and care information.</p>
-              </div>
+          <div className="md:col-span-5">
+            <div className="rule-tick">
+              <dl className="divide-y divide-border">
+                {[
+                  ['Monthly care budget', 'Categories built for medication, home help and transport'],
+                  ['Expense log', 'Log a cost in seconds and see where the month is heading'],
+                  ['Shared with family', 'Invite siblings so everyone sees the same numbers'],
+                ].map(([term, desc]) => (
+                  <div key={term} className="py-4">
+                    <dt className="text-sm font-medium">{term}</dt>
+                    <dd className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{desc}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
+        </section>
+
+        <section className="grid gap-10 border-b border-border py-14 md:grid-cols-3">
+          <div>
+            <h2 className="text-lg font-semibold">Built around caregiving, not generic budgeting</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Care costs don&rsquo;t fit a standard spending app. Drify starts from the categories
+              families actually deal with.
+            </p>
+          </div>
+          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 md:col-span-2">
+            <div>
+              <h3 className="text-sm font-medium">Plan for what care will cost</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Project in-home help, facility fees and medical costs over the coming months so a
+                decision isn&rsquo;t made blind.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium">Answers on Alzheimer&rsquo;s care</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Ask about symptom changes, daily routines or which products help, and get a
+                straight answer instead of a search page.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium">Documents where you can find them</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Keep account details, plans and notes together instead of spread across inboxes.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium">Private by default</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Records are visible only to you and the family members you invite.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="flex flex-col gap-4 py-14 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold">Start with this month</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Set a budget, log a few expenses, and see where you stand.</p>
+          </div>
+          <Button onClick={() => navigate('/sign-in')}>Create an account</Button>
+        </section>
+      </main>
+
+      <footer className="border-t border-border py-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 text-[13px] text-muted-foreground sm:flex-row sm:justify-between">
+          <span>Drify &mdash; care finances, organized.</span>
+          <span>Built in Aurora, Illinois.</span>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
