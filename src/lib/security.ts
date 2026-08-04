@@ -38,7 +38,7 @@ export const getSafeErrorMessage = (error: unknown): string => {
   // Don't expose internal error details to users
   if (error instanceof Error) {
     // Log the actual error for debugging (in development)
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.error('Detailed error:', error);
     }
     
