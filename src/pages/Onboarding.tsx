@@ -226,24 +226,28 @@ const Onboarding = () => {
   const progress = (step / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="container mx-auto px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-[22px] font-semibold mb-2">Welcome to Drify</h1>
-            <p className="text-muted-foreground">Let's set up your account to get started</p>
-            <div className="mt-4">
-              <Progress value={progress} className="w-full" />
-              <p className="text-sm text-muted-foreground mt-2">Step {step} of 3</p>
-            </div>
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-surface">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-2 px-6">
+          <span className="h-3 w-3 rounded-[2px] bg-primary" />
+          <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
+        </div>
+      </header>
+      <div className="mx-auto max-w-[1400px] px-6 py-10">
+        <div className="max-w-2xl">
+          <div className="mb-8">
+            <p className="field-label">Step {step} of 3</p>
+            <h1 className="mt-2 text-[22px] font-semibold leading-tight">Set up your account</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Three short steps. You can change any of it later.</p>
+            <Progress value={progress} className="mt-4 h-1" />
           </div>
 
           <Card>
             <CardHeader>
               <CardTitle>
-                {step === 1 && "Care Recipient Information"}
-                {step === 2 && "Relationship Details"}
-                {step === 3 && "Financial Planning"}
+                {step === 1 && "Care recipient"}
+                {step === 2 && "Relationship"}
+                {step === 3 && "Budget basics"}
               </CardTitle>
               <CardDescription>
                 {step === 1 && "Tell us about the person you're caring for"}
