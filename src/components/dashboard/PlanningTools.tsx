@@ -345,7 +345,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-foreground">Financial Planning Tools</h2>
+        <h2 className="text-lg font-semibold">Financial Planning Tools</h2>
         <p className="text-muted-foreground">Manage legal documents and support network contacts</p>
       </div>
 

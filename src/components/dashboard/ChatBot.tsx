@@ -249,7 +249,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
   return (
     <div className="space-y-6 h-full flex flex-col">
       <div>
-        <h2 className="text-2xl font-bold text-foreground">AI Assistant</h2>
+        <h2 className="text-lg font-semibold">AI Assistant</h2>
         <p className="text-muted-foreground">Get personalized financial advice and support for your care planning</p>
       </div>
 

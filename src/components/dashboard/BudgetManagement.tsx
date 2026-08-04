@@ -209,7 +209,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Budget Management</h2>
+          <h2 className="text-lg font-semibold">Budget Management</h2>
           <p className="text-muted-foreground">Plan and track your monthly care budget</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -286,7 +286,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-primary">
+          <div className="text-[22px] font-semibold text-primary">
             ${totalBudget.toLocaleString()}
           </div>
           <p className="text-muted-foreground">Across {categories.length} categories</p>

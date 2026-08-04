@@ -144,7 +144,7 @@ const AlzheimerHelp = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-card shadow-sm border-b flex-shrink-0">
+      <header className="border-b border-border bg-surface flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -158,7 +158,7 @@ const AlzheimerHelp = () => {
               </Button>
               <div className="h-6 w-px bg-muted-foreground/30 mx-2" />
               <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-primary">Drify</h1>
+              <h1 className="text-[15px] font-semibold tracking-[-0.02em]">Drify</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Button
@@ -187,7 +187,7 @@ const AlzheimerHelp = () => {
           <div className="text-center">
             <div className="flex justify-center items-center space-x-3 mb-4">
               <Brain className="h-12 w-12 text-primary" />
-              <h2 className="text-3xl font-bold text-foreground">Alzheimer Help</h2>
+              <h2 className="text-[22px] font-semibold">Alzheimer Help</h2>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Get personalized guidance for Alzheimer's care, including symptom management, 

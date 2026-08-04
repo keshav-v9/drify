@@ -297,7 +297,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalMonthlyBudget.toLocaleString()}</div>
+            <div className="stat-number">${totalMonthlyBudget.toLocaleString()}</div>
             <div className="text-xs text-muted-foreground mt-1">
               ${(totalMonthlyBudget - currentMonthExpenses).toLocaleString()} remaining this month
             </div>
@@ -314,7 +314,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${currentMonthExpenses.toLocaleString()}</div>
+            <div className="stat-number">${currentMonthExpenses.toLocaleString()}</div>
             <div className="text-xs text-muted-foreground mt-1">
               {totalMonthlyBudget > 0 ? ((currentMonthExpenses / totalMonthlyBudget) * 100).toFixed(1) : 0}% of budget used
             </div>
@@ -327,7 +327,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
             <PiggyBank className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="stat-number">
               ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
             </div>
             <div className="flex items-center space-x-2 mt-2">

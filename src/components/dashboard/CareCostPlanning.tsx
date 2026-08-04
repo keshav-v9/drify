@@ -130,7 +130,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-foreground">Care Cost Planning</h2>
+        <h2 className="text-lg font-semibold">Care Cost Planning</h2>
         <p className="text-muted-foreground">Plan for different levels of care and assess financial readiness</p>
       </div>
 
@@ -146,19 +146,19 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <p className="text-primary-foreground/80">Current Fund</p>
-              <p className="text-2xl font-bold">
+              <p className="stat-number">
                 ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
               <p className="text-primary-foreground/80">Target Fund</p>
-              <p className="text-2xl font-bold">
+              <p className="stat-number">
                 ${financialPlan?.emergency_fund_target?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
               <p className="text-primary-foreground/80">Monthly Estimate</p>
-              <p className="text-2xl font-bold">
+              <p className="stat-number">
                 ${financialPlan?.monthly_expense_estimate?.toLocaleString() || '0'}
               </p>
             </div>
@@ -188,7 +188,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                     <p className="text-muted-foreground mt-1">{level.description}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-primary">
+                    <div className="text-[15px] font-semibold tracking-[-0.02em]">
                       ${monthlyCost.toLocaleString()}
                     </div>
                     <p className="text-sm text-muted-foreground">per month</p>

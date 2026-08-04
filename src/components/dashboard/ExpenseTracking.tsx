@@ -178,7 +178,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Expense Tracking</h2>
+          <h2 className="text-lg font-semibold">Expense Tracking</h2>
           <p className="text-muted-foreground">Record and monitor your care-related expenses</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
@@ -274,7 +274,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalExpenses.toLocaleString()}</div>
+            <div className="stat-number">${totalExpenses.toLocaleString()}</div>
             <p className="text-muted-foreground">All time</p>
           </CardContent>
         </Card>
@@ -287,7 +287,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${thisMonthExpenses.toLocaleString()}</div>
+            <div className="stat-number">${thisMonthExpenses.toLocaleString()}</div>
             <p className="text-muted-foreground">{new Date().toLocaleString('default', { month: 'long' })}</p>
           </CardContent>
         </Card>
@@ -297,7 +297,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
             <CardTitle>Total Entries</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{expenses.length}</div>
+            <div className="stat-number">{expenses.length}</div>
             <p className="text-muted-foreground">Recorded expenses</p>
           </CardContent>
         </Card>

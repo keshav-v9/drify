@@ -230,7 +230,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-card shadow-sm border-b">
+      <header className="border-b border-border bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -245,7 +245,7 @@ const Profile = () => {
             </div>
             <div className="flex items-center space-x-3">
               <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-primary">Drify</h1>
+              <h1 className="text-[15px] font-semibold tracking-[-0.02em]">Drify</h1>
             </div>
           </div>
         </div>
@@ -255,7 +255,7 @@ const Profile = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
+            <h1 className="text-[22px] font-semibold mb-2">Profile Settings</h1>
             <p className="text-muted-foreground">Update your care recipient information and financial details</p>
           </div>
 

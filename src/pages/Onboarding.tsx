@@ -230,7 +230,7 @@ const Onboarding = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Drify</h1>
+            <h1 className="text-[22px] font-semibold mb-2">Welcome to Drify</h1>
             <p className="text-muted-foreground">Let's set up your account to get started</p>
             <div className="mt-4">
               <Progress value={progress} className="w-full" />
