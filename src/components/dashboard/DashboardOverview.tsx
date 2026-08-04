@@ -264,9 +264,9 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
     : 0;
 
   const getEmergencyFundStatus = () => {
-    if (emergencyFundMonths >= 6) return { text: "Well Funded", color: "bg-green-500", variant: "default" as const };
-    if (emergencyFundMonths >= 3) return { text: "Building Up", color: "bg-yellow-500", variant: "secondary" as const };
-    return { text: "Needs Attention", color: "bg-red-500", variant: "destructive" as const };
+    if (emergencyFundMonths >= 6) return { text: "Well Funded", color: "bg-success", variant: "default" as const };
+    if (emergencyFundMonths >= 3) return { text: "Building Up", color: "bg-warning", variant: "secondary" as const };
+    return { text: "Needs Attention", color: "bg-destructive", variant: "destructive" as const };
   };
 
   if (loading) {
@@ -444,7 +444,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
             </div>
           ) : (
             <div className="text-center py-8 text-muted-foreground">
-              <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+              <TrendingUp className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
               <p>No expenses recorded yet</p>
               <p className="text-sm">Start tracking your care expenses</p>
             </div>

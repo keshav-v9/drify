@@ -330,9 +330,9 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'completed':
-        return <Badge className="bg-green-100 text-green-800">Completed</Badge>;
+        return <Badge className="bg-success/10 text-success">Completed</Badge>;
       case 'in_progress':
-        return <Badge className="bg-yellow-100 text-yellow-800">In Progress</Badge>;
+        return <Badge className="bg-warning/10 text-warning">In Progress</Badge>;
       default:
         return <Badge variant="destructive">Pending</Badge>;
     }

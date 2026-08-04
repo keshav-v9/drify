@@ -257,7 +257,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, color }))}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        formData.color === color ? 'border-gray-400' : 'border-border'
+                        formData.color === color ? 'border-input' : 'border-border'
                       }`}
                       style={{ backgroundColor: color }}
                     />
@@ -358,7 +358,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center py-8">
-              <DollarSign className="h-16 w-16 mx-auto text-gray-300 mb-4" />
+              <DollarSign className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
               <h3 className="text-lg font-semibold text-foreground mb-2">No Budget Categories</h3>
               <p className="text-muted-foreground mb-4">
                 Create your first budget category to start planning your care expenses.

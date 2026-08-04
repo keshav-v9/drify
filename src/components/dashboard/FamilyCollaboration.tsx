@@ -67,14 +67,14 @@ interface FamilyUpdate {
 
 const updateTypeConfig = {
   general: { icon: MessageSquare, color: "bg-secondary text-muted-foreground", label: "General" },
-  expense: { icon: DollarSign, color: "bg-green-100 text-success", label: "Expense" },
-  care: { icon: Heart, color: "bg-pink-100 text-pink-700", label: "Care" },
+  expense: { icon: DollarSign, color: "bg-success/10 text-success", label: "Expense" },
+  care: { icon: Heart, color: "bg-secondary text-foreground", label: "Care" },
   medical: { icon: Stethoscope, color: "bg-secondary text-primary", label: "Medical" },
-  urgent: { icon: AlertTriangle, color: "bg-red-100 text-destructive", label: "Urgent" },
+  urgent: { icon: AlertTriangle, color: "bg-destructive/10 text-destructive", label: "Urgent" },
 };
 
 const roleConfig = {
-  owner: { icon: Crown, color: "bg-yellow-100 text-warning", label: "Owner" },
+  owner: { icon: Crown, color: "bg-warning/10 text-warning", label: "Owner" },
   admin: { icon: Shield, color: "bg-secondary text-primary", label: "Admin" },
   member: { icon: UserIcon, color: "bg-secondary text-primary", label: "Member" },
   viewer: { icon: Eye, color: "bg-secondary text-muted-foreground", label: "Viewer" },
@@ -737,7 +737,7 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
               </CardContent>
             </Card>
 
-            <Card className="border-red-200">
+            <Card className="border-destructive/30">
               <CardHeader>
                 <CardTitle className="text-destructive">Danger Zone</CardTitle>
               </CardHeader>

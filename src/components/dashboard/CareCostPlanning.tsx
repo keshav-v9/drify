@@ -118,9 +118,9 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
   };
 
   const getReadinessStatus = (months: number) => {
-    if (months >= 6) return { text: "Well Prepared", color: "bg-green-500", icon: CheckCircle };
-    if (months >= 3) return { text: "Building Up", color: "bg-yellow-500", icon: Clock };
-    return { text: "Needs Attention", color: "bg-red-500", icon: AlertTriangle };
+    if (months >= 6) return { text: "Well Prepared", color: "bg-success", icon: CheckCircle };
+    if (months >= 3) return { text: "Building Up", color: "bg-warning", icon: Clock };
+    return { text: "Needs Attention", color: "bg-destructive", icon: AlertTriangle };
   };
 
   if (loading) {
@@ -246,11 +246,11 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
 
                   {/* Recommendations */}
                   {coverageMonths < 6 && (
-                    <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div className="p-3 bg-warning/10 border border-warning/30 rounded-lg">
                       <div className="flex items-start space-x-2">
                         <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
                         <div>
-                          <p className="font-medium text-yellow-800">Recommendation</p>
+                          <p className="font-medium text-warning">Recommendation</p>
                           <p className="text-sm text-warning">
                             Consider building your emergency fund to ${(monthlyCost * 6).toLocaleString()} 
                             for 6 months of coverage at this care level.
