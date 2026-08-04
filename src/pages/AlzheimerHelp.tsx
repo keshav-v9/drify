@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User } from "@supabase/supabase-js";
@@ -15,7 +15,6 @@ import {
   Send, 
   Bot, 
   User as UserIcon,
-  Brain,
   ArrowLeft
 } from "lucide-react";
 
@@ -234,16 +233,11 @@ const AlzheimerHelp = () => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask about Alzheimer's care, symptoms, products, or daily routines..."
+                    placeholder="Ask about symptoms, products, or daily routines…"
                     disabled={isLoading}
                     className="flex-1"
                   />
-                  <Button 
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    size="icon"
-                    className="bg-primary hover:bg-primary"
-                  >
+                  <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon">
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
