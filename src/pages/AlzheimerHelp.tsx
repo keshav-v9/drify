@@ -145,63 +145,34 @@ const AlzheimerHelp = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-surface flex-shrink-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/dashboard')}
-                className="flex items-center space-x-2 text-muted-foreground hover:text-primary"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Dashboard</span>
-              </Button>
-              <div className="h-6 w-px bg-muted-foreground/30 mx-2" />
-              <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-[15px] font-semibold tracking-[-0.02em]">Drify</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => navigate('/profile')}
-                className="text-muted-foreground hover:text-primary"
-              >
-                Profile
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleSignOut}
-                className="flex items-center space-x-2"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
-            </div>
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-[2px] bg-primary" />
+            <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
+              <ArrowLeft className="h-4 w-4" />
+              Dashboard
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>Profile</Button>
+            <Button variant="ghost" size="sm" onClick={handleSignOut}>Sign out</Button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div className="space-y-6 h-full flex flex-col">
-          <div className="text-center">
-            <div className="flex justify-center items-center space-x-3 mb-4">
-              <Brain className="h-12 w-12 text-primary" />
-              <h2 className="text-[22px] font-semibold">Alzheimer Help</h2>
-            </div>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Get personalized guidance for Alzheimer's care, including symptom management, 
-              product recommendations, daily routines, and emotional support.
+      <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-6 py-8">
+        <div className="flex h-full flex-col">
+          <div className="mb-6 border-b border-border pb-4">
+            <h1 className="text-[22px] font-semibold leading-tight">Care questions</h1>
+            <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+              Ask about symptom changes, daily routines, useful products, or how to handle a
+              difficult day.
             </p>
           </div>
 
-          <Card className="flex-1 flex flex-col min-h-0">
-            <CardHeader className="flex-shrink-0">
-              <CardTitle className="flex items-center space-x-2">
-                <MessageCircle className="h-5 w-5 text-primary" />
-                <span>Alzheimer Care Assistant</span>
-              </CardTitle>
-            </CardHeader>
+          <Card className="flex min-h-0 flex-1 flex-col">
             <CardContent className="flex-1 flex flex-col p-0 min-h-0">
               <ScrollArea className="flex-1 p-4 min-h-[500px]" ref={scrollAreaRef}>
                 <div className="space-y-4">
