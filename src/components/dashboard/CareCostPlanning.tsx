@@ -233,7 +233,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
 
                   {/* Services Included */}
                   <div>
-                    <p className="font-medium mb-2">Services Included:</p>
+                    <p className="font-medium mb-2">Services included</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {level.services.map((service, serviceIndex) => (
                         <div key={serviceIndex} className="flex items-center space-x-2">

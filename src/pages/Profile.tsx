@@ -268,7 +268,7 @@ const Profile = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="careRecipientName">Care Recipient's Name *</Label>
+                  <Label htmlFor="careRecipientName">Care recipient's name *</Label>
                   <Input
                     id="careRecipientName"
                     value={formData.careRecipientName}
@@ -310,7 +310,7 @@ const Profile = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="monthlyIncome">Monthly Income ($) *</Label>
+                  <Label htmlFor="monthlyIncome">Monthly income ($) *</Label>
                   <Input
                     id="monthlyIncome"
                     type="number"
@@ -324,7 +324,7 @@ const Profile = () => {
                   <p className="text-sm text-muted-foreground">This is used as your total monthly budget</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
+                  <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
                   <Input
                     id="emergencyFundTarget"
                     type="number"
@@ -337,7 +337,7 @@ const Profile = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="monthlyExpenseEstimate">Monthly Care Expense Estimate ($)</Label>
+                  <Label htmlFor="monthlyExpenseEstimate">Monthly care expense estimate ($)</Label>
                   <Input
                     id="monthlyExpenseEstimate"
                     type="number"

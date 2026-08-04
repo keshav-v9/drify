@@ -334,7 +334,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>This Month's Spending</span>
+                    <span>This month's spending</span>
                     <span>
                       ${spent.toLocaleString()} / ${category.monthly_budget.toLocaleString()} 
                       ({utilization.toFixed(1)}%)
