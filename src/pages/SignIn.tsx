@@ -90,10 +90,10 @@ const SignIn = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-blue-600">
+          <CardTitle className="text-2xl font-bold text-primary">
             {isSignUp ? "Create Account" : "Welcome Back"}
           </CardTitle>
           <CardDescription>
@@ -139,7 +139,7 @@ const SignIn = () => {
             
             <Button 
               type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-primary hover:bg-primary"
               disabled={loading}
             >
               {loading ? "Please wait..." : (isSignUp ? "Sign Up" : "Sign In")}
@@ -150,7 +150,7 @@ const SignIn = () => {
             <Button
               variant="link"
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-blue-600"
+              className="text-primary"
               disabled={loading}
             >
               {isSignUp 

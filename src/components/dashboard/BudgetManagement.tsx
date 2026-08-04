@@ -209,8 +209,8 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Budget Management</h2>
-          <p className="text-gray-600">Plan and track your monthly care budget</p>
+          <h2 className="text-2xl font-bold text-foreground">Budget Management</h2>
+          <p className="text-muted-foreground">Plan and track your monthly care budget</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
@@ -257,7 +257,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, color }))}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        formData.color === color ? 'border-gray-400' : 'border-gray-200'
+                        formData.color === color ? 'border-gray-400' : 'border-border'
                       }`}
                       style={{ backgroundColor: color }}
                     />
@@ -286,10 +286,10 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-blue-600">
+          <div className="text-3xl font-bold text-primary">
             ${totalBudget.toLocaleString()}
           </div>
-          <p className="text-gray-600">Across {categories.length} categories</p>
+          <p className="text-muted-foreground">Across {categories.length} categories</p>
         </CardContent>
       </Card>
 
@@ -310,7 +310,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                     />
                     <div>
                       <h3 className="font-semibold">{category.name}</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-muted-foreground">
                         Monthly Budget: ${category.monthly_budget.toLocaleString()}
                       </p>
                     </div>
@@ -342,10 +342,10 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                   </div>
                   <Progress 
                     value={utilization} 
-                    className={`h-2 ${utilization > 100 ? 'text-red-500' : ''}`}
+                    className={`h-2 ${utilization > 100 ? 'text-destructive' : ''}`}
                   />
                   {utilization > 100 && (
-                    <p className="text-xs text-red-500">Over budget by ${(spent - category.monthly_budget).toLocaleString()}</p>
+                    <p className="text-xs text-destructive">Over budget by ${(spent - category.monthly_budget).toLocaleString()}</p>
                   )}
                 </div>
               </CardContent>
@@ -359,8 +359,8 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
           <CardContent className="pt-6">
             <div className="text-center py-8">
               <DollarSign className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No Budget Categories</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-lg font-semibold text-foreground mb-2">No Budget Categories</h3>
+              <p className="text-muted-foreground mb-4">
                 Create your first budget category to start planning your care expenses.
               </p>
               <Button onClick={() => setIsAddDialogOpen(true)}>

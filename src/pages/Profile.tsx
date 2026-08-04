@@ -217,8 +217,8 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
       </div>
     );
   }
@@ -228,9 +228,9 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-card shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -245,7 +245,7 @@ const Profile = () => {
             </div>
             <div className="flex items-center space-x-3">
               <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
+              <h1 className="text-2xl font-bold text-primary">Drify</h1>
             </div>
           </div>
         </div>
@@ -255,8 +255,8 @@ const Profile = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
-            <p className="text-gray-600">Update your care recipient information and financial details</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
+            <p className="text-muted-foreground">Update your care recipient information and financial details</p>
           </div>
 
           <div className="space-y-6">
@@ -321,7 +321,7 @@ const Profile = () => {
                     min="0"
                     max="1000000"
                   />
-                  <p className="text-sm text-gray-500">This is used as your total monthly budget</p>
+                  <p className="text-sm text-muted-foreground">This is used as your total monthly budget</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
@@ -367,7 +367,7 @@ const Profile = () => {
             <div className="flex justify-end">
               <Button
                 onClick={handleSave}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-primary hover:bg-primary"
                 disabled={saving}
               >
                 {saving ? "Saving..." : "Save Changes"}

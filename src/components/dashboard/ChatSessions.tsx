@@ -82,11 +82,11 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
   };
 
   if (loading) {
-    return <div className="p-4 text-center text-gray-500">Loading sessions...</div>;
+    return <div className="p-4 text-center text-muted-foreground">Loading sessions...</div>;
   }
 
   return (
-    <div className="w-64 bg-gray-50 border-r h-full flex flex-col">
+    <div className="w-64 bg-secondary border-r h-full flex flex-col">
       <div className="p-4 border-b">
         <Button 
           onClick={onNewSession}
@@ -102,8 +102,8 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
           {sessions.map((session) => (
             <Card 
               key={session.id}
-              className={`cursor-pointer transition-colors hover:bg-blue-50 ${
-                activeSessionId === session.id ? 'bg-blue-100 border-blue-300' : ''
+              className={`cursor-pointer transition-colors hover:bg-secondary ${
+                activeSessionId === session.id ? 'bg-secondary border-border' : ''
               }`}
               onClick={() => handleSessionClick(session.id)}
             >
@@ -111,19 +111,19 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2">
-                      <MessageCircle className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                      <h3 className="text-sm font-medium text-gray-900 truncate">
+                      <MessageCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                      <h3 className="text-sm font-medium text-foreground truncate">
                         {session.title}
                       </h3>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {new Date(session.updated_at).toLocaleDateString()}
                     </p>
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 text-gray-400 hover:text-red-600"
+                    className="h-6 w-6 text-muted-foreground hover:text-destructive"
                     onClick={(e) => deleteSession(session.id, e)}
                   >
                     <Trash2 className="h-3 w-3" />
@@ -134,7 +134,7 @@ const ChatSessions = ({ user, activeSessionId, onSessionSelect, onNewSession }: 
           ))}
           
           {sessions.length === 0 && (
-            <div className="text-center text-gray-500 text-sm py-8">
+            <div className="text-center text-muted-foreground text-sm py-8">
               No chat sessions yet.<br />
               Click "New Chat" to start!
             </div>

@@ -7,18 +7,18 @@ const About = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              About the <span className="text-blue-600">Creator</span>
+            <h1 className="text-4xl font-bold text-foreground mb-6">
+              About the <span className="text-primary">Creator</span>
             </h1>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-6">
               <div className="text-center md:text-left">
-                <h2 className="text-3xl font-bold text-blue-700 mb-2">Keshav Varma</h2>
-                <p className="text-xl text-gray-600 font-medium">
+                <h2 className="text-3xl font-bold text-primary mb-2">Keshav Varma</h2>
+                <p className="text-xl text-muted-foreground font-medium">
                   From Aurora, Illinois
                 </p>
               </div>
@@ -26,12 +26,12 @@ const About = () => {
                 <img 
                   src="/lovable-uploads/36ec9c01-d135-4aad-8dbc-6b53d55ada17.png" 
                   alt="Keshav Varma" 
-                  className="w-48 h-48 rounded-full object-cover border-4 border-blue-200 shadow-lg"
+                  className="w-48 h-48 rounded-full object-cover border-4 border-border shadow-lg"
                 />
               </div>
             </div>
             
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-muted-foreground">
               The person behind Drify
             </p>
           </div>
@@ -39,7 +39,7 @@ const About = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <Card>
               <CardHeader>
-                <CardTitle className="text-blue-600">My Story</CardTitle>
+                <CardTitle className="text-primary">My Story</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
@@ -54,11 +54,11 @@ const About = () => {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-blue-600">Background</CardTitle>
+                <CardTitle className="text-primary">Background</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
-                  I'm <span className="font-bold text-blue-700 text-lg">Keshav Varma</span>, based in <span className="font-semibold text-blue-600">Aurora, Illinois</span>. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face.
+                  I'm <span className="font-bold text-primary text-lg">Keshav Varma</span>, based in <span className="font-semibold text-primary">Aurora, Illinois</span>. As someone who experienced firsthand the challenges of managing finances while caregiving, I understand the unique pressures families face.
                   <br /><br />
                   I'm fascinated by how technology can solve complex economic problems in healthcare - from optimizing care costs to improving financial accessibility for families dealing with chronic conditions.
                   <br /><br />
@@ -69,7 +69,7 @@ const About = () => {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-blue-600">Mission</CardTitle>
+                <CardTitle className="text-primary">Mission</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
@@ -80,7 +80,7 @@ const About = () => {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-blue-600">Vision</CardTitle>
+                <CardTitle className="text-primary">Vision</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base leading-relaxed">
@@ -100,7 +100,7 @@ const About = () => {
             </Button>
             <Button 
               onClick={() => navigate('/sign-in')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+              className="bg-primary hover:bg-primary text-primary-foreground px-8 py-3"
             >
               Get Started
             </Button>

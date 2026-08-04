@@ -66,27 +66,27 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-blue-600">Loading...</div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-primary">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b flex-shrink-0">
+      <header className="bg-card shadow-sm border-b flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img src="/lovable-uploads/c6dcf3e7-6145-4715-9664-ada864473643.png" alt="Drify Logo" className="h-8 w-8" />
-              <h1 className="text-2xl font-bold text-blue-600">Drify</h1>
+              <h1 className="text-2xl font-bold text-primary">Drify</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => navigate('/profile')}
-                className="text-gray-600 hover:text-blue-600"
+                className="text-muted-foreground hover:text-primary"
               >
                 Profile
               </Button>
@@ -106,15 +106,15 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <div className="mb-6">
-          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+          <Card className="bg-background border-border">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Need Alzheimer's Care Support?</h3>
-                  <p className="text-gray-600 mb-4">Get personalized guidance, product recommendations, and emotional support for Alzheimer's care.</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">Need Alzheimer's Care Support?</h3>
+                  <p className="text-muted-foreground mb-4">Get personalized guidance, product recommendations, and emotional support for Alzheimer's care.</p>
                   <Button 
                     onClick={() => navigate('/alzheimer-help')}
-                    className="bg-purple-600 hover:bg-purple-700"
+                    className="bg-primary hover:bg-primary"
                   >
                     <Brain className="h-4 w-4 mr-2" />
                     Alzheimer Help
@@ -126,7 +126,7 @@ const Dashboard = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6 h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-6 bg-white shadow-sm flex-shrink-0">
+          <TabsList className="grid w-full grid-cols-6 bg-card shadow-sm flex-shrink-0">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
               <DollarSign className="h-4 w-4" />
               <span className="hidden sm:inline">Overview</span>

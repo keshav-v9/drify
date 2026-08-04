@@ -130,12 +130,12 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Care Cost Planning</h2>
-        <p className="text-gray-600">Plan for different levels of care and assess financial readiness</p>
+        <h2 className="text-2xl font-bold text-foreground">Care Cost Planning</h2>
+        <p className="text-muted-foreground">Plan for different levels of care and assess financial readiness</p>
       </div>
 
       {/* Emergency Fund Overview */}
-      <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+      <Card className="bg-primary text-primary-foreground">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Shield className="h-6 w-6" />
@@ -145,19 +145,19 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <p className="text-blue-100">Current Fund</p>
+              <p className="text-primary-foreground/80">Current Fund</p>
               <p className="text-2xl font-bold">
                 ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
-              <p className="text-blue-100">Target Fund</p>
+              <p className="text-primary-foreground/80">Target Fund</p>
               <p className="text-2xl font-bold">
                 ${financialPlan?.emergency_fund_target?.toLocaleString() || '0'}
               </p>
             </div>
             <div>
-              <p className="text-blue-100">Monthly Estimate</p>
+              <p className="text-primary-foreground/80">Monthly Estimate</p>
               <p className="text-2xl font-bold">
                 ${financialPlan?.monthly_expense_estimate?.toLocaleString() || '0'}
               </p>
@@ -185,25 +185,25 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                         <Badge variant="secondary" className="text-xs">Current</Badge>
                       )}
                     </CardTitle>
-                    <p className="text-gray-600 mt-1">{level.description}</p>
+                    <p className="text-muted-foreground mt-1">{level.description}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-blue-600">
+                    <div className="text-2xl font-bold text-primary">
                       ${monthlyCost.toLocaleString()}
                     </div>
-                    <p className="text-sm text-gray-600">per month</p>
+                    <p className="text-sm text-muted-foreground">per month</p>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {/* Financial Readiness */}
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between p-3 bg-secondary rounded-lg">
                     <div className="flex items-center space-x-3">
-                      <StatusIcon className="h-5 w-5 text-gray-600" />
+                      <StatusIcon className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <p className="font-medium">Financial Readiness</p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-muted-foreground">
                           {coverageMonths.toFixed(1)} months of coverage
                         </p>
                       </div>
@@ -226,7 +226,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                       value={Math.min((coverageMonths / 6) * 100, 100)} 
                       className="h-2"
                     />
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-muted-foreground">
                       Recommended: 6+ months of coverage
                     </p>
                   </div>
@@ -237,7 +237,7 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {level.services.map((service, serviceIndex) => (
                         <div key={serviceIndex} className="flex items-center space-x-2">
-                          <CheckCircle className="h-4 w-4 text-green-500" />
+                          <CheckCircle className="h-4 w-4 text-success" />
                           <span className="text-sm">{service}</span>
                         </div>
                       ))}
@@ -248,10 +248,10 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
                   {coverageMonths < 6 && (
                     <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                       <div className="flex items-start space-x-2">
-                        <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                        <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
                         <div>
                           <p className="font-medium text-yellow-800">Recommendation</p>
-                          <p className="text-sm text-yellow-700">
+                          <p className="text-sm text-warning">
                             Consider building your emergency fund to ${(monthlyCost * 6).toLocaleString()} 
                             for 6 months of coverage at this care level.
                           </p>
@@ -267,31 +267,31 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
       </div>
 
       {/* AI Recommendations */}
-      <Card className="border-2 border-blue-200 bg-blue-50">
+      <Card className="border-2 border-border bg-secondary">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-blue-600" />
+            <TrendingUp className="h-5 w-5 text-primary" />
             <span>AI Financial Recommendations</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-              <p className="text-gray-700">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+              <p className="text-muted-foreground">
                 Based on current trends, consider gradually increasing your emergency fund 
                 by $500-1000 per month to improve care readiness.
               </p>
             </div>
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-              <p className="text-gray-700">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+              <p className="text-muted-foreground">
                 Review and update your care cost estimates every 6 months as needs change.
               </p>
             </div>
             <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-              <p className="text-gray-700">
+              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+              <p className="text-muted-foreground">
                 Consider setting up automatic transfers to build your emergency fund consistently.
               </p>
             </div>

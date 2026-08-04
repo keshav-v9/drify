@@ -213,8 +213,8 @@ const Onboarding = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
       </div>
     );
   }
@@ -226,15 +226,15 @@ const Onboarding = () => {
   const progress = (step / 3) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Drify</h1>
-            <p className="text-gray-600">Let's set up your account to get started</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Drify</h1>
+            <p className="text-muted-foreground">Let's set up your account to get started</p>
             <div className="mt-4">
               <Progress value={progress} className="w-full" />
-              <p className="text-sm text-gray-500 mt-2">Step {step} of 3</p>
+              <p className="text-sm text-muted-foreground mt-2">Step {step} of 3</p>
             </div>
           </div>
 
@@ -308,7 +308,7 @@ const Onboarding = () => {
                       min="0"
                       max="1000000"
                     />
-                    <p className="text-sm text-gray-500">This will be used as your total monthly budget</p>
+                    <p className="text-sm text-muted-foreground">This will be used as your total monthly budget</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="emergencyFundTarget">Emergency Fund Target ($)</Label>
@@ -363,14 +363,14 @@ const Onboarding = () => {
                 {step < 3 ? (
                   <Button
                     onClick={handleNext}
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-primary hover:bg-primary"
                   >
                     Next
                   </Button>
                 ) : (
                   <Button
                     onClick={handleComplete}
-                    className="bg-green-600 hover:bg-green-700"
+                    className="bg-primary hover:bg-primary"
                     disabled={saving}
                   >
                     {saving ? "Saving..." : "Complete Setup"}

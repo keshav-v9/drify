@@ -249,8 +249,8 @@ const ChatBot = ({ user }: ChatBotProps) => {
   return (
     <div className="space-y-6 h-full flex flex-col">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">AI Assistant</h2>
-        <p className="text-gray-600">Get personalized financial advice and support for your care planning</p>
+        <h2 className="text-2xl font-bold text-foreground">AI Assistant</h2>
+        <p className="text-muted-foreground">Get personalized financial advice and support for your care planning</p>
       </div>
 
       <div className="flex-1 flex min-h-0">
@@ -264,7 +264,7 @@ const ChatBot = ({ user }: ChatBotProps) => {
         <Card className="flex-1 flex flex-col min-h-0 ml-4">
           <CardHeader className="flex-shrink-0">
             <CardTitle className="flex items-center space-x-2">
-              <MessageCircle className="h-5 w-5 text-blue-600" />
+              <MessageCircle className="h-5 w-5 text-primary" />
               <span>Drify Assistant</span>
             </CardTitle>
           </CardHeader>
@@ -280,8 +280,8 @@ const ChatBot = ({ user }: ChatBotProps) => {
                   >
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                       message.role === 'user' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-gray-200 text-gray-600'
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-muted-foreground/30 text-muted-foreground'
                     }`}>
                       {message.role === 'user' ? (
                         <UserIcon className="h-4 w-4" />
@@ -294,12 +294,12 @@ const ChatBot = ({ user }: ChatBotProps) => {
                     }`}>
                       <div className={`inline-block p-3 rounded-lg ${
                         message.role === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-900'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-secondary text-foreground'
                       }`}>
                         <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
                         {message.timestamp.toLocaleTimeString()}
                       </p>
                     </div>
@@ -307,15 +307,15 @@ const ChatBot = ({ user }: ChatBotProps) => {
                 ))}
                 {isLoading && (
                   <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted-foreground/30 text-muted-foreground flex items-center justify-center">
                       <Bot className="h-4 w-4" />
                     </div>
                     <div className="flex-1">
-                      <div className="inline-block p-3 rounded-lg bg-gray-100">
+                      <div className="inline-block p-3 rounded-lg bg-secondary">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                         </div>
                       </div>
                     </div>

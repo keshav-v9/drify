@@ -178,8 +178,8 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Expense Tracking</h2>
-          <p className="text-gray-600">Record and monitor your care-related expenses</p>
+          <h2 className="text-2xl font-bold text-foreground">Expense Tracking</h2>
+          <p className="text-muted-foreground">Record and monitor your care-related expenses</p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
@@ -275,7 +275,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalExpenses.toLocaleString()}</div>
-            <p className="text-gray-600">All time</p>
+            <p className="text-muted-foreground">All time</p>
           </CardContent>
         </Card>
 
@@ -288,7 +288,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${thisMonthExpenses.toLocaleString()}</div>
-            <p className="text-gray-600">{new Date().toLocaleString('default', { month: 'long' })}</p>
+            <p className="text-muted-foreground">{new Date().toLocaleString('default', { month: 'long' })}</p>
           </CardContent>
         </Card>
 
@@ -298,7 +298,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{expenses.length}</div>
-            <p className="text-gray-600">Recorded expenses</p>
+            <p className="text-muted-foreground">Recorded expenses</p>
           </CardContent>
         </Card>
       </div>
@@ -312,7 +312,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           {expenses.length > 0 ? (
             <div className="space-y-4">
               {expenses.map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div key={expense.id} className="flex items-center justify-between p-4 bg-secondary rounded-lg">
                   <div className="flex items-center space-x-4">
                     <div
                       className="w-4 h-4 rounded-full"
@@ -320,7 +320,7 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
                     />
                     <div>
                       <h4 className="font-medium">{expense.description}</h4>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                         <span>{getCategoryName(expense.category_id)}</span>
                         <span>•</span>
                         <span>{new Date(expense.expense_date).toLocaleDateString()}</span>
@@ -352,8 +352,8 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
           ) : (
             <div className="text-center py-8">
               <TrendingUp className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No Expenses Recorded</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-lg font-semibold text-foreground mb-2">No Expenses Recorded</h3>
+              <p className="text-muted-foreground mb-4">
                 Start tracking your care expenses to better manage your budget.
               </p>
               <Button onClick={() => setIsAddDialogOpen(true)}>

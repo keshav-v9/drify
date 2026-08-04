@@ -276,14 +276,14 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+      <Card className="bg-primary text-primary-foreground">
         <CardHeader>
           <CardTitle className="text-2xl">
             Welcome back! {careRecipient ? `Managing care for ${careRecipient.name}` : 'Ready to manage your care finances'}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-blue-100">
+          <p className="text-primary-foreground/80">
             Your comprehensive financial care management dashboard is ready to help you plan and track expenses.
           </p>
         </CardContent>
@@ -349,9 +349,9 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           <CardContent>
             <div className="flex items-center space-x-2">
               {emergencyFundMonths >= 6 ? (
-                <CheckCircle className="h-5 w-5 text-green-500" />
+                <CheckCircle className="h-5 w-5 text-success" />
               ) : (
-                <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                <AlertTriangle className="h-5 w-5 text-warning" />
               )}
               <span className="text-sm font-medium">
                 {emergencyFundMonths >= 6 ? 'Well Prepared' : 'Building Readiness'}
@@ -426,12 +426,12 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           {expenses.length > 0 ? (
             <div className="space-y-3">
               {expenses.map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={expense.id} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-primary rounded-full"></div>
                     <div>
                       <p className="font-medium">{expense.description}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-muted-foreground">
                         {new Date(expense.expense_date).toLocaleDateString()}
                       </p>
                     </div>
@@ -443,7 +443,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-muted-foreground">
               <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
               <p>No expenses recorded yet</p>
               <p className="text-sm">Start tracking your care expenses</p>
@@ -455,7 +455,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
       {/* Last Updated */}
       <Card>
         <CardContent className="pt-6">
-          <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
+          <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
             <Clock className="h-4 w-4" />
             <span>Last updated: {new Date().toLocaleString()}</span>
           </div>
@@ -602,7 +602,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
                 placeholder="0.00"
                 required
               />
-              <p className="text-sm text-gray-500 mt-1">This will be your total monthly budget</p>
+              <p className="text-sm text-muted-foreground mt-1">This will be your total monthly budget</p>
             </div>
             <div>
               <Label htmlFor="target">Target Emergency Fund</Label>
