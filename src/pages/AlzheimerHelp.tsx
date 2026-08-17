@@ -140,10 +140,7 @@ const AlzheimerHelp = () => {
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
           </div>
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
-              <ArrowLeft className="h-4 w-4" />
-              Dashboard
-            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>Dashboard</Button>
             <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>Profile</Button>
             <Button variant="ghost" size="sm" onClick={handleSignOut}>Sign out</Button>
           </div>
