@@ -1,73 +1,94 @@
-# Welcome to your Lovable project
+# Drify
 
-## Project info
+Drify is a care-finance organizer built for families supporting a parent or loved one with chronic conditions such as Alzheimer's.
 
-**URL**: https://lovable.dev/projects/94f46a05-cf99-44ea-a97f-61637a7046ec
+It helps you track monthly care budgets, log expenses, collaborate with family members, and ask care-related questions in one place.
 
-## How can I edit this code?
+## Purpose
 
-There are several ways of editing your application.
+Most budgeting apps assume one household and predictable spending. Caregiving expenses are different: they are irregular, shared by multiple people, and often tied to urgent medical needs.
 
-**Use Lovable**
+Drify exists to make that process manageable by giving families a shared system for:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/94f46a05-cf99-44ea-a97f-61637a7046ec) and start prompting.
+- Tracking care-specific spending by category
+- Understanding monthly budget progress
+- Coordinating as a family group
+- Keeping planning notes and legal/support contacts together
+- Getting quick guidance through an assistant experience
 
-Changes made via Lovable will be committed automatically to this repo.
+## Core Features
 
-**Use your preferred IDE**
+- Authentication and profile setup with Supabase
+- Monthly dashboard with budget summary, spend, and readiness indicators
+- Budget category management with per-category progress
+- Expense tracking and recent activity feed
+- Family collaboration with group invite flow
+- Planning workspace for legal documents, support network, and notes
+- Care question assistant and in-dashboard assistant chat views
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Screenshots
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1) Landing page
 
-Follow these steps:
+![Landing page](Screenshots/landing.png)
+
+### 2) Dashboard overview
+
+![Dashboard overview](Screenshots/dashboard-overview.png)
+
+### 3) Budget management
+
+![Budget management](Screenshots/budget-management.png)
+
+### 4) Family collaboration settings
+
+![Family collaboration settings](Screenshots/family-settings.png)
+
+### 5) In-dashboard assistant
+
+![In-dashboard assistant](Screenshots/assistant-dashboard.png)
+
+### 6) Profile and financial setup
+
+![Profile and financial setup](Screenshots/profile-setup.png)
+
+### 7) Planning tools
+
+![Planning tools](Screenshots/planning-tools.png)
+
+### 8) Care questions page
+
+![Care questions page](Screenshots/care-questions.png)
+
+## Tech Stack
+
+- React + TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Supabase (auth, database, edge functions)
+
+## Local Development
+
+1. Clone the repo.
+2. Install dependencies.
+3. Start the dev server.
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+git clone <your-repo-url>
+cd drify
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Create a local `.env` file using `.env.example` and provide your Supabase project values.
 
-**Use GitHub Codespaces**
+```env
+VITE_SUPABASE_PROJECT_ID=...
+VITE_SUPABASE_PUBLISHABLE_KEY=...
+VITE_SUPABASE_URL=...
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/94f46a05-cf99-44ea-a97f-61637a7046ec) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Do not commit `.env`.
