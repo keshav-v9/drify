@@ -141,7 +141,7 @@ const AlzheimerHelp = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-surface flex-shrink-0">
-        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
+        <div className="mx-auto flex h-12 max-w-[1400px] items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-[2px] bg-primary" />
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
@@ -158,89 +158,58 @@ const AlzheimerHelp = () => {
       </header>
 
       {/* Main Content */}
-      <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-6 py-8">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-6">
         <div className="flex h-full flex-col">
-          <div className="mb-6 border-b border-border pb-4">
-            <h1 className="text-[22px] font-semibold leading-tight">Care questions</h1>
-            <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+          <div className="mb-4 border-b border-border pb-3">
+            <h1 className="text-base font-semibold leading-tight">Care questions</h1>
+            <p className="mt-1 max-w-xl text-[13px] text-muted-foreground">
               Ask about symptom changes, daily routines, useful products, or how to handle a
               difficult day.
             </p>
           </div>
 
-          <Card className="flex min-h-0 flex-1 flex-col">
-            <CardContent className="flex-1 flex flex-col p-0 min-h-0">
-              <ScrollArea className="flex-1 p-4 min-h-[500px]" ref={scrollAreaRef}>
-                <div className="space-y-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex items-start space-x-3 ${
-                        message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                      }`}
-                    >
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                        message.role === 'user' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-muted-foreground/30 text-muted-foreground'
-                      }`}>
-                        {message.role === 'user' ? (
-                          <UserIcon className="h-4 w-4" />
-                        ) : (
-                          <Bot className="h-4 w-4" />
-                        )}
-                      </div>
-                      <div className={`flex-1 max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${
-                        message.role === 'user' ? 'text-right' : 'text-left'
-                      }`}>
-                        <div className={`inline-block p-3 rounded-lg ${
-                          message.role === 'user'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-secondary text-foreground'
-                        }`}>
-                          <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {message.timestamp.toLocaleTimeString()}
-                        </p>
-                      </div>
+          <div className="flex min-h-0 flex-1 flex-col">
+            <ScrollArea className="min-h-[440px] flex-1" ref={scrollAreaRef}>
+              <div className="divide-y divide-border">
+                {messages.map((message) => (
+                  <div key={message.id} className="grid gap-1 py-3 sm:grid-cols-12 sm:gap-4">
+                    <div className="sm:col-span-2">
+                      <span className="field-label">
+                        {message.role === 'user' ? 'You' : 'Drify'}
+                      </span>
                     </div>
-                  ))}
-                  {isLoading && (
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted-foreground/30 text-muted-foreground flex items-center justify-center">
-                        <Bot className="h-4 w-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="inline-block p-3 rounded-lg bg-secondary">
-                          <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="sm:col-span-10">
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
+                      <p className="mt-1 text-xs tabular-nums text-muted-foreground">
+                        {message.timestamp.toLocaleTimeString()}
+                      </p>
                     </div>
-                  )}
-                </div>
-              </ScrollArea>
-              <div className="border-t p-4 flex-shrink-0">
-                <div className="flex space-x-2">
-                  <Input
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Ask about symptoms, products, or daily routines…"
-                    disabled={isLoading}
-                    className="flex-1"
-                  />
-                  <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon">
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="grid gap-1 py-3 sm:grid-cols-12 sm:gap-4">
+                    <div className="sm:col-span-2">
+                      <span className="field-label">Drify</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground sm:col-span-10">Writing…</p>
+                  </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
+            </ScrollArea>
+            <div className="flex flex-shrink-0 gap-2 border-t border-border pt-3">
+              <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Ask about symptoms, products, or daily routines…"
+                disabled={isLoading}
+                className="flex-1"
+              />
+              <Button onClick={handleSend} disabled={!input.trim() || isLoading}>
+                Send
+              </Button>
+            </div>
+          </div>
         </div>
       </main>
     </div>
