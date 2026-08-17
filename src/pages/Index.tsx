@@ -45,7 +45,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+        <div className="mx-auto flex h-12 max-w-5xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-[2px] bg-primary" />
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
