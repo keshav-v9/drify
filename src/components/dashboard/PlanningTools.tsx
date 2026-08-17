@@ -343,24 +343,15 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold">Planning</h2>
-        <p className="text-muted-foreground">Manage legal documents and support network contacts</p>
-      </div>
-
+    <div className="space-y-8">
       {/* Legal Documents */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
-            <FileText className="h-5 w-5" />
-            <span>Legal document tracking</span>
-          </CardTitle>
+      <section>
+        <div className="mb-2 flex items-center justify-between border-b border-border pb-2">
+          <h2 className="text-sm font-medium">Legal documents</h2>
           <Dialog open={isDocumentDialogOpen} onOpenChange={setIsDocumentDialogOpen}>
             <DialogTrigger asChild>
-              <Button onClick={() => resetDocumentForm()}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Document
+              <Button size="sm" variant="outline" onClick={() => resetDocumentForm()}>
+                Add document
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -416,53 +407,44 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </form>
             </DialogContent>
           </Dialog>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        </div>
+        {documents.length === 0 ? (
+          <p className="py-4 text-sm text-muted-foreground">No documents tracked yet.</p>
+        ) : (
+          <ul className="divide-y divide-border">
             {documents.map((doc) => (
-              <div key={doc.id} className="flex items-center justify-between p-4 bg-secondary rounded-lg">
-                <div className="flex items-center space-x-4">
-                  {getStatusIcon(doc.status)}
-                  <div>
-                    <h4 className="font-medium">{doc.document_type}</h4>
-                    {doc.last_updated && (
-                      <p className="text-sm text-muted-foreground">
-                        Last updated: {new Date(doc.last_updated).toLocaleDateString()}
-                      </p>
-                    )}
-                    {doc.notes && (
-                      <p className="text-sm text-muted-foreground mt-1">{doc.notes}</p>
-                    )}
-                  </div>
+              <li key={doc.id} className="flex items-start justify-between gap-6 py-2.5">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium">{doc.document_type}</p>
+                  {doc.last_updated && (
+                    <p className="text-xs text-muted-foreground">
+                      Updated {new Date(doc.last_updated).toLocaleDateString()}
+                    </p>
+                  )}
+                  {doc.notes && (
+                    <p className="mt-0.5 text-xs text-muted-foreground">{doc.notes}</p>
+                  )}
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-shrink-0 items-center gap-2">
                   {getStatusBadge(doc.status)}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => startEditDocument(doc)}
-                  >
-                    <Edit2 className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" onClick={() => startEditDocument(doc)}>
+                    Edit
                   </Button>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
-        </CardContent>
-      </Card>
+          </ul>
+        )}
+      </section>
 
       {/* Support Network */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
-            <Users className="h-5 w-5" />
-            <span>Support network</span>
-          </CardTitle>
+      <section>
+        <div className="mb-2 flex items-center justify-between border-b border-border pb-2">
+          <h2 className="text-sm font-medium">Support network</h2>
           <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
             <DialogTrigger asChild>
-              <Button onClick={() => resetContactForm()}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Contact
+              <Button size="sm" variant="outline" onClick={() => resetContactForm()}>
+                Add contact
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -530,86 +512,54 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
               </form>
             </DialogContent>
           </Dialog>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4">
+        </div>
+        {contacts.length === 0 ? (
+          <p className="py-4 text-sm text-muted-foreground">No contacts saved yet.</p>
+        ) : (
+          <ul className="divide-y divide-border">
             {contacts.map((contact) => (
-              <div key={contact.id} className="p-4 bg-secondary rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium">{contact.contact_type}</h4>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => startEditContact(contact)}
-                  >
-                    <Edit2 className="h-4 w-4" />
+              <li key={contact.id} className="grid gap-1 py-2.5 sm:grid-cols-12 sm:gap-4">
+                <div className="sm:col-span-3">
+                  <p className="text-sm font-medium">{contact.contact_type}</p>
+                  {contact.name && (
+                    <p className="text-xs text-muted-foreground">{contact.name}</p>
+                  )}
+                </div>
+                <div className="text-xs text-muted-foreground sm:col-span-7">
+                  <p>{[contact.phone, contact.email].filter(Boolean).join(' · ')}</p>
+                  {contact.notes && <p className="mt-0.5">{contact.notes}</p>}
+                </div>
+                <div className="sm:col-span-2 sm:text-right">
+                  <Button variant="ghost" size="sm" onClick={() => startEditContact(contact)}>
+                    Edit
                   </Button>
                 </div>
-                {contact.name && (
-                  <p className="text-muted-foreground mb-1">{contact.name}</p>
-                )}
-                <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  {contact.phone && (
-                    <div className="flex items-center space-x-1">
-                      <Phone className="h-4 w-4" />
-                      <span>{contact.phone}</span>
-                    </div>
-                  )}
-                  {contact.email && (
-                    <div className="flex items-center space-x-1">
-                      <Mail className="h-4 w-4" />
-                      <span>{contact.email}</span>
-                    </div>
-                  )}
-                </div>
-                {contact.notes && (
-                  <p className="text-sm text-muted-foreground mt-2">{contact.notes}</p>
-                )}
-              </div>
+              </li>
             ))}
-          </div>
-        </CardContent>
-      </Card>
+          </ul>
+        )}
+      </section>
 
-      {/* Financial Planning Insights */}
-      <Card className="border-2 border-border bg-secondary">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>AI-Powered Financial Planning Insights</CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={generateAIInsights}
-            disabled={insightsLoading}
-            className="bg-card"
-          >
-            {insightsLoading ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              'Refresh Insights'
-            )}
+      {/* Planning notes */}
+      <section>
+        <div className="mb-2 flex items-center justify-between border-b border-border pb-2">
+          <h2 className="text-sm font-medium">Notes on your plan</h2>
+          <Button variant="ghost" size="sm" onClick={generateAIInsights} disabled={insightsLoading}>
+            {insightsLoading ? 'Working…' : 'Refresh'}
           </Button>
-        </CardHeader>
-        <CardContent>
-          {insightsLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin mr-2" />
-              <span className="text-muted-foreground">Generating personalized insights...</span>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {aiInsights.map((insight, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <CheckCircle className="h-5 w-5 text-success mt-0.5 flex-shrink-0" />
-                  <p className="text-muted-foreground">{insight}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+        </div>
+        {insightsLoading ? (
+          <p className="py-4 text-sm text-muted-foreground">Reviewing your numbers…</p>
+        ) : (
+          <ul className="divide-y divide-border">
+            {aiInsights.map((insight, index) => (
+              <li key={index} className="py-2.5 text-sm leading-relaxed text-muted-foreground">
+                {insight}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 };

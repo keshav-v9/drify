@@ -45,7 +45,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+        <div className="mx-auto flex h-12 max-w-5xl items-center justify-between px-6">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-[2px] bg-primary" />
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
@@ -57,92 +57,65 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6">
-        <section className="grid gap-12 border-b border-border py-16 md:grid-cols-12 md:py-24">
+      <main className="mx-auto max-w-5xl px-6">
+        <section className="grid gap-8 border-b border-border py-12 md:grid-cols-12">
           <div className="md:col-span-7">
-            <p className="field-label mb-5">For families managing care</p>
-            <h1 className="max-w-xl text-4xl font-semibold leading-[1.1] md:text-[44px]">
-              Keep a parent&rsquo;s money organized while you care for them.
+            <h1 className="max-w-lg text-[26px] font-semibold leading-[1.2] md:text-[30px]">
+              Care costs for one parent, tracked in one place.
             </h1>
-            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
-              Track care costs, bills and reimbursements in one place, set a monthly budget that
-              reflects real caregiving expenses, and share the picture with siblings so nothing
-              falls through the cracks.
+            <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+              A monthly budget for medication, home help and transport; an expense log the whole
+              family can see; and a projection of what the next months cost.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Button onClick={() => navigate('/sign-in')}>Create an account</Button>
-              <Button variant="ghost" onClick={() => navigate('/about')}>Read the story behind Drify</Button>
+              <Button variant="ghost" onClick={() => navigate('/about')}>Why this exists</Button>
             </div>
-            <p className="mt-4 text-[13px] text-muted-foreground">Free to use. No card required.</p>
           </div>
-
-          <div className="md:col-span-5">
-            <div className="rule-tick">
-              <dl className="divide-y divide-border">
-                {[
-                  ['Monthly care budget', 'Categories built for medication, home help and transport'],
-                  ['Expense log', 'Log a cost in seconds and see where the month is heading'],
-                  ['Shared with family', 'Invite siblings so everyone sees the same numbers'],
-                ].map(([term, desc]) => (
-                  <div key={term} className="py-4">
-                    <dt className="text-sm font-medium">{term}</dt>
-                    <dd className="mt-1 text-[13px] leading-relaxed text-muted-foreground">{desc}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+          <div className="self-end md:col-span-5">
+            <dl className="divide-y divide-border border-t border-border text-[13px]">
+              {[
+                ['Budget categories', 'Medication, home help, transport, facility'],
+                ['Expense log', 'Amount, date, category, who paid'],
+                ['Projection', 'Cost per month over the next 12'],
+                ['Family access', 'Invite by email, read or edit'],
+              ].map(([term, desc]) => (
+                <div key={term} className="flex justify-between gap-6 py-2">
+                  <dt className="font-medium">{term}</dt>
+                  <dd className="text-right text-muted-foreground">{desc}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 
-        <section className="grid gap-10 border-b border-border py-14 md:grid-cols-3">
-          <div>
-            <h2 className="text-lg font-semibold">Built around caregiving, not generic budgeting</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Care costs don&rsquo;t fit a standard spending app. Drify starts from the categories
-              families actually deal with.
+        <section className="grid gap-x-12 gap-y-6 border-b border-border py-10 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <h2 className="text-sm font-medium">Why not a normal budgeting app</h2>
+          </div>
+          <div className="space-y-3 text-sm leading-relaxed text-muted-foreground md:col-span-8">
+            <p>
+              Care spending is irregular, reimbursed late, and split between several people. A
+              spending app assumes one household, one income, and predictable months.
+            </p>
+            <p>
+              Drify keeps the record a family actually needs: what was spent on the person being
+              cared for, by whom, against a budget everyone agreed on &mdash; plus answers on
+              Alzheimer&rsquo;s care when a question comes up mid-month.
             </p>
           </div>
-          <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 md:col-span-2">
-            <div>
-              <h3 className="text-sm font-medium">Plan for what care will cost</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Project in-home help, facility fees and medical costs over the coming months so a
-                decision isn&rsquo;t made blind.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium">Answers on Alzheimer&rsquo;s care</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Ask about symptom changes, daily routines or which products help, and get a
-                straight answer instead of a search page.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium">Documents where you can find them</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Keep account details, plans and notes together instead of spread across inboxes.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-sm font-medium">Private by default</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Records are visible only to you and the family members you invite.
-              </p>
-            </div>
-          </div>
         </section>
 
-        <section className="flex flex-col gap-4 py-14 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-lg font-semibold">Start with this month</h2>
-            <p className="mt-2 text-sm text-muted-foreground">Set a budget, log a few expenses, and see where you stand.</p>
-          </div>
+        <section className="flex flex-wrap items-center justify-between gap-4 py-10">
+          <p className="text-sm text-muted-foreground">
+            Free to use. Set a budget, log a few expenses, see where the month stands.
+          </p>
           <Button onClick={() => navigate('/sign-in')}>Create an account</Button>
         </section>
       </main>
 
-      <footer className="border-t border-border py-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 text-[13px] text-muted-foreground sm:flex-row sm:justify-between">
+      <footer className="border-t border-border py-6">
+        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-6 text-[13px] text-muted-foreground sm:flex-row sm:justify-between">
           <span>Drify &mdash; care finances, organized.</span>
           <span>Built in Aurora, Illinois.</span>
         </div>
