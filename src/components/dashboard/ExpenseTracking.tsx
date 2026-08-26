@@ -176,23 +176,21 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex items-end justify-between gap-4 border-b border-border pb-3">
         <div>
-          <h2 className="text-lg font-semibold">Expenses</h2>
-          <p className="text-muted-foreground">Record and monitor your care-related expenses</p>
+          <h2 className="text-base font-semibold leading-tight">Expenses</h2>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">
+            {expenses.length} entries · ${thisMonthExpenses.toLocaleString()} this month ·
+            ${totalExpenses.toLocaleString()} all time
+          </p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => resetForm()}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Expense
-            </Button>
+            <Button size="sm" onClick={() => resetForm()}>Add expense</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>
-                {editingExpense ? 'Edit Expense' : 'Add New Expense'}
-              </DialogTitle>
+              <DialogTitle>{editingExpense ? 'Edit expense' : 'Add expense'}</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -201,31 +199,33 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                  placeholder="e.g., Monthly care facility payment"
+                  placeholder="e.g. monthly care facility payment"
                   required
                 />
               </div>
-              <div>
-                <Label htmlFor="amount">Amount</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  step="0.01"
-                  value={formData.amount}
-                  onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
-                  placeholder="0.00"
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="date">Date</Label>
-                <Input
-                  id="date"
-                  type="date"
-                  value={formData.expense_date}
-                  onChange={(e) => setFormData(prev => ({ ...prev, expense_date: e.target.value }))}
-                  required
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="amount">Amount</Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    step="0.01"
+                    value={formData.amount}
+                    onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
+                    placeholder="0.00"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="date">Date</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={formData.expense_date}
+                    onChange={(e) => setFormData(prev => ({ ...prev, expense_date: e.target.value }))}
+                    required
+                  />
+                </div>
               </div>
               <div>
                 <Label htmlFor="category">Category</Label>
@@ -239,9 +239,9 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
                   <SelectContent>
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={category.id}>
-                        <div className="flex items-center space-x-2">
-                          <div
-                            className="w-3 h-3 rounded-full"
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="h-2.5 w-2.5 rounded-[2px]"
                             style={{ backgroundColor: category.color }}
                           />
                           <span>{category.name}</span>
@@ -251,12 +251,12 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={resetForm}>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={resetForm}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {editingExpense ? 'Update' : 'Add'} Expense
+                <Button type="submit" size="sm">
+                  {editingExpense ? 'Save changes' : 'Add expense'}
                 </Button>
               </div>
             </form>
@@ -264,108 +264,60 @@ const ExpenseTracking = ({ user }: ExpenseTrackingProps) => {
         </Dialog>
       </div>
 
-      {/* Expense Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5" />
-              <span>Total expenses</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="stat-number">${totalExpenses.toLocaleString()}</div>
-            <p className="text-muted-foreground">All time</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5" />
-              <span>This month</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="stat-number">${thisMonthExpenses.toLocaleString()}</div>
-            <p className="text-muted-foreground">{new Date().toLocaleString('default', { month: 'long' })}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Total entries</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="stat-number">{expenses.length}</div>
-            <p className="text-muted-foreground">Recorded expenses</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Expenses List */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent expenses</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {expenses.length > 0 ? (
-            <div className="space-y-4">
-              {expenses.map((expense) => (
-                <div key={expense.id} className="flex items-center justify-between p-4 bg-secondary rounded-lg">
-                  <div className="flex items-center space-x-4">
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: getCategoryColor(expense.category_id) }}
-                    />
-                    <div>
-                      <h4 className="font-medium">{expense.description}</h4>
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <span>{getCategoryName(expense.category_id)}</span>
-                        <span>•</span>
-                        <span>{new Date(expense.expense_date).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-lg">
-                      ${Math.abs(expense.amount).toLocaleString()}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => startEdit(expense)}
-                    >
-                      <Edit2 className="h-4 w-4" />
+      {expenses.length === 0 ? (
+        <div className="border-t border-border py-8">
+          <p className="text-sm text-muted-foreground">
+            No expenses recorded yet. Add one to see it against your budget.
+          </p>
+        </div>
+      ) : (
+        <div className="border-t border-border">
+          <div className="hidden grid-cols-12 gap-4 border-b border-border py-2 sm:grid">
+            <span className="field-label col-span-2">Date</span>
+            <span className="field-label col-span-5">Description</span>
+            <span className="field-label col-span-2">Category</span>
+            <span className="field-label col-span-3 text-right">Amount</span>
+          </div>
+          <div className="divide-y divide-border">
+            {expenses.map((expense) => (
+              <div key={expense.id} className="grid grid-cols-12 items-center gap-4 py-2.5">
+                <span className="col-span-4 text-xs tabular-nums text-muted-foreground sm:col-span-2">
+                  {new Date(expense.expense_date).toLocaleDateString()}
+                </span>
+                <span className="col-span-8 truncate text-sm sm:col-span-5">{expense.description}</span>
+                <span className="col-span-5 flex items-center gap-2 text-[13px] text-muted-foreground sm:col-span-2">
+                  <span
+                    className="h-2 w-2 flex-shrink-0 rounded-[2px]"
+                    style={{ backgroundColor: getCategoryColor(expense.category_id) }}
+                  />
+                  <span className="truncate">{getCategoryName(expense.category_id)}</span>
+                </span>
+                <div className="col-span-7 flex items-center justify-end gap-3 sm:col-span-3">
+                  <span className="text-sm tabular-nums">
+                    ${Math.abs(expense.amount).toLocaleString()}
+                  </span>
+                  <div className="flex">
+                    <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" onClick={() => startEdit(expense)}>
+                      Edit
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
+                      className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
                       onClick={() => handleDelete(expense.id)}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      Delete
                     </Button>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <TrendingUp className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-base font-semibold mb-1">No expenses yet</h3>
-              <p className="text-muted-foreground mb-4">
-                Start tracking your care expenses to better manage your budget.
-              </p>
-              <Button onClick={() => setIsAddDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add First Expense
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 
 export default ExpenseTracking;
