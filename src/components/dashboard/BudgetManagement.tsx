@@ -6,7 +6,6 @@ import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { Plus, Edit2, Trash2, DollarSign } from "lucide-react";
 import { toast } from "sonner";
 
 interface BudgetManagementProps {
