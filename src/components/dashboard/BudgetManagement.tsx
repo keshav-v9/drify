@@ -207,22 +207,21 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex items-end justify-between gap-4 border-b border-border pb-3">
         <div>
-          <h2 className="text-lg font-semibold">Budget</h2>
-          <p className="text-muted-foreground">Plan and track your monthly care budget</p>
+          <h2 className="text-base font-semibold leading-tight">Budget</h2>
+          <p className="mt-0.5 text-[13px] text-muted-foreground">
+            {categories.length} categories · ${totalBudget.toLocaleString()} planned this month
+          </p>
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => resetForm()}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add Category
-            </Button>
+            <Button size="sm" onClick={() => resetForm()}>Add category</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>
-                {editingCategory ? 'Edit Budget Category' : 'Add Budget Category'}
+                {editingCategory ? 'Edit category' : 'Add category'}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -232,7 +231,7 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="e.g., Care Facility"
+                  placeholder="e.g. care facility"
                   required
                 />
               </div>
@@ -249,27 +248,28 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
                 />
               </div>
               <div>
-                <Label>Color</Label>
-                <div className="flex flex-wrap gap-2 mt-2">
+                <Label>Colour marker</Label>
+                <div className="mt-2 flex flex-wrap gap-1.5">
                   {defaultColors.map(color => (
                     <button
                       key={color}
                       type="button"
+                      aria-label={`Select colour ${color}`}
                       onClick={() => setFormData(prev => ({ ...prev, color }))}
-                      className={`w-8 h-8 rounded-full border-2 ${
-                        formData.color === color ? 'border-input' : 'border-border'
+                      className={`h-6 w-6 rounded-[3px] border ${
+                        formData.color === color ? 'border-foreground' : 'border-border'
                       }`}
                       style={{ backgroundColor: color }}
                     />
                   ))}
                 </div>
               </div>
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={resetForm}>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" size="sm" onClick={resetForm}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {editingCategory ? 'Update' : 'Add'} Category
+                <Button type="submit" size="sm">
+                  {editingCategory ? 'Save changes' : 'Add category'}
                 </Button>
               </div>
             </form>
@@ -277,102 +277,69 @@ const BudgetManagement = ({ user }: BudgetManagementProps) => {
         </Dialog>
       </div>
 
-      {/* Total Budget Summary */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <DollarSign className="h-5 w-5" />
-            <span>Total monthly budget</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-[22px] font-semibold text-primary">
-            ${totalBudget.toLocaleString()}
+      {categories.length === 0 ? (
+        <div className="border-t border-border py-8">
+          <p className="text-sm text-muted-foreground">
+            No categories yet. Add one to start planning care expenses.
+          </p>
+        </div>
+      ) : (
+        <div className="border-t border-border">
+          <div className="hidden grid-cols-12 gap-4 border-b border-border py-2 sm:grid">
+            <span className="field-label col-span-5">Category</span>
+            <span className="field-label col-span-2 text-right">Budget</span>
+            <span className="field-label col-span-2 text-right">Spent</span>
+            <span className="field-label col-span-3 text-right">Used</span>
           </div>
-          <p className="text-muted-foreground">Across {categories.length} categories</p>
-        </CardContent>
-      </Card>
+          <div className="divide-y divide-border">
+            {categories.map((category) => {
+              const spent = getCategorySpent(category.id);
+              const utilization = getCategoryUtilization(category.id, category.monthly_budget);
+              const over = spent > category.monthly_budget && category.monthly_budget > 0;
 
-      {/* Budget Categories */}
-      <div className="grid gap-4">
-        {categories.map((category) => {
-          const spent = getCategorySpent(category.id);
-          const utilization = getCategoryUtilization(category.id, category.monthly_budget);
-          
-          return (
-            <Card key={category.id}>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className="w-4 h-4 rounded-full"
+              return (
+                <div key={category.id} className="grid grid-cols-12 items-center gap-4 py-2.5">
+                  <div className="col-span-12 flex items-center gap-2 sm:col-span-5">
+                    <span
+                      className="h-2.5 w-2.5 flex-shrink-0 rounded-[2px]"
                       style={{ backgroundColor: category.color }}
                     />
-                    <div>
-                      <h3 className="font-semibold">{category.name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Monthly Budget: ${category.monthly_budget.toLocaleString()}
-                      </p>
+                    <span className="truncate text-sm">{category.name}</span>
+                  </div>
+                  <div className="col-span-4 text-right text-sm tabular-nums sm:col-span-2">
+                    ${category.monthly_budget.toLocaleString()}
+                  </div>
+                  <div className={`col-span-4 text-right text-sm tabular-nums ${over ? 'text-destructive' : ''}`}>
+                    ${spent.toLocaleString()}
+                  </div>
+                  <div className="col-span-4 flex items-center justify-end gap-3 sm:col-span-3">
+                    <Progress value={utilization} className="hidden h-1 w-20 sm:block" />
+                    <span className="w-12 text-right text-xs tabular-nums text-muted-foreground">
+                      {utilization.toFixed(0)}%
+                    </span>
+                    <div className="flex">
+                      <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" onClick={() => startEdit(category)}>
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
+                        onClick={() => handleDelete(category.id)}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => startEdit(category)}
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(category.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>This month's spending</span>
-                    <span>
-                      ${spent.toLocaleString()} / ${category.monthly_budget.toLocaleString()} 
-                      ({utilization.toFixed(1)}%)
-                    </span>
-                  </div>
-                  <Progress 
-                    value={utilization} 
-                    className={`h-2 ${utilization > 100 ? 'text-destructive' : ''}`}
-                  />
-                  {utilization > 100 && (
-                    <p className="text-xs text-destructive">Over budget by ${(spent - category.monthly_budget).toLocaleString()}</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {categories.length === 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center py-8">
-              <DollarSign className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="text-base font-semibold mb-1">No budget categories yet</h3>
-              <p className="text-muted-foreground mb-4">
-                Create your first budget category to start planning your care expenses.
-              </p>
-              <Button onClick={() => setIsAddDialogOpen(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add First Category
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+              );
+            })}
+          </div>
+        </div>
       )}
     </div>
   );
 };
+
 
 export default BudgetManagement;
