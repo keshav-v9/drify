@@ -383,211 +383,143 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
     );
   }
 
+  const createGroupDialog = (idSuffix: string) => (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Create family group</DialogTitle>
+        <DialogDescription>
+          Everyone in the group sees the same updates, expenses and care notes.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="space-y-4 pt-2">
+        <div>
+          <Label htmlFor={`groupName${idSuffix}`}>Group name</Label>
+          <Input
+            id={`groupName${idSuffix}`}
+            placeholder="e.g. Smith family care team"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+          />
+        </div>
+        <Button onClick={createFamilyGroup} size="sm" className="w-full">
+          Create group
+        </Button>
+      </div>
+    </DialogContent>
+  );
+
+  const joinGroupDialog = (idSuffix: string) => (
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Join family group</DialogTitle>
+        <DialogDescription>Enter the invite code shared by a family member.</DialogDescription>
+      </DialogHeader>
+      <div className="space-y-4 pt-2">
+        <div>
+          <Label htmlFor={`inviteCode${idSuffix}`}>Invite code</Label>
+          <Input
+            id={`inviteCode${idSuffix}`}
+            placeholder="8-character code"
+            value={joinCode}
+            onChange={(e) => setJoinCode(e.target.value)}
+          />
+        </div>
+        <Button onClick={joinFamilyGroup} size="sm" className="w-full">
+          Join group
+        </Button>
+      </div>
+    </DialogContent>
+  );
+
   // No groups state
   if (familyGroups.length === 0) {
     return (
-      <Card className="border-2 border-dashed border-border">
-        <CardContent className="p-12 text-center">
-          <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-base font-semibold mb-1">No family groups yet</h3>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-            Create a family group to collaborate with your loved ones on caregiving and finances.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-              <DialogTrigger asChild>
-                <Button className="bg-primary hover:bg-primary">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create Group
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Create family group</DialogTitle>
-                  <DialogDescription>
-                    Create a new group to collaborate with family members.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 pt-4">
-                  <div>
-                    <Label htmlFor="groupName">Group name</Label>
-                    <Input
-                      id="groupName"
-                      placeholder="e.g., Smith Family Care Team"
-                      value={newGroupName}
-                      onChange={(e) => setNewGroupName(e.target.value)}
-                    />
-                  </div>
-                  <Button onClick={createFamilyGroup} className="w-full">
-                    Create Group
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Join Group
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Join family group</DialogTitle>
-                  <DialogDescription>
-                    Enter the invite code shared by a family member.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4 pt-4">
-                  <div>
-                    <Label htmlFor="inviteCode">Invite code</Label>
-                    <Input
-                      id="inviteCode"
-                      placeholder="Enter 8-character code"
-                      value={joinCode}
-                      onChange={(e) => setJoinCode(e.target.value)}
-                    />
-                  </div>
-                  <Button onClick={joinFamilyGroup} className="w-full">
-                    Join Group
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="border-t border-border pt-4">
+        <h3 className="text-base font-semibold leading-tight">No family group yet</h3>
+        <p className="mt-1 max-w-md text-[13px] text-muted-foreground">
+          A group lets siblings, partners and carers share updates and see the same expenses.
+        </p>
+        <div className="mt-4 flex gap-2">
+          <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+            <DialogTrigger asChild>
+              <Button size="sm">Create group</Button>
+            </DialogTrigger>
+            {createGroupDialog("A")}
+          </Dialog>
+          <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">Join with code</Button>
+            </DialogTrigger>
+            {joinGroupDialog("A")}
+          </Dialog>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Group Selector */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Select
-            value={selectedGroup?.id || ""}
-            onValueChange={(value) => {
-              const group = familyGroups.find(g => g.id === value);
-              setSelectedGroup(group || null);
-            }}
-          >
-            <SelectTrigger className="w-64">
-              <SelectValue placeholder="Select a group" />
-            </SelectTrigger>
-            <SelectContent>
-              {familyGroups.map((group) => (
-                <SelectItem key={group.id} value={group.id}>
-                  {group.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
+        <Select
+          value={selectedGroup?.id || ""}
+          onValueChange={(value) => {
+            const group = familyGroups.find(g => g.id === value);
+            setSelectedGroup(group || null);
+          }}
+        >
+          <SelectTrigger className="h-8 w-60 text-sm">
+            <SelectValue placeholder="Select a group" />
+          </SelectTrigger>
+          <SelectContent>
+            {familyGroups.map((group) => (
+              <SelectItem key={group.id} value={group.id}>
+                {group.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <div className="flex gap-2">
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Plus className="h-4 w-4 mr-2" />
-                New Group
-              </Button>
+              <Button variant="outline" size="sm">New group</Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create family group</DialogTitle>
-                <DialogDescription>
-                  Create a new group to collaborate with family members.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 pt-4">
-                <div>
-                  <Label htmlFor="groupName2">Group name</Label>
-                  <Input
-                    id="groupName2"
-                    placeholder="e.g., Smith Family Care Team"
-                    value={newGroupName}
-                    onChange={(e) => setNewGroupName(e.target.value)}
-                  />
-                </div>
-                <Button onClick={createFamilyGroup} className="w-full">
-                  Create Group
-                </Button>
-              </div>
-            </DialogContent>
+            {createGroupDialog("B")}
           </Dialog>
           <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Join
-              </Button>
+              <Button variant="outline" size="sm">Join</Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Join family group</DialogTitle>
-                <DialogDescription>
-                  Enter the invite code shared by a family member.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 pt-4">
-                <div>
-                  <Label htmlFor="inviteCode2">Invite code</Label>
-                  <Input
-                    id="inviteCode2"
-                    placeholder="Enter 8-character code"
-                    value={joinCode}
-                    onChange={(e) => setJoinCode(e.target.value)}
-                  />
-                </div>
-                <Button onClick={joinFamilyGroup} className="w-full">
-                  Join Group
-                </Button>
-              </div>
-            </DialogContent>
+            {joinGroupDialog("B")}
           </Dialog>
         </div>
       </div>
 
       {selectedGroup && (
         <Tabs defaultValue="updates" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="updates" className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4" />
-              Updates
-            </TabsTrigger>
-            <TabsTrigger value="members" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Members ({members.length})
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              Settings
-            </TabsTrigger>
+          <TabsList className="h-8 bg-secondary">
+            <TabsTrigger value="updates">Updates</TabsTrigger>
+            <TabsTrigger value="members">Members ({members.length})</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="updates" className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Family updates</h3>
+          <TabsContent value="updates" className="space-y-3">
+            <div className="flex items-center justify-between border-b border-border pb-2">
+              <h3 className="text-sm font-semibold">Updates</h3>
               <Dialog open={showUpdateDialog} onOpenChange={setShowUpdateDialog}>
                 <DialogTrigger asChild>
-                  <Button size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Post Update
-                  </Button>
+                  <Button size="sm">Post update</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Post update</DialogTitle>
-                    <DialogDescription>
-                      Share an update with your family group.
-                    </DialogDescription>
+                    <DialogDescription>Share what happened with the group.</DialogDescription>
                   </DialogHeader>
-                  <div className="space-y-4 pt-4">
+                  <div className="space-y-4 pt-2">
                     <div>
                       <Label htmlFor="updateTitle">Title</Label>
                       <Input
                         id="updateTitle"
-                        placeholder="Update title"
+                        placeholder="e.g. GP appointment moved to Friday"
                         value={newUpdate.title}
                         onChange={(e) => setNewUpdate(prev => ({ ...prev, title: e.target.value }))}
                       />
@@ -604,27 +536,24 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
                         <SelectContent>
                           {Object.entries(updateTypeConfig).map(([key, config]) => (
                             <SelectItem key={key} value={key}>
-                              <div className="flex items-center gap-2">
-                                <config.icon className="h-4 w-4" />
-                                {config.label}
-                              </div>
+                              {config.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="updateContent">Content</Label>
+                      <Label htmlFor="updateContent">Details</Label>
                       <Textarea
                         id="updateContent"
-                        placeholder="Share your update..."
+                        placeholder="What the rest of the family needs to know…"
                         value={newUpdate.content}
                         onChange={(e) => setNewUpdate(prev => ({ ...prev, content: e.target.value }))}
                         rows={4}
                       />
                     </div>
-                    <Button onClick={postUpdate} className="w-full">
-                      Post Update
+                    <Button onClick={postUpdate} size="sm" className="w-full">
+                      Post update
                     </Button>
                   </div>
                 </DialogContent>
@@ -632,126 +561,110 @@ const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
             </div>
 
             {updates.length === 0 ? (
-              <Card className="border-dashed">
-                <CardContent className="p-8 text-center">
-                  <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-muted-foreground">No updates yet. Be the first to post!</p>
-                </CardContent>
-              </Card>
+              <p className="py-6 text-sm text-muted-foreground">
+                No updates yet. Post the first one so everyone stays in the loop.
+              </p>
             ) : (
-              <div className="space-y-4">
+              <div className="divide-y divide-border">
                 {updates.map((update) => {
                   const typeConfig = updateTypeConfig[update.update_type as keyof typeof updateTypeConfig] || updateTypeConfig.general;
-                  const TypeIcon = typeConfig.icon;
                   const isAuthor = update.user_id === user?.id;
 
                   return (
-                    <Card key={update.id}>
-                      <CardHeader className="pb-2">
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center gap-3">
-                            <Badge className={typeConfig.color}>
-                              <TypeIcon className="h-3 w-3 mr-1" />
-                              {typeConfig.label}
-                            </Badge>
-                            <CardTitle className="text-lg">{update.title}</CardTitle>
-                          </div>
+                    <div key={update.id} className="grid gap-1 py-3 sm:grid-cols-12 sm:gap-4">
+                      <div className="sm:col-span-2">
+                        <span className="field-label">{typeConfig.label}</span>
+                        <p className="mt-0.5 text-xs tabular-nums text-muted-foreground">
+                          {format(new Date(update.created_at), 'd MMM, HH:mm')}
+                        </p>
+                      </div>
+                      <div className="sm:col-span-10">
+                        <div className="flex items-start justify-between gap-3">
+                          <h4 className="text-sm font-medium">{update.title}</h4>
                           {isAuthor && (
                             <Button
                               variant="ghost"
-                              size="icon"
+                              size="sm"
                               onClick={() => deleteUpdate(update.id)}
-                              className="text-muted-foreground hover:text-destructive"
+                              className="h-6 px-2 text-xs text-muted-foreground hover:text-destructive"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              Delete
                             </Button>
                           )}
                         </div>
-                        <CardDescription>
-                          {update.profiles?.email || 'Unknown'} • {format(new Date(update.created_at), 'MMM d, yyyy h:mm a')}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-muted-foreground whitespace-pre-wrap">{update.content}</p>
-                      </CardContent>
-                    </Card>
+                        <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
+                          {update.content}
+                        </p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {update.profiles?.email || 'Unknown'}
+                        </p>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="members" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Family members</CardTitle>
-                <CardDescription>People who have access to this group</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {members.map((member) => {
-                    const role = roleConfig[member.role as keyof typeof roleConfig] || roleConfig.member;
-                    const RoleIcon = role.icon;
-
-                    return (
-                      <div key={member.id} className="flex items-center justify-between p-3 bg-secondary rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center">
-                            <UserIcon className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="font-medium">{member.profiles?.email || 'Unknown'}</p>
-                            <p className="text-sm text-muted-foreground">
-                              Joined {format(new Date(member.joined_at), 'MMM d, yyyy')}
-                            </p>
-                          </div>
-                        </div>
-                        <Badge className={role.color}>
-                          <RoleIcon className="h-3 w-3 mr-1" />
-                          {role.label}
-                        </Badge>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="members">
+            <div className="border-t border-border">
+              <div className="hidden grid-cols-12 gap-4 border-b border-border py-2 sm:grid">
+                <span className="field-label col-span-6">Member</span>
+                <span className="field-label col-span-3">Joined</span>
+                <span className="field-label col-span-3">Role</span>
+              </div>
+              <div className="divide-y divide-border">
+                {members.map((member) => {
+                  const role = roleConfig[member.role as keyof typeof roleConfig] || roleConfig.member;
+                  return (
+                    <div key={member.id} className="grid grid-cols-12 items-center gap-4 py-2.5">
+                      <span className="col-span-12 truncate text-sm sm:col-span-6">
+                        {member.profiles?.email || 'Unknown'}
+                      </span>
+                      <span className="col-span-6 text-[13px] tabular-nums text-muted-foreground sm:col-span-3">
+                        {format(new Date(member.joined_at), 'd MMM yyyy')}
+                      </span>
+                      <span className="col-span-6 text-[13px] text-muted-foreground sm:col-span-3">
+                        {role.label}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </TabsContent>
 
-          <TabsContent value="settings" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Invite members</CardTitle>
-                <CardDescription>Share this code with family members to invite them</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 p-4 bg-secondary rounded-lg font-mono text-2xl text-center tracking-wider">
-                    {selectedGroup.invite_code.toUpperCase()}
-                  </div>
-                  <Button onClick={copyInviteCode} variant="outline">
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-destructive/30">
-              <CardHeader>
-                <CardTitle className="text-destructive">Danger zone</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button variant="destructive" onClick={leaveGroup}>
-                  Leave Group
+          <TabsContent value="settings" className="space-y-6">
+            <div className="border-t border-border pt-3">
+              <h3 className="text-sm font-semibold">Invite code</h3>
+              <p className="mt-0.5 text-[13px] text-muted-foreground">
+                Share this with anyone who should see this group.
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="border border-border px-3 py-1.5 font-mono text-sm tracking-[0.2em]">
+                  {selectedGroup.invite_code.toUpperCase()}
+                </span>
+                <Button onClick={copyInviteCode} variant="outline" size="sm">
+                  Copy
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+
+            <div className="border-t border-border pt-3">
+              <h3 className="text-sm font-semibold">Leave group</h3>
+              <p className="mt-0.5 text-[13px] text-muted-foreground">
+                You will lose access to its updates and expenses. Owners must transfer ownership first.
+              </p>
+              <Button variant="outline" size="sm" onClick={leaveGroup} className="mt-3 text-destructive">
+                Leave group
+              </Button>
+            </div>
           </TabsContent>
         </Tabs>
       )}
     </div>
   );
 };
+
 
 export default FamilyCollaboration;
