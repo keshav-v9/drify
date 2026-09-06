@@ -217,8 +217,8 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-sm text-muted-foreground">Loading…</div>
       </div>
     );
   }
@@ -237,7 +237,6 @@ const Profile = () => {
             <span className="text-[15px] font-semibold tracking-[-0.02em]">Drify</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
-            <ArrowLeft className="h-4 w-4" />
             Dashboard
           </Button>
         </div>
@@ -248,60 +247,56 @@ const Profile = () => {
         <div className="max-w-2xl">
           <div className="mb-8 border-b border-border pb-4">
             <h1 className="text-[22px] font-semibold leading-tight">Profile</h1>
-            <p className="mt-1 text-sm text-muted-foreground">Details about the person you care for and the numbers behind their budget.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Details about the person you care for and the numbers behind their budget.
+            </p>
           </div>
 
-          <div className="space-y-6">
-            {/* Care Recipient Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Care recipient information</CardTitle>
-                <CardDescription>Update details about the person you're caring for</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="careRecipientName">Care recipient's name *</Label>
+          <div className="space-y-8">
+            <section className="border-t border-border pt-4">
+              <h2 className="text-sm font-semibold">Care recipient</h2>
+              <div className="mt-4 space-y-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="careRecipientName">Name *</Label>
                   <Input
                     id="careRecipientName"
                     value={formData.careRecipientName}
                     onChange={(e) => handleInputChange("careRecipientName", e.target.value)}
-                    placeholder="Enter full name"
+                    placeholder="Full name"
                     maxLength={100}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="careRecipientAge">Age</Label>
-                  <Input
-                    id="careRecipientAge"
-                    type="number"
-                    value={formData.careRecipientAge}
-                    onChange={(e) => handleInputChange("careRecipientAge", e.target.value)}
-                    placeholder="Enter age"
-                    min="0"
-                    max="150"
-                  />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="careRecipientAge">Age</Label>
+                    <Input
+                      id="careRecipientAge"
+                      type="number"
+                      value={formData.careRecipientAge}
+                      onChange={(e) => handleInputChange("careRecipientAge", e.target.value)}
+                      placeholder="e.g. 78"
+                      min="0"
+                      max="150"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="relationship">Your relationship</Label>
+                    <Input
+                      id="relationship"
+                      value={formData.relationship}
+                      onChange={(e) => handleInputChange("relationship", e.target.value)}
+                      placeholder="e.g. daughter"
+                      maxLength={50}
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="relationship">Your relationship</Label>
-                  <Input
-                    id="relationship"
-                    value={formData.relationship}
-                    onChange={(e) => handleInputChange("relationship", e.target.value)}
-                    placeholder="e.g., Son, Daughter, Spouse, etc."
-                    maxLength={50}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
-            {/* Financial Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Financial information</CardTitle>
-                <CardDescription>Update your budget and financial planning details</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
+            <section className="border-t border-border pt-4">
+              <h2 className="text-sm font-semibold">Money</h2>
+              <div className="mt-4 space-y-4">
+                <div className="space-y-1.5">
                   <Label htmlFor="monthlyIncome">Monthly income ($) *</Label>
                   <Input
                     id="monthlyIncome"
@@ -309,45 +304,47 @@ const Profile = () => {
                     step="0.01"
                     value={formData.monthlyIncome}
                     onChange={(e) => handleInputChange("monthlyIncome", e.target.value)}
-                    placeholder="e.g., 5000"
+                    placeholder="e.g. 5000"
                     min="0"
                     max="1000000"
                   />
-                  <p className="text-sm text-muted-foreground">This is used as your total monthly budget</p>
+                  <p className="text-[13px] text-muted-foreground">Used as your total monthly budget.</p>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
-                  <Input
-                    id="emergencyFundTarget"
-                    type="number"
-                    step="0.01"
-                    value={formData.emergencyFundTarget}
-                    onChange={(e) => handleInputChange("emergencyFundTarget", e.target.value)}
-                    placeholder="e.g., 10000"
-                    min="0"
-                    max="10000000"
-                  />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
+                    <Input
+                      id="emergencyFundTarget"
+                      type="number"
+                      step="0.01"
+                      value={formData.emergencyFundTarget}
+                      onChange={(e) => handleInputChange("emergencyFundTarget", e.target.value)}
+                      placeholder="e.g. 10000"
+                      min="0"
+                      max="10000000"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="monthlyExpenseEstimate">Monthly care estimate ($)</Label>
+                    <Input
+                      id="monthlyExpenseEstimate"
+                      type="number"
+                      step="0.01"
+                      value={formData.monthlyExpenseEstimate}
+                      onChange={(e) => handleInputChange("monthlyExpenseEstimate", e.target.value)}
+                      placeholder="e.g. 3000"
+                      min="0"
+                      max="1000000"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="monthlyExpenseEstimate">Monthly care expense estimate ($)</Label>
-                  <Input
-                    id="monthlyExpenseEstimate"
-                    type="number"
-                    step="0.01"
-                    value={formData.monthlyExpenseEstimate}
-                    onChange={(e) => handleInputChange("monthlyExpenseEstimate", e.target.value)}
-                    placeholder="e.g., 3000"
-                    min="0"
-                    max="1000000"
-                  />
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </section>
 
             {validationErrors.length > 0 && (
               <Alert variant="destructive">
                 <AlertDescription>
-                  <ul className="list-disc list-inside space-y-1">
+                  <ul className="list-inside list-disc space-y-1">
                     {validationErrors.map((error, index) => (
                       <li key={index}>{error}</li>
                     ))}
@@ -356,13 +353,9 @@ const Profile = () => {
               </Alert>
             )}
 
-            <div className="flex justify-end">
-              <Button
-                onClick={handleSave}
-                className="bg-primary hover:bg-primary"
-                disabled={saving}
-              >
-                {saving ? "Saving..." : "Save Changes"}
+            <div className="flex justify-end border-t border-border pt-4">
+              <Button size="sm" onClick={handleSave} disabled={saving}>
+                {saving ? "Saving…" : "Save changes"}
               </Button>
             </div>
           </div>
@@ -371,5 +364,6 @@ const Profile = () => {
     </div>
   );
 };
+
 
 export default Profile;
