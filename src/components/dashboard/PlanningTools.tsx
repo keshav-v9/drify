@@ -1,26 +1,12 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { 
-  FileText, 
-  Users, 
-  Phone, 
-  Mail, 
-  Edit2, 
-  CheckCircle, 
-  AlertTriangle, 
-  Clock,
-  Plus,
-  Loader2
-} from "lucide-react";
 import { toast } from "sonner";
 
 interface PlanningToolsProps {
@@ -316,25 +302,14 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
     setIsContactDialogOpen(true);
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusLabel = (status: string) => {
     switch (status) {
       case 'completed':
-        return <CheckCircle className="h-5 w-5 text-success" />;
+        return 'Completed';
       case 'in_progress':
-        return <Clock className="h-5 w-5 text-warning" />;
+        return 'In progress';
       default:
-        return <AlertTriangle className="h-5 w-5 text-destructive" />;
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return <Badge className="bg-success/10 text-success">Completed</Badge>;
-      case 'in_progress':
-        return <Badge className="bg-warning/10 text-warning">In progress</Badge>;
-      default:
-        return <Badge variant="destructive">Pending</Badge>;
+        return 'Pending';
     }
   };
 
@@ -426,7 +401,7 @@ const PlanningTools = ({ user }: PlanningToolsProps) => {
                   )}
                 </div>
                 <div className="flex flex-shrink-0 items-center gap-2">
-                  {getStatusBadge(doc.status)}
+                  <span className="field-label">{getStatusLabel(doc.status)}</span>
                   <Button variant="ghost" size="sm" onClick={() => startEditDocument(doc)}>
                     Edit
                   </Button>
