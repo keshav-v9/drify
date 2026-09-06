@@ -5,11 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
-import { Heart, ArrowLeft } from "lucide-react";
 import { careRecipientSchema, financialPlanSchema } from "@/lib/validation";
 import { sanitizeText, sanitizeAmount, getSafeErrorMessage } from "@/lib/security";
 
@@ -198,7 +196,7 @@ const Profile = () => {
       console.log('Upserted financial plan');
 
       toast({
-        title: "Profile Updated!",
+        title: "Profile updated",
         description: "Your information has been successfully saved.",
       });
     } catch (error: any) {
