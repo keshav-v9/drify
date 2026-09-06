@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { MessageCircle, Send, Bot, User as UserIcon } from "lucide-react";
+
 import { toast } from "sonner";
 import ChatSessions from "./ChatSessions";
 import { chatMessageSchema } from "@/lib/validation";
@@ -247,13 +246,15 @@ const ChatBot = ({ user }: ChatBotProps) => {
   };
 
   return (
-    <div className="space-y-6 h-full flex flex-col">
-      <div>
-        <h2 className="text-lg font-semibold">Assistant</h2>
-        <p className="text-muted-foreground">Get personalized financial advice and support for your care planning</p>
+    <div className="flex h-full flex-col space-y-4">
+      <div className="border-b border-border pb-3">
+        <h2 className="text-base font-semibold leading-tight">Assistant</h2>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">
+          Ask about care costs, benefits, or how to plan the next few months.
+        </p>
       </div>
 
-      <div className="flex-1 flex min-h-0">
+      <div className="flex min-h-0 flex-1 border border-border">
         <ChatSessions
           user={user}
           activeSessionId={activeSessionId}
@@ -261,93 +262,53 @@ const ChatBot = ({ user }: ChatBotProps) => {
           onNewSession={handleNewSession}
         />
 
-        <Card className="flex-1 flex flex-col min-h-0 ml-4">
-          <CardHeader className="flex-shrink-0">
-            <CardTitle className="flex items-center space-x-2">
-              <MessageCircle className="h-5 w-5 text-primary" />
-              <span>Drify Assistant</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex-1 flex flex-col p-0 min-h-0">
-            <ScrollArea className="flex-1 p-4 min-h-[400px]" ref={scrollAreaRef}>
-              <div className="space-y-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex items-start space-x-3 ${
-                      message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                    }`}
-                  >
-                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      message.role === 'user' 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted-foreground/30 text-muted-foreground'
-                    }`}>
-                      {message.role === 'user' ? (
-                        <UserIcon className="h-4 w-4" />
-                      ) : (
-                        <Bot className="h-4 w-4" />
-                      )}
-                    </div>
-                    <div className={`flex-1 max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl ${
-                      message.role === 'user' ? 'text-right' : 'text-left'
-                    }`}>
-                      <div className={`inline-block p-3 rounded-lg ${
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-secondary text-foreground'
-                      }`}>
-                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {message.timestamp.toLocaleTimeString()}
-                      </p>
-                    </div>
+        <div className="flex min-h-0 flex-1 flex-col">
+          <ScrollArea className="min-h-[400px] flex-1 px-4" ref={scrollAreaRef}>
+            <div className="divide-y divide-border">
+              {messages.map((message) => (
+                <div key={message.id} className="grid gap-1 py-3 sm:grid-cols-12 sm:gap-4">
+                  <div className="sm:col-span-2">
+                    <span className="field-label">
+                      {message.role === 'user' ? 'You' : 'Drify'}
+                    </span>
                   </div>
-                ))}
-                {isLoading && (
-                  <div className="flex items-start space-x-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted-foreground/30 text-muted-foreground flex items-center justify-center">
-                      <Bot className="h-4 w-4" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="inline-block p-3 rounded-lg bg-secondary">
-                        <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-muted-foreground/30 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="sm:col-span-10">
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
+                    <p className="mt-1 text-xs tabular-nums text-muted-foreground">
+                      {message.timestamp.toLocaleTimeString()}
+                    </p>
                   </div>
-                )}
-              </div>
-            </ScrollArea>
-            <div className="border-t p-4 flex-shrink-0">
-              <div className="flex space-x-2">
-                <Input
-                  value={input}
-                  onChange={handleInputChange}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask me anything about budgeting and care planning..."
-                  disabled={isLoading}
-                  className="flex-1"
-                  maxLength={2000}
-                />
-                <Button 
-                  onClick={handleSend}
-                  disabled={!input.trim() || isLoading}
-                  size="icon"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="grid gap-1 py-3 sm:grid-cols-12 sm:gap-4">
+                  <div className="sm:col-span-2">
+                    <span className="field-label">Drify</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground sm:col-span-10">Writing…</p>
+                </div>
+              )}
             </div>
-          </CardContent>
-        </Card>
+          </ScrollArea>
+          <div className="flex flex-shrink-0 gap-2 border-t border-border p-3">
+            <Input
+              value={input}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask about care costs, benefits or planning…"
+              disabled={isLoading}
+              className="flex-1"
+              maxLength={2000}
+            />
+            <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="sm">
+              Send
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
 
 export default ChatBot;

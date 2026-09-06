@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User } from "@supabase/supabase-js";
@@ -197,7 +196,7 @@ const Onboarding = () => {
       console.log('Created new financial plan');
 
       toast({
-        title: "Setup Complete!",
+        title: "Setup complete",
         description: "Your care recipient information and financial plan have been saved.",
       });
 
@@ -213,8 +212,8 @@ const Onboarding = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border"></div>
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="text-sm text-muted-foreground">Loading…</div>
       </div>
     );
   }
@@ -242,41 +241,39 @@ const Onboarding = () => {
             <Progress value={progress} className="mt-4 h-1" />
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {step === 1 && "Care recipient"}
-                {step === 2 && "Relationship"}
-                {step === 3 && "Budget basics"}
-              </CardTitle>
-              <CardDescription>
-                {step === 1 && "Tell us about the person you're caring for"}
-                {step === 2 && "How are you related to your care recipient?"}
-                {step === 3 && "Set up your monthly budget and financial goals"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <section className="border-t border-border pt-4">
+            <h2 className="text-sm font-semibold">
+              {step === 1 && "Care recipient"}
+              {step === 2 && "Relationship"}
+              {step === 3 && "Budget basics"}
+            </h2>
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              {step === 1 && "The person you're caring for."}
+              {step === 2 && "How you're related to them."}
+              {step === 3 && "Monthly income and what you expect care to cost."}
+            </p>
+            <div className="mt-4 space-y-4">
               {step === 1 && (
                 <>
-                  <div className="space-y-2">
-                    <Label htmlFor="careRecipientName">Care recipient's name *</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="careRecipientName">Name *</Label>
                     <Input
                       id="careRecipientName"
                       value={formData.careRecipientName}
                       onChange={(e) => handleInputChange("careRecipientName", e.target.value)}
-                      placeholder="Enter full name"
+                      placeholder="Full name"
                       required
                       maxLength={100}
                     />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="careRecipientAge">Age</Label>
                     <Input
                       id="careRecipientAge"
                       type="number"
                       value={formData.careRecipientAge}
                       onChange={(e) => handleInputChange("careRecipientAge", e.target.value)}
-                      placeholder="Enter age"
+                      placeholder="e.g. 78"
                       min="0"
                       max="150"
                     />
@@ -285,13 +282,13 @@ const Onboarding = () => {
               )}
 
               {step === 2 && (
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label htmlFor="relationship">Your relationship</Label>
                   <Input
                     id="relationship"
                     value={formData.relationship}
                     onChange={(e) => handleInputChange("relationship", e.target.value)}
-                    placeholder="e.g., Son, Daughter, Spouse, etc."
+                    placeholder="e.g. daughter"
                     maxLength={50}
                   />
                 </div>
@@ -299,7 +296,7 @@ const Onboarding = () => {
 
               {step === 3 && (
                 <>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="monthlyIncome">Monthly income ($) *</Label>
                     <Input
                       id="monthlyIncome"
@@ -307,14 +304,14 @@ const Onboarding = () => {
                       step="0.01"
                       value={formData.monthlyIncome}
                       onChange={(e) => handleInputChange("monthlyIncome", e.target.value)}
-                      placeholder="e.g., 5000"
+                      placeholder="e.g. 5000"
                       required
                       min="0"
                       max="1000000"
                     />
-                    <p className="text-sm text-muted-foreground">This will be used as your total monthly budget</p>
+                    <p className="text-[13px] text-muted-foreground">Used as your total monthly budget.</p>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="emergencyFundTarget">Emergency fund target ($)</Label>
                     <Input
                       id="emergencyFundTarget"
@@ -322,20 +319,20 @@ const Onboarding = () => {
                       step="0.01"
                       value={formData.emergencyFundTarget}
                       onChange={(e) => handleInputChange("emergencyFundTarget", e.target.value)}
-                      placeholder="e.g., 10000"
+                      placeholder="e.g. 10000"
                       min="0"
                       max="10000000"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="monthlyExpenseEstimate">Monthly care expense estimate ($)</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="monthlyExpenseEstimate">Monthly care estimate ($)</Label>
                     <Input
                       id="monthlyExpenseEstimate"
                       type="number"
                       step="0.01"
                       value={formData.monthlyExpenseEstimate}
                       onChange={(e) => handleInputChange("monthlyExpenseEstimate", e.target.value)}
-                      placeholder="e.g., 3000"
+                      placeholder="e.g. 3000"
                       min="0"
                       max="1000000"
                     />
@@ -355,34 +352,23 @@ const Onboarding = () => {
                 </Alert>
               )}
 
-              <div className="flex justify-between pt-4">
-                <Button
-                  variant="outline"
-                  onClick={handleBack}
-                  disabled={step === 1}
-                >
+              <div className="flex justify-between border-t border-border pt-4">
+                <Button size="sm" variant="outline" onClick={handleBack} disabled={step === 1}>
                   Back
                 </Button>
                 
                 {step < 3 ? (
-                  <Button
-                    onClick={handleNext}
-                    className="bg-primary hover:bg-primary"
-                  >
+                  <Button size="sm" onClick={handleNext}>
                     Next
                   </Button>
                 ) : (
-                  <Button
-                    onClick={handleComplete}
-                    className="bg-primary hover:bg-primary"
-                    disabled={saving}
-                  >
-                    {saving ? "Saving..." : "Complete Setup"}
+                  <Button size="sm" onClick={handleComplete} disabled={saving}>
+                    {saving ? "Saving…" : "Finish setup"}
                   </Button>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         </div>
       </div>
     </div>

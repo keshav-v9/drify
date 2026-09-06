@@ -1,11 +1,9 @@
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { Shield, TrendingUp, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+
 
 interface CareCostPlanningProps {
   user: User | null;
@@ -118,9 +116,9 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
   };
 
   const getReadinessStatus = (months: number) => {
-    if (months >= 6) return { text: "Well Prepared", color: "bg-success", icon: CheckCircle };
-    if (months >= 3) return { text: "Building Up", color: "bg-warning", icon: Clock };
-    return { text: "Needs Attention", color: "bg-destructive", icon: AlertTriangle };
+    if (months >= 6) return "Well covered";
+    if (months >= 3) return "Building up";
+    return "Needs attention";
   };
 
   if (loading) {
@@ -129,177 +127,85 @@ const CareCostPlanning = ({ user }: CareCostPlanningProps) => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold">Care cost planning</h2>
-        <p className="text-muted-foreground">Plan for different levels of care and assess financial readiness</p>
+      <div className="border-b border-border pb-3">
+        <h2 className="text-base font-semibold leading-tight">Care cost planning</h2>
+        <p className="mt-0.5 text-[13px] text-muted-foreground">
+          What each level of care would cost per month, and how long your reserve would last.
+        </p>
       </div>
 
-      {/* Emergency Fund Overview */}
-      <Card className="bg-primary text-primary-foreground">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Shield className="h-6 w-6" />
-            <span>Emergency fund status</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <p className="text-primary-foreground/80">Current fund</p>
-              <p className="stat-number">
-                ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
-              </p>
-            </div>
-            <div>
-              <p className="text-primary-foreground/80">Target fund</p>
-              <p className="stat-number">
-                ${financialPlan?.emergency_fund_target?.toLocaleString() || '0'}
-              </p>
-            </div>
-            <div>
-              <p className="text-primary-foreground/80">Monthly estimate</p>
-              <p className="stat-number">
-                ${financialPlan?.monthly_expense_estimate?.toLocaleString() || '0'}
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-2 gap-x-8 gap-y-4 border-b border-border pb-4 sm:grid-cols-3">
+        <div>
+          <p className="field-label">Emergency fund</p>
+          <p className="stat-number mt-1">
+            ${financialPlan?.current_emergency_fund?.toLocaleString() || '0'}
+          </p>
+        </div>
+        <div>
+          <p className="field-label">Target</p>
+          <p className="stat-number mt-1">
+            ${financialPlan?.emergency_fund_target?.toLocaleString() || '0'}
+          </p>
+        </div>
+        <div>
+          <p className="field-label">Monthly estimate</p>
+          <p className="stat-number mt-1">
+            ${financialPlan?.monthly_expense_estimate?.toLocaleString() || '0'}
+          </p>
+        </div>
+      </div>
 
-      {/* Care Level Projections */}
-      <div className="grid gap-6">
+      <div className="divide-y divide-border">
         {careLevels.map((level, index) => {
           const monthlyCost = calculateCostProjection(level.multiplier);
           const coverageMonths = calculateEmergencyFundCoverage(monthlyCost);
           const status = getReadinessStatus(coverageMonths);
-          const StatusIcon = status.icon;
 
           return (
-            <Card key={level.id} className={index === 0 ? 'ring-2 ring-blue-200' : ''}>
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="flex items-center space-x-2">
-                      <span>{level.level_name}</span>
-                      {index === 0 && (
-                        <Badge variant="secondary" className="text-xs">Current</Badge>
-                      )}
-                    </CardTitle>
-                    <p className="text-muted-foreground mt-1">{level.description}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[15px] font-semibold tracking-[-0.02em]">
-                      ${monthlyCost.toLocaleString()}
-                    </div>
-                    <p className="text-sm text-muted-foreground">per month</p>
-                  </div>
+            <div key={level.id} className="grid gap-3 py-4 sm:grid-cols-12 sm:gap-6">
+              <div className="sm:col-span-4">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-sm font-medium">{level.level_name}</h3>
+                  {index === 0 && <span className="field-label">Current</span>}
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {/* Financial Readiness */}
-                  <div className="flex items-center justify-between p-3 bg-secondary rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <StatusIcon className="h-5 w-5 text-muted-foreground" />
-                      <div>
-                        <p className="font-medium">Financial readiness</p>
-                        <p className="text-sm text-muted-foreground">
-                          {coverageMonths.toFixed(1)} months of coverage
-                        </p>
-                      </div>
-                    </div>
-                    <Badge variant={
-                      coverageMonths >= 6 ? 'default' : 
-                      coverageMonths >= 3 ? 'secondary' : 'destructive'
-                    }>
-                      {status.text}
-                    </Badge>
-                  </div>
+                <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+                  {level.description}
+                </p>
+                <ul className="mt-2 space-y-0.5">
+                  {level.services.map((service, i) => (
+                    <li key={i} className="text-[13px] text-muted-foreground">
+                      {service}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  {/* Coverage Progress */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Emergency fund coverage</span>
-                      <span>{Math.min((coverageMonths / 6) * 100, 100).toFixed(0)}%</span>
-                    </div>
-                    <Progress 
-                      value={Math.min((coverageMonths / 6) * 100, 100)} 
-                      className="h-2"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Recommended: 6+ months of coverage
-                    </p>
-                  </div>
+              <div className="sm:col-span-3">
+                <p className="field-label">Monthly cost</p>
+                <p className="mt-1 text-sm tabular-nums">${monthlyCost.toLocaleString()}</p>
+              </div>
 
-                  {/* Services Included */}
-                  <div>
-                    <p className="font-medium mb-2">Services included</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                      {level.services.map((service, serviceIndex) => (
-                        <div key={serviceIndex} className="flex items-center space-x-2">
-                          <CheckCircle className="h-4 w-4 text-success" />
-                          <span className="text-sm">{service}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Recommendations */}
-                  {coverageMonths < 6 && (
-                    <div className="p-3 bg-warning/10 border border-warning/30 rounded-lg">
-                      <div className="flex items-start space-x-2">
-                        <AlertTriangle className="h-5 w-5 text-warning mt-0.5" />
-                        <div>
-                          <p className="font-medium text-warning">Recommendation</p>
-                          <p className="text-sm text-warning">
-                            Consider building your emergency fund to ${(monthlyCost * 6).toLocaleString()} 
-                            for 6 months of coverage at this care level.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+              <div className="sm:col-span-5">
+                <div className="flex items-baseline justify-between">
+                  <span className="field-label">Reserve coverage</span>
+                  <span className="text-xs tabular-nums text-muted-foreground">
+                    {coverageMonths.toFixed(1)} of 6 months · {status}
+                  </span>
                 </div>
-              </CardContent>
-            </Card>
+                <Progress value={Math.min((coverageMonths / 6) * 100, 100)} className="mt-2 h-1" />
+                {coverageMonths < 6 && (
+                  <p className="mt-2 text-[13px] text-muted-foreground">
+                    ${(monthlyCost * 6).toLocaleString()} would give six months at this level.
+                  </p>
+                )}
+              </div>
+            </div>
           );
         })}
       </div>
-
-      {/* AI Recommendations */}
-      <Card className="border-2 border-border bg-secondary">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            <span>AI Financial Recommendations</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <p className="text-muted-foreground">
-                Based on current trends, consider gradually increasing your emergency fund 
-                by $500-1000 per month to improve care readiness.
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <p className="text-muted-foreground">
-                Review and update your care cost estimates every 6 months as needs change.
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-              <p className="text-muted-foreground">
-                Consider setting up automatic transfers to build your emergency fund consistently.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
+
 
 export default CareCostPlanning;
