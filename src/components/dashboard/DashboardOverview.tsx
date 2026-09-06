@@ -9,11 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { 
-  AlertTriangle,
-  CheckCircle,
-  Plus,
-} from "lucide-react";
 import { toast } from "sonner";
 
 interface DashboardOverviewProps {
@@ -281,7 +276,6 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </div>
           <div className="flex flex-wrap gap-2">
             <Button size="sm" onClick={() => setShowExpenseDialog(true)}>
-              <Plus className="h-4 w-4" />
               Add expense
             </Button>
             <Button size="sm" variant="outline" onClick={() => setShowBudgetDialog(true)}>
@@ -304,7 +298,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
           <div className="bg-card p-5">
             <p className="field-label">Monthly budget</p>
             <p className="stat-number mt-2">${totalMonthlyBudget.toLocaleString()}</p>
@@ -331,12 +325,7 @@ const DashboardOverview = ({ user }: DashboardOverviewProps) => {
           </div>
           <div className="bg-card p-5">
             <p className="field-label">Readiness</p>
-            <p className="mt-2 flex items-center gap-2 text-sm font-medium">
-              {emergencyFundMonths >= 6 ? (
-                <CheckCircle className="h-4 w-4 text-success" />
-              ) : (
-                <AlertTriangle className="h-4 w-4 text-warning" />
-              )}
+            <p className={`mt-2 text-sm font-medium ${emergencyFundMonths >= 6 ? 'text-success' : 'text-warning'}`}>
               {emergencyFundMonths >= 6 ? 'Well prepared' : 'Still building'}
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
