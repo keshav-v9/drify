@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { Shield, TrendingUp, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+
 
 interface CareCostPlanningProps {
   user: User | null;
