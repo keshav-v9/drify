@@ -66,19 +66,20 @@ interface FamilyUpdate {
 }
 
 const updateTypeConfig = {
-  general: { icon: MessageSquare, color: "bg-secondary text-muted-foreground", label: "General" },
-  expense: { icon: DollarSign, color: "bg-success/10 text-success", label: "Expense" },
-  care: { icon: Heart, color: "bg-secondary text-foreground", label: "Care" },
-  medical: { icon: Stethoscope, color: "bg-secondary text-primary", label: "Medical" },
-  urgent: { icon: AlertTriangle, color: "bg-destructive/10 text-destructive", label: "Urgent" },
+  general: { label: "General" },
+  expense: { label: "Expense" },
+  care: { label: "Care" },
+  medical: { label: "Medical" },
+  urgent: { label: "Urgent" },
 };
 
 const roleConfig = {
-  owner: { icon: Crown, color: "bg-warning/10 text-warning", label: "Owner" },
-  admin: { icon: Shield, color: "bg-secondary text-primary", label: "Admin" },
-  member: { icon: UserIcon, color: "bg-secondary text-primary", label: "Member" },
-  viewer: { icon: Eye, color: "bg-secondary text-muted-foreground", label: "Viewer" },
+  owner: { label: "Owner" },
+  admin: { label: "Admin" },
+  member: { label: "Member" },
+  viewer: { label: "Viewer" },
 };
+
 
 const FamilyCollaboration = ({ user }: FamilyCollaborationProps) => {
   const [familyGroups, setFamilyGroups] = useState<FamilyGroup[]>([]);
