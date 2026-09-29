@@ -145,6 +145,23 @@ const SignIn = () => {
             </Button>
           </form>
 
+          <Button
+            type="button"
+            variant="outline"
+            className="mt-3 w-full"
+            disabled={loading}
+            onClick={async () => {
+              setError(null);
+              const { error } = await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: { redirectTo: `${window.location.origin}/dashboard` },
+              });
+              if (error) setError(error.message);
+            }}
+          >
+            Continue with Google
+          </Button>
+
           <div className="mt-6 border-t border-border pt-4 text-sm text-muted-foreground">
             {isSignUp ? "Already have an account?" : "New to Drify?"}{" "}
             <button
