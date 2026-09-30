@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import AlzheimerHelp from "./pages/AlzheimerHelp";
 import NotFound from "./pages/NotFound";
+import PageViewTracker from "./components/PageViewTracker";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PageViewTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
